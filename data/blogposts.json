@@ -1,0 +1,12 @@
+{
+  "blogposts":[
+    {
+      "id":2,
+      "autor":"",
+      "comentarios":[0,1,2,3],
+      "likes":3,
+      "category":"",
+      "imagen":""
+    }
+  ]
+}

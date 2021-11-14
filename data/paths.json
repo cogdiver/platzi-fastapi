@@ -1,0 +1,2750 @@
+{
+  "paths": [
+    {
+      "id": "outbound-marketing",
+      "logo": "",
+      "name": "Outbound Marketing",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "El Outbound Marketing es una técnica del mercadeo con un enfoque centrado en el producto, llamando la atención del usuario de una manera abrupta.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["introduccion-marketing", "copywriting-digital"]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "twitter-ads",
+            "google-adwords",
+            "fb-analytics",
+            "facebook-ads",
+            "growth-marketing"
+          ]
+        },
+        { "level": "avanzado", "cursos": ["especializacion-marketing"] }
+      ]
+    },
+    {
+      "id": "inbound-marketing",
+      "logo": "",
+      "name": "Inbound Marketing",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Se especializa en atraer clientes potenciales a través de contenidos relevantes o experiencias de valor no invasivas.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "introduccion-marketing",
+            "marca-personal",
+            "ortografia-basica",
+            "copywriting-digital",
+            "contenido",
+            "escritura-online",
+            "desbloquea-creatividad",
+            "marketing-voz",
+            "ig-fundamentos"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "ig-stories",
+            "copy-storytelling",
+            "community-manager",
+            "content-marketing",
+            "influencer",
+            "movil"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "marketing-redes",
+            "especializacion-marketing",
+            "psicologia-consumidor",
+            "growth-marketing",
+            "contenidos-digitales",
+            "estrategia-instagram"
+          ]
+        },
+        { "level": "complementario", "cursos": ["seo"] }
+      ]
+    },
+    {
+      "id": "estrategia-marketing",
+      "logo": "",
+      "name": "Marketing Digital y Estrategia Online",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "El marketing digital es un conjunto de estrategias que se implementan en medios digitales para comercializar productos y servicios o posicionar una marca.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "introduccion-marketing",
+            "copy-storytelling",
+            "contenido",
+            "facebook-ads",
+            "email-marketing",
+            "google-adwords",
+            "spark-ar"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "community-manager",
+            "especializacion-marketing",
+            "posicionamiento-marca",
+            "seo",
+            "copywriting-digital",
+            "seo-recomendaciones",
+            "seo-tecnico"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "contenido-seo",
+            "growth-marketing",
+            "fb-analytics",
+            "programacion-marketing",
+            "marketing-redes",
+            "crisis-redes",
+            "content-marketing",
+            "marketing-youtube"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "email-marketing",
+      "logo": "",
+      "name": "Email Marketing",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende a planear y optimizar campañas de Email Marketing, crear contenido personalizado y estructurar emails responsive con Photoshop, HTML y CSS.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "ortografia-basica",
+            "escritura-online",
+            "fundamentos-diseno",
+            "email-marketing"
+          ]
+        },
+        { "level": "intermedio", "cursos": ["copy-storytelling", "bd"] },
+        { "level": "avanzado", "cursos": ["diseno-email", "photoshop-basico"] },
+        { "level": "complementario", "cursos": ["growth-marketing-2016"] }
+      ]
+    },
+    {
+      "id": "data-marketing",
+      "logo": "",
+      "name": "Marketing Basado en Datos",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Desde Google Analytics hasta tu base de datos son fuentes de información que te ayudarán a tomar las decisiones correctas en tus campañas de marketing.",
+      "levels": [
+        { "level": "basico", "cursos": ["programacion-basica", "bd"] },
+        {
+          "level": "intermedio",
+          "cursos": ["introduccion-marketing", "growth-marketing", "movil"]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "gtm",
+            "facebook-ads",
+            "google-adwords",
+            "google-analytics",
+            "fb-analytics",
+            "data-studio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ventas-mercadeo",
+      "logo": "",
+      "name": "Marketing y Ventas",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Crea tu perfil comercial y desarrolla estrategias de ventas con herramientas de marketing para atraer, persuadir y retener a tus clientes.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "marca-personal",
+            "hablar-en-publico",
+            "ventas-practico",
+            "habilidades-blandas"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "tecnicas-negociacion",
+            "estrategia-comercial",
+            "crm-salesforce",
+            "atencion-cliente",
+            "ventas",
+            "inteligencia-emocional"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "ingles",
+            "escritura-ingles",
+            "fidelizacion",
+            "comercial-b2b"
+          ]
+        },
+        { "level": "complementario", "cursos": ["trello", "google-suite"] }
+      ]
+    },
+    {
+      "id": "publicidad",
+      "logo": "",
+      "name": "Escuela de Publicidad Digital",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Te enseñaremos a crear campañas de publicidad online de alto impacto en redes como Facebook Ads y Google Ads mientras aprendes de optimización y estrategia",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "marca-personal",
+            "publicidad-digital",
+            "introduccion-marketing",
+            "excel",
+            "contenidos-digitales",
+            "marketing-navidad"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "google-analytics",
+            "fb-analytics",
+            "growth-marketing",
+            "campanas-digitales",
+            "facebook-ads",
+            "google-adwords",
+            "twitter-ads",
+            "desbloquea-creatividad",
+            "copywriting-digital",
+            "psicologia-consumidor",
+            "instagram"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "data-studio",
+            "programmatic",
+            "coolhunting",
+            "liderazgo-empresarial",
+            "movil",
+            "marketing-videojuegos",
+            "bi-excel",
+            "power-bi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marketing-digital",
+      "logo": "",
+      "name": "Escuela de Marketing Digital",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Te enseñaremos a crear y desarrollar estrategias de Marketing Digital para redes sociales, SEO, marketing de contenidos, e-mail marketing y marketing móvil.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "introduccion-marketing",
+            "community-manager",
+            "contenido",
+            "copywriting-digital",
+            "seo",
+            "google-analytics",
+            "marca-personal",
+            "construccion-marca",
+            "excel",
+            "ig-fundamentos",
+            "estrategias-contenido-linkedin",
+            "marketing-youtube",
+            "whatsapp-business",
+            "marketing-creativo",
+            "marketing-voz",
+            "marketing-navidad",
+            "inbound-marketing",
+            "marketing-pymes",
+            "terminos-marketing-digital"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "content-marketing",
+            "marketing-redes",
+            "fb-analytics",
+            "email-marketing",
+            "diseno-email",
+            "gtm",
+            "seo-tecnico",
+            "copy-storytelling",
+            "investigacion-mercados",
+            "posicionamiento-marca",
+            "seo-recomendaciones",
+            "estrategia-instagram",
+            "ig-stories",
+            "marketing-vg",
+            "data-studio"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "especializacion-marketing",
+            "contenido-seo",
+            "google-search-console",
+            "movil",
+            "growth-marketing",
+            "relaciones-publicas",
+            "listening",
+            "automatizacion-marketing",
+            "influencer",
+            "crisis-redes",
+            "psicologia-consumidor",
+            "gtm-marketing",
+            "coolhunting",
+            "spark-ar",
+            "campanas-digitales",
+            "marketing-ecommerce",
+            "estrategia-videojuegos",
+            "marketing-videojuegos"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "startups",
+      "logo": "",
+      "name": "Escuela de Startups",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Empieza a crear tu Startup y si ya tienes una acelérala. Aprende a afrontar los desafíos como actual o futuro emprendedor. ¡Crea el próximo unicornio!",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "canvas",
+            "camino-emprendedor",
+            "creacion-de-empresas",
+            "construccion-marca",
+            "creatividad-innovacion",
+            "ingles-startups"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "taller-startups",
+            "financiera-startups",
+            "seo",
+            "legales-startups",
+            "seguridad-empresas",
+            "cultura-startups",
+            "reclutamiento-talento",
+            "internacionalizacion-startups",
+            "logistica-startups",
+            "liderazgo-equipos",
+            "analitica-instrumentacion",
+            "growth-startups",
+            "growth-startups",
+            "colaboracion-corporaciones-startups",
+            "leyes-ui",
+            "entrar-yc",
+            "inversion-startups"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "google-suite",
+            "trello",
+            "google-analytics",
+            "aws-cloud",
+            "zapier"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "excel-financiero",
+            "estrategia-comercial",
+            "bi-excel",
+            "comercial-b2b",
+            "prevencion",
+            "liderazgo-empresarial",
+            "ico"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idioma-ingles",
+      "logo": "",
+      "name": "Escuela de Inglés",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende inglés desde cero. Consigue oportunidades de trabajo internacionales y duplica tus ingresos al comunicarte efectivamente en inglés.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "estrategias-ingles",
+            "ingles-principiantes",
+            "taller-principiantes",
+            "ingles-basico",
+            "ingles-gramatica",
+            "ingles-basico-descripciones-comparativos",
+            "ingles-conversacion",
+            "ingles-conversacionpronunciacion-ingles",
+            "ingles-compras",
+            "ingles-basico-escritura"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "ingles-1",
+            "ingles-2",
+            "ingles-facil-speaking",
+            "ingles-practico-pronuncia",
+            "intermedio-gramatica",
+            "ingles-intermedio-conversacion",
+            "pronunciacion-intermedio",
+            "ingles-trabajo",
+            "ingles-intermedio"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "gramatica-b2",
+            "inglesb2-conversacion",
+            "avanzado-gramatica",
+            "conversacion-avanzado",
+            "pronunciacion-avanzado",
+            "ingles-avanzado-trabajo"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "ingles-customer-service",
+            "entrevistas-ingles",
+            "ingles",
+            "escritura-ingles",
+            "ingles-developers",
+            "ingles-marketing",
+            "ingles-negocios",
+            "ingles-finanzas",
+            "ingles-startups",
+            "preparacion-toefl",
+            "preparacion-ielts",
+            "ingles-produccion",
+            "ingles-viajes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idioma-portugues",
+      "logo": "",
+      "name": "Escuela de Portugués",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende portugués desde cero. Consigue oportunidades de trabajo internacionales y duplica tus ingresos al comunicarte efectivamente en portugués.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["aprender-portugues", "portugues", "portugues-practico"]
+        },
+        { "level": "intermedio", "cursos": ["portugues-cotidiano"] },
+        {
+          "level": "avanzado",
+          "cursos": ["portugues-servicio", "portugues-viajes"]
+        }
+      ]
+    },
+    {
+      "id": "diseno-ux",
+      "logo": "",
+      "name": "Diseño de Experiencia de Usuario (UX Design)",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aborda los problemas desde la perspectiva de los usuarios, identifica oportunidades de mejora y crea soluciones innovadoras que perduren en el tiempo.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "design-thinking",
+            "fundamentos-diseno",
+            "solucion-problemas",
+            "diseno-usuario",
+            "usabilidad-ux",
+            "diseno-interfaces-ux"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "lean-ux",
+            "user-research",
+            "ux-testing",
+            "ux-writing",
+            "arquitectura-informacion",
+            "ux-writing-avanzado",
+            "accesibilidad-web",
+            "prototipos-testing"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "ux-avanzado",
+            "design-sprint",
+            "canvas",
+            "curso-de-thick-data",
+            "usabilidad-practico",
+            "uxempresas",
+            "investigacion-cliente-practico"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diseno-producto",
+      "logo": "",
+      "name": "Escuela de Product Design",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Crea productos y servicios con sistemas de diseño centrados en el usuario implementando metodologías y herramientas UIUX",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "design-thinking",
+            "fundamentos-diseno",
+            "prototipos-testing",
+            "photoshop-basico",
+            "diseno-editorial",
+            "marca-visual",
+            "illustrator",
+            "tecnicas-creatividad",
+            "metodologias-diseno-producto",
+            "product-designer",
+            "diseno-interfaces-ux",
+            "diseno-usuario",
+            "sistemas-diseno",
+            "usabilidad-ux",
+            "user-research",
+            "arquitectura-informacion",
+            "sketch",
+            "adobe-xd",
+            "diseno-interfaz",
+            "figma"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "diseno-prototipos",
+            "ux-writing",
+            "ux-testing",
+            "design-sprint",
+            "lean-ux",
+            "accesibilidad-web",
+            "uxempresas"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "servicios",
+            "usabilidad-practico",
+            "ux-avanzado",
+            "lider-diseno",
+            "brief",
+            "gamification",
+            "ux-ecommerce",
+            "coolhunting"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "interfaces-ui",
+      "logo": "",
+      "name": "Diseño de Interfaces (UI)",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Es el área del diseño que se enfoca en la parte visual de un producto digital. Permite crear interfaces intuitivas, usables, interactivas e impactantes.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "design-thinking",
+            "fundamentos-diseno",
+            "diseno-interfaces-ux",
+            "arquitectura-informacion",
+            "illustrator"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "diseno-prototipos",
+            "sketch",
+            "adobe-xd",
+            "design-sprint",
+            "figma"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "ilustracion-digital",
+            "ilustracion-illustrator",
+            "diseno-programadores",
+            "html-practico"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diseno-grafico",
+      "logo": "",
+      "name": "Escuela de Diseño Gráfico",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Domina las herramientas y habilidades para triunfar como diseñador gráfico. Comunica visualmente a través de diseños publicitarios, ilustraciones y branding.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "fundamentos-diseno",
+            "tecnicas-creatividad",
+            "color",
+            "photoshop-basico",
+            "estrategia-visual",
+            "marca-visual",
+            "logos",
+            "implementacion-marca",
+            "illustrator",
+            "visual",
+            "motion-after"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "dibujo-figura",
+            "dibujo-retrato",
+            "ilustracion-analoga",
+            "ilustracion-photoshop",
+            "procreate",
+            "ilustracion-illustrator",
+            "creacion-personajes",
+            "humor-grafico",
+            "personajes-2d",
+            "animacion-personajes",
+            "arte-escenarios",
+            "escenarios-videojuegos",
+            "texturizado-videojuegos",
+            "modelo-3dmaya",
+            "textura-3dmaya"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "diseno-editorial",
+            "indesign",
+            "diseno-tipografia",
+            "serigrafia",
+            "lettering",
+            "illustrator-avanzado",
+            "diseno-empaques",
+            "after-effects",
+            "cinema-4d"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "seguridad-informatica",
+      "logo": "",
+      "name": "Seguridad Informática",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Seguridad Informática es el área que encargada de proteger la transferencia de información a través Internet, resguardarla ante ataques y robo de datos.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "terminal",
+            "seguridad-empresas",
+            "iso",
+            "ingenieria-social",
+            "dlp",
+            "redes"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "linux",
+            "seguridad-informatica",
+            "pentesting",
+            "pentesting-redes",
+            "forense",
+            "ethical-hacking",
+            "malware",
+            "malware-moviles"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["avanzado-redes", "autenticacion-oauth"]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "terminal-2016",
+            "pentesting-2016",
+            "linux-2017",
+            "pentesting-2019",
+            "seguridad"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desarrollo-java",
+      "logo": "",
+      "name": "Desarrollo Backend con Java",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Java es uno de los lenguajes más demandados en la industria, escribe una vez y córrelo donde quieras, es la filosofía de Java.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "terminal",
+            "git-github",
+            "oop",
+            "java-basico",
+            "java-oop",
+            "kotlin"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["bd", "postgresql", "java-persistencia"]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "testing-java",
+            "java-funcional",
+            "java-spring",
+            "java-avanzado"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "tecnico-android",
+            "interfaces-android",
+            "kotlin-android",
+            "firestore",
+            "arquitectura-android"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desarrollo-wordpress",
+      "logo": "",
+      "name": "Desarrollo con WordPress",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "WordPress es el sistema de gestión de contenidos (CMS) más popular de internet con el que están creados más de 500 millones de sitios en la web.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["woocommerce", "fundamentos-ecommerce"]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "html-practico",
+            "basico-javascript",
+            "php",
+            "datos-php",
+            "oop",
+            "php-poo",
+            "mejor-codigo",
+            "bd"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["fundamentos-wordpress", "wordpress-profesional"]
+        },
+        { "level": "complementario", "cursos": ["seo-wordpress", "wordpress"] }
+      ]
+    },
+    {
+      "id": "fundamentos-programacion",
+      "logo": "",
+      "name": "Fundamentos de programación",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Da tus primeros pasos en el mundo de la programación aprendiendo sus estructuras fundamentales y la lógica funcional detrás de cada línea de código.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "pensamiento-logico",
+            "programacion-basica",
+            "terminal",
+            "git-github",
+            "desarrollo-moderno-codestream",
+            "ingenieria",
+            "redes",
+            "lenguaje-c",
+            "flujo-c",
+            "funciones-c",
+            "c-plus-plus"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "introweb",
+            "historia-programacion",
+            "programacion-estructurada",
+            "oop",
+            "bd",
+            "expresiones-regulares"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "arquitectura-software",
+            "pro-arquitectura",
+            "uipath",
+            "analista-rpa",
+            "bash-shell",
+            "technical-writing",
+            "mejor-codigo",
+            "pruebas-software",
+            "diseno-programadores",
+            "cobol",
+            "cobol-practico"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "python-cs",
+            "python",
+            "desarrollo-lenguajes-programacion",
+            "python-intermedio",
+            "interpretes-software"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backend-python",
+      "logo": "",
+      "name": "Desarrollo Backend con Python y Django",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Django es un framework de desarrollo Web basado en Python, este provee herramientas esenciales para la construcción de aplicaciones seguras y escalables.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "terminal",
+            "git-github",
+            "python",
+            "python-cs",
+            "python-intermedio",
+            "poo-python",
+            "oop",
+            "bd",
+            "intro-selenium"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["python-practico", "flask", "estructuras-datos-python"]
+        },
+        { "level": "avanzado", "cursos": ["django", "django-avanzado"] }
+      ]
+    },
+    {
+      "id": "ibm-cloud",
+      "logo": "",
+      "name": "Desarrollo con IBM Cloud",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "La era cognitiva está aquí y está construida sobre la nube. Aprende cómo y desarrolla proyectos de Machine Learning con las herramientas de IBM.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["ingenieria", "terminal", "linux", "ibm-cloud"]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["devops", "docker", "docker-swarm"]
+        },
+        { "level": "avanzado", "cursos": ["watson-avanzado"] }
+      ]
+    },
+    {
+      "id": "apple-fullstack",
+      "logo": "",
+      "name": "iOS Mobile Developer",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "iOS es el sistema operativo que usan iPhone y el iPad de Apple. El lenguaje que se usa para desarrollar aplicaciones para estos dispositivos se llama Swift.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "programacion-estructurada",
+            "git-github",
+            "oop",
+            "swift-5"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["swift", "swift-5-func", "swift-5-poo"]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "swiftui",
+            "swiftui-apps-ios",
+            "interfaces-ios",
+            "apps-ios",
+            "apple-watch"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": ["apps-ios-2017", "apps-ios-2018"]
+        }
+      ]
+    },
+    {
+      "id": "google-cloud",
+      "logo": "",
+      "name": "Google Cloud Platform",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Esta ruta está pensada para aprender las herramientas que te permitirán utilizar servicios en la nube para la creación y administración de tus aplicaciones.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "terminal",
+            "linux",
+            "fundamentos-google",
+            "app-engine",
+            "cloud-platform"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "compute-engine",
+            "kubernetes-xertica",
+            "google-serverless"
+          ]
+        },
+        { "level": "avanzado", "cursos": ["procesamiento", "dialogflow"] }
+      ]
+    },
+    {
+      "id": "asp-net",
+      "logo": "",
+      "name": "Desarrollo de Aplicaciones con ASP .NET",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Marco de trabajo eficiente, creado por Microsoft, para el desarrollo de software moderno con lenguajes como C# basado en el paradigma de Orientación a Objetos.",
+      "levels": [
+        { "level": "basico", "cursos": ["oop", "git-github"] },
+        { "level": "intermedio", "cursos": ["c-sharp"] },
+        {
+          "level": "avanzado",
+          "cursos": ["aspnet-core", "blazor", "web-apps"]
+        },
+        { "level": "complementario", "cursos": ["c-sharp", "azure-2018"] }
+      ]
+    },
+    {
+      "id": "backend-go",
+      "logo": "",
+      "name": "Desarrollo Backend con Go",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Golang es un lenguaje de programación de código abierto creado por Google que ayuda en la creación de software de manera fácil, eficiente y de alto rendimiento.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "pensamiento-logico",
+            "programacion-basica",
+            "terminal",
+            "git-github",
+            "programacion-golang",
+            "arquitectura-software"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "bd",
+            "linux",
+            "golang-intermedio",
+            "programacion-golang-2020"
+          ]
+        },
+        { "level": "avanzado", "cursos": ["docker", "despliegue-apps"] },
+        {
+          "level": "complementario",
+          "cursos": ["postgresql-2017", "go-avanzado-2016"]
+        }
+      ]
+    },
+    {
+      "id": "backend-ruby",
+      "logo": "",
+      "name": "Desarrollo Web Backend con Ruby on Rails",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Ruby on Rails es una tecnología que le permite a los desarrolladores crear aplicaciones web de forma rápida y efectiva.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "programacion-basica",
+            "terminal",
+            "git-github",
+            "oop",
+            "ruby"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["bd", "api-rest", "intro-ror", "ror", "intermedio-ror"]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "mejor-codigo",
+            "linux",
+            "despliegue-apps",
+            "practico-backend"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base-de-datos",
+      "logo": "",
+      "name": "Bases de Datos desde Cero",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Es muy importante saber qué, cómo y dónde se guardarán tus datos. Aprende desde cero la teoría y práctica para administrar DBs profesionalmente.",
+      "levels": [
+        { "level": "basico", "cursos": ["ingenieria", "bd", "terminal"] },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "postgresql",
+            "mongodb",
+            "intro-elasticsearch",
+            "practico-sql",
+            "optimizacion-sql-server"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "fundamentos-google",
+            "db-aws",
+            "firebase-web",
+            "sql-azure",
+            "postgresql-datos",
+            "negocios-data-science",
+            "spark",
+            "redshift-big-data",
+            "hadoop"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desarrollo-php",
+      "logo": "",
+      "name": "Desarrollo Web Backend con PHP",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "PHP es un lenguaje de programación de código abierto enfocado en la creación de sitios web. Es usado por empresas como Facebook y aplicaciones como WordPress.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "pensamiento-logico",
+            "programacion-basica",
+            "terminal",
+            "git-github",
+            "php",
+            "datos-php",
+            "oop",
+            "php-poo",
+            "mejor-codigo",
+            "bd",
+            "php-frameworks"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "intro-laravel-2020",
+            "eloquent-laravel",
+            "intro-laravel",
+            "laravel-spa",
+            "laravel-testing"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "api-rest",
+            "laravel-api",
+            "laravel-avanzado",
+            "despliegue-apps",
+            "laravel-tdd",
+            "symfony-framework",
+            "linux"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "introduccion-php-2018",
+            "php-avanzado",
+            "curso-php-laravel"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desarrollo-react",
+      "logo": "",
+      "name": "Frontend con React.js",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende a desarrollar aplicaciones web, móviles y de escritorio con React.js. La librería JavaScript más popular en el mercado.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "frontend-developer",
+            "basico-javascript",
+            "ecmascript-6",
+            "scope",
+            "asincronismo-js",
+            "npm",
+            "javascript-profesional",
+            "frameworks-javascript",
+            "react"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "webpack",
+            "react-ejs",
+            "redux",
+            "react-router-redux",
+            "react-hooks",
+            "react-avanzado",
+            "js-jest-2019",
+            "jest"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["pwa-react-js", "next", "gatsby", "react-native"]
+        }
+      ]
+    },
+    {
+      "id": "desarrollo-angular",
+      "logo": "",
+      "name": "Frontend con Angular",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Desarrolla aplicaciones web y móviles con Angular, el framework más usado en el mundo para el desarrollo de apps.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "frontend-developer",
+            "basico-javascript",
+            "ecmascript-6",
+            "scope",
+            "asincronismo-js",
+            "npm",
+            "javascript-profesional",
+            "typescript",
+            "frameworks-javascript",
+            "typescript-angular",
+            "angular"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "angular-profesional",
+            "angular-performance",
+            "pwa-angular",
+            "angular-forms"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["ionic-avanzado", "js-jest-2019", "pruebas-unitarias"]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "javascript-navegador",
+            "oop",
+            "devtools",
+            "funcional-js",
+            "fundamentos-node"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "multiplataforma-xamarin",
+      "logo": "",
+      "name": "Desarrollo de Apps Multiplataforma con Xamarin",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Xamarin es una plataforma de desarrollo que facilita la creación de aplicaciones multiplataforma utilizando el lenguaje de programación C#.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["programacion-basica", "bd", "oop", "git-github"]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["arquitectura-software", "c-sharp"]
+        },
+        { "level": "avanzado", "cursos": ["aspnet-core", "xamarin-forms"] }
+      ]
+    },
+    {
+      "id": "firebase",
+      "logo": "",
+      "name": "Firebase",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Firebase es un servicio en la nube de Google para producir de forma integral aplicaciones web y móviles, desde el backend hasta la monetización de tus proyectos.",
+      "levels": [
+        { "level": "basico", "cursos": ["terminal", "git-github", "bd"] },
+        { "level": "intermedio", "cursos": ["mongodb", "firebase-web"] },
+        {
+          "level": "avanzado",
+          "cursos": ["firebase-cloud", "fundamentos-google"]
+        },
+        { "level": "complementario", "cursos": ["firebase-web-2017"] }
+      ]
+    },
+    {
+      "id": "iot",
+      "logo": "",
+      "name": "Internet of Things",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende los fundamentos del desarrollo de hardware, entiende qué es la robótica, crea tus dispositivos conectados a internet.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "terminal",
+            "electronica",
+            "fundamentos-circuitos",
+            "iot",
+            "lenguaje-c",
+            "funciones-c",
+            "flujo-c"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "fundamentos-arduino",
+            "circuitos-electronicos",
+            "iot-protocolos",
+            "pic"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "servidores",
+      "logo": "",
+      "name": "Administración de Servidores y DevOps",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "DevOps es una cultura que combina buenas prácticas y software para mejorar el despliegue y puesta en marcha de aplicaciones de manera rápida y segura.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "terminal",
+            "linux",
+            "despliegue-apps",
+            "fundamentos-google",
+            "aws-cloud",
+            "ibm-cloud",
+            "azure-iaas",
+            "digital-ocean",
+            "servidores-rust"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "bash-shell",
+            "jenkins-basico",
+            "travis",
+            "docker",
+            "docker-swarm",
+            "k8s",
+            "kubernetes-xertica",
+            "devops-terraform"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["gitlab", "pruebas-software", "devops"]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "heroku-2015",
+            "rackspace",
+            "docker-2017",
+            "amazon-web-services-2017",
+            "azure-paas-2018",
+            "arquitectura-docker",
+            "digital-ocean-2017"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vue",
+      "logo": "",
+      "name": "Frontend con Vue.js",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Framework progresivo de Javascript para crear interfaces de forma sencilla y escalable para desarrollar aplicaciones web con diferentes grados de complejidad.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "frontend-developer",
+            "basico-javascript",
+            "ecmascript-6",
+            "scope",
+            "asincronismo-js",
+            "frameworks-javascript",
+            "vuejs2",
+            "javascript-profesional",
+            "vuejs"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["npm", "webpack", "vuejs-profesional", "testing-vuejs"]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["avanzado-vue", "firebase-web", "vuejs-avanzado"]
+        },
+        { "level": "complementario", "cursos": ["funcional-js", "laravel-spa"] }
+      ]
+    },
+    {
+      "id": "desarrollo-unity",
+      "logo": "",
+      "name": "Desarrollo de Videojuegos con Unity",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Esta herramienta de software provee un set de funcionalidades preestablecidas que permiten juntar los elementos que requiere un videojuego en su desarrollo.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "creacion-videojuegos",
+            "diseno-videojuegos",
+            "unity-3d",
+            "git-github"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "c-plus-plus",
+            "lenguaje-c",
+            "c-sharp",
+            "avanzado-videojuegos"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "desarrollo-unity",
+            "movil-unity",
+            "unity-2d",
+            "rpg-unity",
+            "vr-unity"
+          ]
+        },
+        { "level": "complementario", "cursos": ["unity-3d-old"] }
+      ]
+    },
+    {
+      "id": "multiplataforma",
+      "logo": "",
+      "name": "Desarrollo de Aplicaciones Multiplataforma",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Es la nueva forma de crear aplicaciones móviles y de escritorio, desarrollando una sola base de código y compartiéndolo en las diferentes plataformas existentes.",
+      "levels": [
+        { "level": "basico", "cursos": ["terminal", "git-github", "oop"] },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "basico-javascript",
+            "frontend-developer",
+            "react",
+            "pwa-react-js",
+            "electron",
+            "react-native",
+            "typescript",
+            "angular",
+            "pwa-angular",
+            "ionic-avanzado"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "bd",
+            "c-sharp",
+            "aspnet-core",
+            "blazor",
+            "xamarin-forms",
+            "tecnico-android",
+            "interfaces-android",
+            "flutter",
+            "flutter-avanzado",
+            "apps-ios"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aws",
+      "logo": "",
+      "name": "Amazon Web Services",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende a utilizar Amazon Web Services, la plataforma de servicios de cómputo en la nube de Amazon que prevé la carga a futuro de tus propios servidores.",
+      "levels": [
+        { "level": "basico", "cursos": ["linux", "terminal", "git-github"] },
+        {
+          "level": "intermedio",
+          "cursos": ["aws-cloud", "storage-aws", "aws-computo"]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["db-aws", "networking-content", "iaac-aws", "big-data"]
+        }
+      ]
+    },
+    {
+      "id": "matematicas-programacion",
+      "logo": "",
+      "name": "Matemáticas para Programación",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende a resolver problemas, desarrollar el pensamiento deductivo, elaborar algoritmos y construir modelos para toma de decisiones que resuelven problemas.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["fundamentos-matematicas", "algebra", "pensamiento-logico"]
+        },
+        { "level": "intermedio", "cursos": ["calculo-datos", "excel-2018"] },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "discretas",
+            "ecuaciones",
+            "calculo-multivariable",
+            "calculo-integral",
+            "calculo-integral-sustitucion",
+            "integracion-por-partes",
+            "integracion-por-partes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ciencia",
+      "logo": "",
+      "name": "Ciencias",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Vas a aprender ciencias naturales y exactas, además de estudiar el origen y evolución de la vida y del universo.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["fundamentos-matematicas", "algebra", "fisica-matematica"]
+        },
+        { "level": "intermedio", "cursos": ["astrobiologia", "excel-2018"] },
+        { "level": "avanzado", "cursos": ["estatica"] }
+      ]
+    },
+    {
+      "id": "ai",
+      "logo": "",
+      "name": "Inteligencia Artificial y Machine Learning",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende la tecnología detrás de los automóviles autónomos, asistentes personales, predicción de enfermedades y más.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "negocios-data-science",
+            "python",
+            "python-intermedio",
+            "python-cs",
+            "poo-python",
+            "programacion-estocastica",
+            "probabilistica"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "discretas",
+            "calculo-data-science",
+            "calculo-multivariable",
+            "regresion-python",
+            "algebra-lineal",
+            "fundamentos-ml",
+            "algebra-ml"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "analisis-predictivo",
+            "scikit",
+            "scikitlearn-ml",
+            "teoria-informacion",
+            "redes-neuronales",
+            "tensorflow-js",
+            "python-lenguaje-natural",
+            "clasificacion-texto",
+            "deep-learning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arquitecto-frontend-old",
+      "logo": "",
+      "name": "Arquitectura Frontend",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Crea sitios web desde cero con una interfaz gráfica dinámica y atractiva en el navegador y dispositivos móviles, aplicando HTML, CSS y Javascript.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "introweb",
+            "html-css",
+            "git-github",
+            "html-css-2019",
+            "html-practico",
+            "mobile-first",
+            "css-grid-layout",
+            "flexbox-css-grid",
+            "practico-css",
+            "basico-javascript",
+            "fundamentos-javascript-2018"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "preprocesadores",
+            "sass",
+            "less",
+            "stylus",
+            "bootstrap",
+            "foundation",
+            "diseno-desarrolladores",
+            "tailwind-css",
+            "materialize"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "javascript-navegador",
+            "webpack",
+            "spa-javascript",
+            "scope",
+            "singlepage-app",
+            "asincronismo-js",
+            "react",
+            "vuejs2",
+            "angular",
+            "postman",
+            "svelte",
+            "svelte-sapper-practico"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": ["postcss-2016", "fw-frontend-2016"]
+        }
+      ]
+    },
+    {
+      "id": "escuela-javascript",
+      "logo": "",
+      "name": "Escuela de JavaScript",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Desarrolla con el Stack MERN con expertos de la industria y el equipo de Ingeniería de Platzi. Sé un Desarrollador FullStack JavaScript.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "prework-windows",
+            "prework-macos",
+            "frontend-developer",
+            "basico-javascript",
+            "fundamentos-javascript-2018",
+            "ecmascript-6",
+            "asincronismo-js",
+            "javascript-profesional"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": ["webpack", "react-ejs", "react-router-redux"]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "fundamentos-node",
+            "backend-nodejs",
+            "ssr",
+            "passport",
+            "bff"
+          ]
+        },
+        { "level": "complementario", "cursos": ["portafolios", "git-github"] }
+      ]
+    },
+    {
+      "id": "backend-javascript",
+      "logo": "",
+      "name": "Desarrollo Backend con JavaScript",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Ahora con JavaScript puedes crear aplicaciones que corren del lado del servidor gracias a Node.js, te enseñamos cómo empezar hasta convertirte un experto.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "prework-windows",
+            "prework-macos",
+            "terminal",
+            "git-github",
+            "desarrollo-moderno-codestream",
+            "basico-javascript",
+            "javascript-navegador",
+            "ecmascript-6",
+            "scope",
+            "asincronismo-js",
+            "npm",
+            "javascript-profesional",
+            "estructuras-datos"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "fundamentos-node",
+            "backend-js",
+            "practico-node",
+            "express-js",
+            "backend-nodejs",
+            "ssr",
+            "passport",
+            "bff",
+            "nodejs"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "javascript-pro",
+            "js-sails",
+            "hapi-js",
+            "nestjs",
+            "nestjs-modular",
+            "nestjs-typeorm",
+            "nestjs-mongodb",
+            "nestjs-auth",
+            "js-jest-2019",
+            "testing-cypress",
+            "travis"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web",
+      "logo": "",
+      "name": "Escuela de Desarrollo Web",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende desarrollo web Full Stack desde cero con HTML, CSS y JavaScript. Domina herramientas como React, Vue, Angular y backend development con Node.js.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "computacion-basica",
+            "programacion-basica",
+            "pensamiento-logico",
+            "introweb",
+            "ingenieria",
+            "prework-windows",
+            "prework-macos",
+            "terminal",
+            "git-github",
+            "desarrollo-moderno-codestream",
+            "html-css",
+            "html-practico",
+            "mobile-first",
+            "preprocesadores",
+            "frontend-developer",
+            "diseno-programadores",
+            "sistemas-diseno",
+            "practico-css",
+            "css-grid-layout",
+            "flexbox-css-grid",
+            "transformaciones-transiciones-css",
+            "animaciones-css"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "basico-javascript",
+            "javascript-practico",
+            "scope",
+            "oop",
+            "javascript-poo",
+            "ecmascript-6",
+            "javascript-navegador",
+            "asincronismo-js",
+            "npm",
+            "javascript-profesional",
+            "typescript",
+            "webpack",
+            "travis",
+            "spa-javascript",
+            "animaciones-css-practico",
+            "devtools",
+            "accesibilidad-web",
+            "web-performancedom",
+            "web-components-javascript",
+            "estructuras-datos"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "frameworks-javascript",
+            "react",
+            "react-ejs",
+            "react-router-redux",
+            "redux",
+            "react-hooks",
+            "react-avanzado",
+            "pwa-react-js",
+            "js-jest-2019",
+            "jest",
+            "angular",
+            "angular-profesional",
+            "angular-performance",
+            "angular-forms",
+            "pwa-angular",
+            "vuejs2",
+            "vuejs",
+            "vuejs-profesional",
+            "avanzado-vue",
+            "vuejs-avanzado",
+            "testing-vuejs",
+            "svelte",
+            "sapper",
+            "svelte-sapper-practico"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "bd",
+            "sql-mysql",
+            "postgresql",
+            "practico-sql",
+            "mongodb",
+            "fundamentos-node",
+            "backend-js",
+            "practico-node",
+            "backend-nodejs",
+            "ssr",
+            "webpack-practico",
+            "passport",
+            "bff",
+            "bff",
+            "arquitectura-software",
+            "pro-arquitectura",
+            "firebase-web",
+            "firebase-cloud",
+            "hapi-js",
+            "graphql",
+            "nestjs",
+            "nestjs-modular",
+            "nestjs-mongodbnestjs-typeorm",
+            "nestjs-auth",
+            "next",
+            "gatsby"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "matematicas",
+      "logo": "",
+      "name": "Escuela de Matemáticas",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende en casa temas de matemáticas como álgebra, ecuaciones, funciones, cálculo y probabilidad. Desarrolla tus propios análisis matemáticos y aplícalos.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "fundamentos-matematicas",
+            "algebra",
+            "fisica-matematica",
+            "pensamiento-logico"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "calculo-datos",
+            "calculo-integral",
+            "calculo-integral-sustitucion",
+            "integracion-por-partes",
+            "calculo-multivariable",
+            "ecuaciones"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "python",
+            "python-cs",
+            "poo-python",
+            "programacion-estocastica",
+            "probabilistica",
+            "ds-probabilidad",
+            "intro-algebra",
+            "algebra-lineal",
+            "estatica",
+            "discretas",
+            "calculo-data-science",
+            "modelos-numericos"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "react-native",
+      "logo": "",
+      "name": "Desarrollo de Apps con React Native",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Crea aplicaciones nativas para iOS y Android con Javascript y React.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "basico-javascript",
+            "ecmascript-6",
+            "scope",
+            "asincronismo-js",
+            "npm",
+            "javascript-profesional",
+            "react"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "webpack",
+            "react-ejs",
+            "redux",
+            "react-hooks",
+            "react-avanzado",
+            "js-jest-2019",
+            "jest"
+          ]
+        },
+        { "level": "avanzado", "cursos": ["react-native"] }
+      ]
+    },
+    {
+      "id": "videojuegos",
+      "logo": "",
+      "name": "Escuela de Videojuegos",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Esta escuela te guiará para convertirte, desde cero, en un profesional listo para diseñar, desarrollar y lanzar un videojuego.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "produccion-videojuegos",
+            "creacion-videojuegos",
+            "diseno-videojuegos",
+            "profesional-diseno-videojuegos",
+            "prototipado-personajes",
+            "personajes-npcs",
+            "avanzado-videojuegos",
+            "gamification"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "photoshop-basico",
+            "ilustracion-photoshop",
+            "creacion-personajes",
+            "personajes-2d",
+            "animacion-personajes",
+            "animacion-videojuegos",
+            "arte-escenarios",
+            "escenarios-videojuegos",
+            "modelo-3dmaya",
+            "textura-3dmaya"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "git-github",
+            "fundamentos-csharp",
+            "desarrollo-unity",
+            "unity-2d",
+            "unity-3d",
+            "movil-unity",
+            "rpg-unity",
+            "vr-unity",
+            "unreal",
+            "unreal-blueprints",
+            "unreal-sequencer",
+            "fundamentos-audio-videojuegos",
+            "tecnicas-audio-videojuegos",
+            "implementacion-audio-videojuegos",
+            "musica-videojuegos",
+            "testing-videojuegos"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "marketing-vg",
+            "marketing-videojuegos",
+            "estrategia-videojuegos"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "datos",
+      "logo": "",
+      "name": "Escuela de Data Science",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Domina las herramientas y técnicas para el procesamiento de Big Data y Ciencia de Datos.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "negocios-data-science",
+            "python",
+            "terminal",
+            "git-github",
+            "fundamentos-matematicas",
+            "python-intermedio",
+            "python-cs",
+            "estadistica-descriptiva",
+            "regresion-python",
+            "calculo-data-science",
+            "ds-probabilidad",
+            "intro-algebra",
+            "bd"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "visualizacion-datos",
+            "bi-excel",
+            "tableau",
+            "power-bi",
+            "data-studio",
+            "pandas",
+            "practico-sql",
+            "web-scraping",
+            "ingenieria-datos",
+            "webscraping",
+            "scrapy",
+            "spark",
+            "hadoop",
+            "redshift-big-data"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "postgresql-datos",
+            "analisis-exploratorio-datos",
+            "fundamentos-r",
+            "estadistica-inferencial",
+            "algebra-lineal",
+            "fundamentos-ml",
+            "algebra-ml",
+            "scikitlearn-ml",
+            "teoria-informacion",
+            "redes-neuronales",
+            "tensorflow-js",
+            "python-lenguaje-natural",
+            "clasificacion-texto",
+            "deep-learning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "azure",
+      "logo": "",
+      "name": "Escuela de Cloud Computing con Azure",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende a utilizar Azure, la plataforma de servicios de cómputo en la nube de Microsoft.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["ingenieria", "introduccion-azure", "terminal", "linux"]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "git-github",
+            "fundamentos-csharp",
+            "c-sharp",
+            "aspnet-core",
+            "web-apps",
+            "azure-functions",
+            "azure-cognitive-services"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "azure-iaas",
+            "azure-active-directory",
+            "azure-kubernetes-service",
+            "azure-github-devops",
+            "azure-networking-seguridad"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "bd",
+            "almacenamiento-azure",
+            "sql-azure",
+            "azure-cosmos-db",
+            "azure-bases-datos",
+            "azure-redis-cache"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desarrollo-android",
+      "logo": "",
+      "name": "Desarrollo de Aplicaciones Android",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Android es el Sistema Operativo usado por más personas en todo el mundo, es el lugar donde tus desarrollos pueden tener más alcance.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "terminal",
+            "git-github",
+            "oop",
+            "java-basico",
+            "java-oop",
+            "kotlin"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "tecnico-android",
+            "interfaces-android",
+            "kotlin-android",
+            "firestore",
+            "arquitectura-android",
+            "patrones-android",
+            "aplicaciones-huawei",
+            "clean-architecture"
+          ]
+        },
+        { "level": "avanzado", "cursos": ["flutter", "flutter-avanzado"] },
+        {
+          "level": "complementario",
+          "cursos": ["kotlin-android-2017", "firebase-2017"]
+        }
+      ]
+    },
+    {
+      "id": "software",
+      "logo": "",
+      "name": "Escuela de Programación y Desarrollo de Software",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende programación de cero a profesional para ingeniería de software, ciencia de datos y computer science. Domina la tecnología más demandada en la industria.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "computacion-basica",
+            "prework-windows",
+            "prework-macos",
+            "pensamiento-logico",
+            "programacion-basica",
+            "terminal",
+            "git-github",
+            "tecnologia-gerentes"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "introweb",
+            "diseno-programadores",
+            "html-css",
+            "historia-programacion",
+            "programacion-estructurada",
+            "oop",
+            "basico-javascript",
+            "estructuras-datos",
+            "python",
+            "python-intermedio",
+            "php",
+            "datos-php",
+            "php-poo",
+            "java-basico",
+            "java-oop",
+            "programacion-golang",
+            "lenguaje-c",
+            "flujo-c",
+            "funciones-c",
+            "c-plus-plus",
+            "fundamentos-csharp",
+            "bash-shell",
+            "mejor-codigo",
+            "desarrollo-moderno-codestream",
+            "technical-writing"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "ingenieria",
+            "redes",
+            "avanzado-redes",
+            "bd",
+            "practico-sql",
+            "api-rest",
+            "graphql",
+            "despliegue-apps",
+            "linux",
+            "aws-cloud",
+            "fundamentos-google",
+            "introduccion-azure",
+            "arquitectura-software",
+            "pro-arquitectura",
+            "practico-backend"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "ordenamiento",
+            "developer",
+            "entrevista-trabajo",
+            "taller-trabajo",
+            "entrevistas-ingles",
+            "ingles-developers",
+            "teletrabajo-trabajo-remoto",
+            "eng-management"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "habilidades-blandas",
+      "logo": "",
+      "name": "Escuela de Habilidades Blandas",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende a aprender, desarrolla tus habilidades blandas, gestiona tu tiempo y tus emociones. Conviértete en un líder y crea equipos de alto rendimiento.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "aprender",
+            "productividad",
+            "gestion-tiempo",
+            "formacion",
+            "desbloquea-creatividad",
+            "solucion-problemas",
+            "inteligencia-emocional",
+            "crecimiento-personal",
+            "estrategias-comunicar",
+            "comunicacion-asertiva",
+            "meditacion",
+            "manejo-ansiedad-terapify",
+            "prevencion"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "portafolios",
+            "futuro-profesional",
+            "taller-carrera",
+            "networking-efectivo",
+            "taller-trabajo",
+            "perfil-profesional",
+            "entrevista-trabajo",
+            "marca-personal",
+            "entrevistas-ingles",
+            "trabajar-freelance",
+            "creatividad-financiera"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "hablar-en-publico",
+            "comunicacion-equipos",
+            "habilidades-blandas",
+            "liderazgo-basico",
+            "liderazgo-equipos",
+            "motivacion",
+            "liderazgo-creativo",
+            "gestion-cambio",
+            "fundamentos-coaching"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "ortografia-basica",
+            "escritura-online",
+            "organizacion-digital",
+            "microsoft-word",
+            "excel",
+            "microsoft-powerpoint",
+            "keynote",
+            "diversidad-inclusion",
+            "inclusion-discapacidad-auditiva"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "periodismo-digital",
+      "logo": "",
+      "name": "Escuela de Periodismo Digital",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "El periodismo digital hace referencia a los contenidos periodísticos que son creados, distribuidos y monetizados por medio de herramientas y entornos digitales.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "ortografia-basica",
+            "escritura-online",
+            "seo",
+            "fundamentos-periodismo",
+            "entrevistas-periodisticas"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "creacion-podcasts",
+            "storytelling-2018",
+            "fotografia-telefono",
+            "streaming-telefono"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "edicion-periodistica",
+            "generos-periodisticos",
+            "periodismo-movil",
+            "criterio-digital",
+            "periodismo-tecnologico"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "produccion-video",
+      "logo": "",
+      "name": "Escuela de Producción Audiovisual",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Alcanza tus objetivos de formación en producción audiovisual, de audio, fotografía y nuevos medios. Domina narrativa y técnica para lograr productos increíbles.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "estrategia-video",
+            "ig-stories",
+            "streaming-telefono",
+            "contenido-tiktok",
+            "fotografia-telefono",
+            "contenido-youtube",
+            "cine-movil",
+            "creacion-podcasts"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "fotografia",
+            "fotografia-redes",
+            "photoshop-profesional",
+            "tecnicas-iluminacion",
+            "light-painting",
+            "guion-series",
+            "construccion-personajes",
+            "fotografia-lightroom",
+            "contenidos-digitales",
+            "storytelling",
+            "narrativa-cinematografica"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "bites-produccion-audiovisual",
+            "lenguaje-audiovisual",
+            "produccion-audiovisual-cinematografica",
+            "presentacion-productos-audiovisuales",
+            "produccion-animacion",
+            "adobe-premiere",
+            "after-effects",
+            "audio-produccion",
+            "creacion-reels",
+            "pro-tools",
+            "colorizacion-davinci",
+            "rol-productor",
+            "rol-montajista"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blockchain-criptomonedas",
+      "logo": "",
+      "name": "Blockchain y Criptomonedas",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "La tecnología Blockchain ha llegado para quedarse y las empresas demandan a especialistas en el área. Las criptomonedas son gran ejemplo de su aplicación.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": ["economia-digital", "inversion-criptomonedas", "finanzas"]
+        },
+        { "level": "intermedio", "cursos": ["ico", "finanzas-futuro"] },
+        {
+          "level": "avanzado",
+          "cursos": ["trading-basico", "trading-r", "trading-criptomonedas"]
+        }
+      ]
+    },
+    {
+      "id": "negocios",
+      "logo": "",
+      "name": "Escuela de Business Management",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Potencia tu negocio aprendiendo herramientas de administración, gestión y optimización orientadas a aumentar su competitividad y destacar en el mercado.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "canvas",
+            "curso-de-thick-data",
+            "design-sprint",
+            "gestion-digital",
+            "planificacion-proyectos",
+            "seguimiento-proyectos",
+            "seguridad-empresas"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "proyectos-pmbok",
+            "negocios-data-science",
+            "visualizacion-datos",
+            "bi-excel",
+            "analitica-instrumentacion",
+            "analisis-datos-proyecto",
+            "estrategia-comercial",
+            "planeacion-financiera",
+            "tableau",
+            "tecnicas-negociacion",
+            "ventas",
+            "comercial-b2b",
+            "excel-financiero",
+            "evaluacion-financiera",
+            "coolhunting"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "liderazgo-basico",
+            "liderazgo-empresarial",
+            "liderazgo-equipos",
+            "eng-management",
+            "equipos-agiles",
+            "capacitacion-equipos",
+            "motivacion",
+            "cultura-organizacional",
+            "teletrabajo-trabajo-remoto",
+            "gestion-cambio",
+            "tecnologia-gerentes",
+            "inteligencia-emocional",
+            "bioseguridad-empresas",
+            "prevencion"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "airtable",
+            "zapier",
+            "trello",
+            "microsoft-flow",
+            "slack",
+            "notion",
+            "google-suite",
+            "microsoft-teams",
+            "zoom"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ecommerce",
+      "logo": "",
+      "name": "Escuela de E-Commerce y Negocios Digitales",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Desarrolla las habilidades necesarias para crear un e-commerce y potencia tus conocimientos para triunfar con un negocio en internet.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "vender-internet",
+            "negocios-online",
+            "transforma-digital",
+            "redes-sociales",
+            "design-thinking",
+            "fundamentos-ecommerce",
+            "canvas",
+            "metricas-negociosemprendimiento-social",
+            "construccion-marca",
+            "pagos-electronicos",
+            "publicidad-digital"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "woocommerce",
+            "fundamentos-wordpress",
+            "seo",
+            "wordpress-profesional",
+            "inventarios"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": [
+            "estrategia-comercial",
+            "ventas",
+            "tecnicas-negociacion",
+            "ventas-whatsapp",
+            "atencion-cliente",
+            "fidelizacion",
+            "bi-excel",
+            "financiamiento"
+          ]
+        },
+        {
+          "level": "complementario",
+          "cursos": [
+            "marketing-pymes",
+            "pagos-online",
+            "marketing-redes",
+            "whatsapp-business",
+            "contenidos-digitales",
+            "posicionamiento-marca",
+            "marketing-ecommerce",
+            "campanas-digitales",
+            "marketing-navidad"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "finanzas",
+      "logo": "",
+      "name": "Escuela de Finanzas e Inversiones",
+      "teachers": "",
+      "blogposts": [],
+      "glosario": [],
+      "categoria": "",
+      "description": "Aprende los fundamentos de las finanzas mientras gestionas tu dinero para no sólo ahorrar sino crear prácticas de inversión en activos de renta fija o variable.",
+      "levels": [
+        {
+          "level": "basico",
+          "cursos": [
+            "intro-finanzas",
+            "finanzas",
+            "manejo-deuda",
+            "creatividad-financiera",
+            "finanzas-futuro"
+          ]
+        },
+        {
+          "level": "intermedio",
+          "cursos": [
+            "excel",
+            "financiamiento",
+            "excel-financiero",
+            "planeacion-financiera",
+            "presupuesto",
+            "evaluacion-financiera"
+          ]
+        },
+        {
+          "level": "avanzado",
+          "cursos": ["inversiones-mesfix", "trading-basico", "inversion-bolsa"]
+        },
+        { "level": "complementario", "cursos": ["declaracion-renta"] }
+      ]
+    }
+  ]
+}
