@@ -30,6 +30,12 @@ class Levels(Enum):
     advanced = "advanced"
     complementary = "complementary"
 
+class Social(Enum):
+    facebook = "facebook"
+    twitter = "twitter"
+    instagram = "instagram"
+
+
 # Models
 
 ## Users
@@ -39,33 +45,63 @@ class SocialNetwork(BaseModel):
 
 class BaseUser(BaseModel):
     id_user: UUID = Field(...)
-    name: str = Field(...)
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=50
+    )
     image_url: HttpUrl = Field(...)
     kind: Optional[TypeUser] = Field(default="student")
     status: Optional[Status] = Field(default="public")
 
 ## Teachers
 class BaseTeacher(BaseUser):
-    id_teacher: str = Field(...)
+    id_teacher: str = Field(
+        ...,
+        min_length=1,
+        max_length=15
+    )
     image_teacher_url: HttpUrl = Field(...)
 
 class TeacherBasic(BaseTeacher):
-    work_position: str = Field(...)
-    short_description: str = Field(...)
+    work_position: str = Field(
+        ...,
+        min_length=10
+    )
+    short_description: str = Field(
+        ...,
+        min_length=15,
+        max_length=100
+    )
 
 class TeacherComplete(TeacherBasic):
-    long_description: str = Field(...)
+    long_description: str = Field(
+        ...,
+        min_length=50
+    )
     social_network: Optional[list[SocialNetwork]] = Field(default=None)
-    courses: BaseCourse
+    courses: list[BaseCourse] = Field(...)
 
 ## Courses
 class Project(BaseModel):
-    title: str = Field(...)
-    description: str = Field(...)
+    title: str = Field(
+        ...,
+        min_length=1,
+        max_length=20
+    )
+    description: str = Field(
+        ...,
+        min_length=20,
+        max_length=200
+    )
     image_url: Optional[HttpUrl] = Field(default=None)
 
 class Resourse(BaseModel):
-    description: str = Field(...)
+    description: str = Field(
+        ...,
+        min_length=1,
+        max_length=15
+    )
     url: HttpUrl = Field(...)
 
 class BaseContribution(BaseModel):
@@ -74,7 +110,10 @@ class BaseContribution(BaseModel):
     likes: Optional[int] = Field(default=0)
     
 class BaseContributionBasic(BaseContribution):
-    content: str = Field(...)
+    content: str = Field(
+        ...,
+        min_length=1,
+    )
 
 class Contribution(BaseContributionBasic):
     id_contribution: UUID = Field(...)
@@ -84,8 +123,16 @@ class ContributionAnswer(Contribution):
     answers: Optional[list[BaseContributionBasic]] = Field(default=None)
 
 class BaseClass(BaseModel):
-    id_class: str = Field(...)
-    name: str = Field(...)
+    id_class: str = Field(
+        ...,
+        min_length=1,
+        max_length=20
+    )
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=30
+    )
 
 class ClassContent(BaseClass):
     course: BaseCourse = Field(...)
@@ -96,25 +143,41 @@ class ClassContent(BaseClass):
 
 class Module(BaseModel):
     id_module: UUID = Field(...)
-    name: str = Field(...)
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=20
+    )
     classes: list[BaseClass] = Field(...)
 
 class BaseTutorial(BaseContribution):
-    title: str = Field(...)
+    title: str = Field(
+        ...,
+        min_length=1,
+        max_length=30
+    )
 
 class Tutorial(BaseTutorial):
     answers: Optional[list[ContributionAnswer]] = Field(default=None)
 
 class BaseCourse(BaseModel):
-    id_course: str = Field(...)
-    name: str = Field(...)
+    id_course: str = Field(
+        ...,
+        min_length=1,
+        max_length=20
+    )
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=50
+    )
     image_url: HttpUrl = Field(...)
 
 class CourseInfoBasic(BaseCourse):
     teacher: BaseTeacher = Field(...)
     routes: Optional[list[BaseRoute]] = Field(...)
     modules: list[Module] = Field(...)
-    time_content: int = Field(...)
+    time_content: int = Field(..., gt=1, le=7)
     project: Optional[Project] = Field(default=None)
 
 class CourseInfo(CourseInfoBasic):
@@ -122,8 +185,12 @@ class CourseInfo(CourseInfoBasic):
     comments: Optional[List[Contribution]] = Field(default=None)
 
 class CourseInfoComplete(CourseInfoBasic):
-    description: str = Field(...)
-    time_practice: int = Field(...)
+    description: str = Field(
+        ...,
+        min_length=1,
+        max_length=200
+    )
+    time_practice: int = Field(..., gt=1, le=25)
     previous_knowledge: Optional[list[str]] = Field(default=None)
     software: Optional[list[str]] = Field(default=None)
     teacher: TeacherBasic = Field(...)
@@ -142,25 +209,52 @@ class CourseExam(BaseCourse):
 
 ## Routes
 class Section(BaseModel):
-    title: str = Field(...)
+    title: str = Field(
+        ...,
+        min_length=1,
+        max_length=15
+    )
     level: Levels = Field(...)
     courses: list[BaseCourse] = Field(...)
 
 class BaseRoute(BaseModel):
-    id_route: str = Field(...)
-    name: str = Field(...)
+    id_route: str = Field(
+        ...,
+        min_length=1,
+        max_length=15
+    )
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=20
+    )
     image_url: HttpUrl = Field(...)
 
 class RouteDescription(BaseRoute):
-    short_description: str = Field(...)
-    long_description: str = Field(...)
+    short_description: str = Field(
+        ...,
+        min_length=1,
+        max_length=50
+    )
+    long_description: str = Field(
+        ...,
+        min_length=1
+    )
     glosario: list[str] = Field(...)
     teachers: list[TeacherBasic] = Field(...)
     sections: list[Section] = Field(...)
 
 class BaseCategory(BaseModel):
-    id_category: str = Field(...)
-    name: str = Field(...)
+    id_category: str = Field(
+        ...,
+        min_length=1,
+        max_length=10
+    )
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=15
+    )
 
 class CategoryRoutes(BaseCategory):
     routes: list[BaseRoute] = Field(...)
