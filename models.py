@@ -14,8 +14,10 @@ from pydantic import EmailStr
 # Enums
 class TypeContribution(Enum):
     comment = "comment"
-    contribution = "contribution"
     question = "question"
+    tutorial = "tutorial"
+    blog = "blog"
+    foro = "foro"
 
 class TypeUser(Enum):
     team = "team"
@@ -147,19 +149,32 @@ class BaseContribution(BaseModel):
     user: BaseUser = Field(...)
     date_publication: date = Field(...)
     likes: int = Field(..., ge=0)
-    
+
 class BaseContributionBasic(BaseContribution):
     content: str = Field(
         ...,
         min_length=1,
     )
 
+
 class Contribution(BaseContributionBasic):
     id_contribution: UUID = Field(...)
     kind: TypeContribution = Field(...)
 
+### Comments and Foro
 class ContributionAnswer(Contribution):
     answers: Optional[List[BaseContributionBasic]] = Field(default=[])
+
+class BaseContributionTitle(BaseContribution):
+    title: str = Field(
+        ...,
+        min_length=1,
+        max_length=30
+    )
+
+### Blogs and Tutorials
+class ContributionTitle(BaseContributionTitle):
+    answers: Optional[List[ContributionAnswer]] = Field(default=[])
 
 
 ## Classes
@@ -179,16 +194,6 @@ class ClassContent(BaseClass):
     description: Optional[str] = Field(default=None)
     resourses: Optional[List[Resourse]] = Field(default=[])
     contribution: Optional[List[ContributionAnswer]] = Field(default=[])
-
-class BaseTutorial(BaseContribution):
-    title: str = Field(
-        ...,
-        min_length=1,
-        max_length=30
-    )
-
-class Tutorial(BaseTutorial):
-    answers: Optional[List[ContributionAnswer]] = Field(default=[])
 
 
 ## Teachers
@@ -229,7 +234,7 @@ class CourseInfoBasic(BaseCourse):
     project: Optional[Project] = Field(default=None)
 
 class CourseInfo(CourseInfoBasic):
-    tutorials: Optional[List[BaseTutorial]] = Field(default=[])
+    tutorials: Optional[List[BaseContributionTitle]] = Field(default=[])
     comments: Optional[List[Contribution]] = Field(default=[])
 
 class CourseInfoComplete(CourseInfoBasic):
@@ -285,9 +290,3 @@ class RouteDescription(BaseRoute):
 class CategoryRoutes(BaseCategory):
     routes: List[BaseRoute] = Field(...)
 
-
-## Comments
-
-## Blog
-
-## Foro

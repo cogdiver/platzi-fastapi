@@ -13,7 +13,7 @@ app = FastAPI()
 # Home
 @app.get(path="/")
 def home():
-    return {"Platzi":"It's Working"}
+    return {"Platzi": "It's Working"}
 
 # Categories
 @app.get(
@@ -75,7 +75,7 @@ def courses():
     summary="get a basic description of a course",
     tags=["Courses"]
 )
-def course():
+def class_course():
     pass
 
 @app.get(
@@ -96,36 +96,92 @@ def course():
     summary="get a complete description of a class",
     tags=["Class"]
 )
+def classes():
+    pass
 
-# Comments
+# Contributions
+
+## Comments
+@app.get(
+    path="/comentarios",
+    response_model=List[ContributionAnswer],
+    status_code=status.HTTP_200_OK,
+    summary="get all comments",
+    tags=["Contributions", "Comments"]
+)
+def comments():
+    pass
+
 @app.get(
     path="/comentario/{id_comment}",
-    # response_model=CourseInfoComplete,
+    response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
     summary="get a comment",
-    tags=["Comments"]
+    tags=["Contributions", "Comments"]
 )
-def course():
+def comment():
     pass
 
-# Blog
+## Blog
+@app.get(
+    path="/blogs",
+    response_model=List[ContributionTitle],
+    status_code=status.HTTP_200_OK,
+    summary="get all blogs",
+    tags=["Contributions", "Blog"],
+)
+def blog():
+    pass
+
 @app.get(
     path="/blog/{id_bog}",
-    # response_model=CourseInfoComplete,
+    response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
     summary="get a blog publication",
-    tags=["Blog"]
+    tags=["Contributions", "Blog"],
 )
-def course():
+def blog():
     pass
 
-# Foro
+## Foro
+@app.get(
+    path="/foros",
+    response_model=List[ContributionAnswer],
+    status_code=status.HTTP_200_OK,
+    summary="get all foros",
+    tags=["Contributions", "Foro"]
+)
+def foro():
+    pass
+
 @app.get(
     path="/comunidad/{id_foro}",
-    # response_model=CourseInfoComplete,
+    response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
     summary="get a foro publication",
-    tags=["Foro"]
+    tags=["Contributions", "Foro"]
 )
-def course():
+def foro():
     pass
+
+## Tutorial
+@app.get(
+    path="/tutorials",
+    response_model=List[ContributionTitle],
+    status_code=status.HTTP_200_OK,
+    summary="get all tutorials",
+    tags=["Contributions", "Tutorial"]
+)
+def tutorials():
+    pass
+
+@app.get(
+    path="/tutorial/{id_tutorial}",
+    response_model=ContributionTitle,
+    status_code=status.HTTP_200_OK,
+    summary="get a tutorial publication",
+    tags=["Contributions", "Tutorial"]
+)
+def tutorial():
+    pass
+
