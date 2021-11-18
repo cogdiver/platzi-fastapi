@@ -24,7 +24,7 @@ def home():
     summary="get all categories",
     tags=["Categories"]
 )
-def get_categories():
+def all_categories():
     pass
 
 @app.get(
@@ -34,14 +34,14 @@ def get_categories():
     summary="get a category",
     tags=["Categories"]
 )
-def category():
+def get_category():
     pass
 
 @app.post(
     path="/categorias/{id_category}",
     response_model=CategoryRoutes,
-    status_code=status.HTTP_200_OK,
-    summary="get a category",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a category",
     tags=["Categories"]
 )
 def post_category():
@@ -51,7 +51,7 @@ def post_category():
     path="/categorias/{id_category}",
     response_model=CategoryRoutes,
     status_code=status.HTTP_200_OK,
-    summary="get a category",
+    summary="update a category",
     tags=["Categories"]
 )
 def put_category():
@@ -61,7 +61,7 @@ def put_category():
     path="/categorias/{id_category}",
     response_model=CategoryRoutes,
     status_code=status.HTTP_200_OK,
-    summary="get a category",
+    summary="delete a category",
     tags=["Categories"]
 )
 def delete_category():
@@ -91,8 +91,8 @@ def get_route():
 @app.post(
     path="/{id_route}",
     response_model=RouteDescription,
-    status_code=status.HTTP_200_OK,
-    summary="get a route",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a route",
     tags=["Routes"]
 )
 def post_route():
@@ -102,7 +102,7 @@ def post_route():
     path="/{id_route}",
     response_model=RouteDescription,
     status_code=status.HTTP_200_OK,
-    summary="get a route",
+    summary="update a route",
     tags=["Routes"]
 )
 def put_route():
@@ -112,7 +112,7 @@ def put_route():
     path="/{id_route}",
     response_model=RouteDescription,
     status_code=status.HTTP_200_OK,
-    summary="get a route",
+    summary="delete a route",
     tags=["Routes"]
 )
 def delete_route():
@@ -152,8 +152,8 @@ def get_course():
 @app.post(
     path="/cursos/{id_course}",
     response_model=CourseInfoComplete,
-    status_code=status.HTTP_200_OK,
-    summary="get a complete description of a course",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a course",
     tags=["Courses"]
 )
 def post_course():
@@ -163,7 +163,7 @@ def post_course():
     path="/cursos/{id_course}",
     response_model=CourseInfoComplete,
     status_code=status.HTTP_200_OK,
-    summary="get a complete description of a course",
+    summary="update a course",
     tags=["Courses"]
 )
 def put_course():
@@ -173,7 +173,7 @@ def put_course():
     path="/cursos/{id_course}",
     response_model=CourseInfoComplete,
     status_code=status.HTTP_200_OK,
-    summary="get a complete description of a course",
+    summary="delete a course",
     tags=["Courses"]
 )
 def delete_course():
@@ -203,8 +203,8 @@ def get_classes():
 @app.post(
     path="/clases/{id_course}/{id_class}",
     response_model=ClassContent,
-    status_code=status.HTTP_200_OK,
-    summary="get a complete description of a class",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a class for a course",
     tags=["Class"]
 )
 def post_classes():
@@ -214,7 +214,7 @@ def post_classes():
     path="/clases/{id_course}/{id_class}",
     response_model=ClassContent,
     status_code=status.HTTP_200_OK,
-    summary="get a complete description of a class",
+    summary="update a class",
     tags=["Class"]
 )
 def put_classes():
@@ -224,7 +224,7 @@ def put_classes():
     path="/clases/{id_course}/{id_class}",
     response_model=ClassContent,
     status_code=status.HTTP_200_OK,
-    summary="get a complete description of a class",
+    summary="delete a class from a course",
     tags=["Class"]
 )
 def delete_classes():
@@ -256,18 +256,28 @@ def get_comment():
 @app.post(
     path="/comentario/{id_comment}",
     response_model=ContributionAnswer,
-    status_code=status.HTTP_200_OK,
-    summary="get a comment",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a comment",
     tags=["Comments"]
 )
 def post_comment():
+    pass
+
+@app.put(
+    path="/comentario/{id_comment}",
+    response_model=ContributionAnswer,
+    status_code=status.HTTP_200_OK,
+    summary="update a comment",
+    tags=["Comments"]
+)
+def put_comment():
     pass
 
 @app.delete(
     path="/comentario/{id_comment}",
     response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
-    summary="get a comment",
+    summary="delete a comment",
     tags=["Comments"]
 )
 def delete_comment():
@@ -297,8 +307,8 @@ def get_blog():
 @app.post(
     path="/blog/{id_bog}",
     response_model=ContributionTitle,
-    status_code=status.HTTP_200_OK,
-    summary="get a blog publication",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a blog publication",
     tags=["Blog"],
 )
 def post_blog():
@@ -308,7 +318,7 @@ def post_blog():
     path="/blog/{id_bog}",
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
-    summary="get a blog publication",
+    summary="update a blog publication",
     tags=["Blog"],
 )
 def put_blog():
@@ -318,7 +328,7 @@ def put_blog():
     path="/blog/{id_bog}",
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
-    summary="get a blog publication",
+    summary="delete a blog publication",
     tags=["Blog"],
 )
 def delete_blog():
@@ -348,8 +358,8 @@ def get_foro():
 @app.post(
     path="/comunidad/{id_foro}",
     response_model=ContributionAnswer,
-    status_code=status.HTTP_200_OK,
-    summary="get a foro publication",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a foro publication",
     tags=["Foro"]
 )
 def post_foro():
@@ -359,7 +369,7 @@ def post_foro():
     path="/comunidad/{id_foro}",
     response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
-    summary="get a foro publication",
+    summary="update a foro publication",
     tags=["Foro"]
 )
 def put_foro():
@@ -369,7 +379,7 @@ def put_foro():
     path="/comunidad/{id_foro}",
     response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
-    summary="get a foro publication",
+    summary="delete a foro publication",
     tags=["Foro"]
 )
 def delete_foro():
@@ -399,8 +409,8 @@ def get_tutorial():
 @app.post(
     path="/tutorial/{id_tutorial}",
     response_model=ContributionTitle,
-    status_code=status.HTTP_200_OK,
-    summary="get a tutorial publication",
+    status_code=status.HTTP_201_CREATED,
+    summary="create a tutorial publication",
     tags=["Tutorial"]
 )
 def post_tutorial():
@@ -410,7 +420,7 @@ def post_tutorial():
     path="/tutorial/{id_tutorial}",
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
-    summary="get a tutorial publication",
+    summary="update a tutorial publication",
     tags=["Tutorial"]
 )
 def put_tutorial():
@@ -420,7 +430,7 @@ def put_tutorial():
     path="/tutorial/{id_tutorial}",
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
-    summary="get a tutorial publication",
+    summary="delete a tutorial publication",
     tags=["Tutorial"]
 )
 def delete_tutorial():
