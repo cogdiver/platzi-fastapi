@@ -1,1 +1,114 @@
-{}
+[
+    {
+        "id_course": "python",
+        "name": "name",
+        "image_url": "https://image_url.png",
+        "teacher": "teacher1",
+        "routes": [
+            "routes"
+        ],
+        "modules": [
+            "modules"
+        ],
+        "time_content": 3,
+        "project": "project1",
+        "tutorials": [
+            "tutorials"
+        ],
+        "comments": [
+            "comments"
+        ],
+        "description": "description",
+        "time_practice": 10,
+        "previous_knowledge": [
+            "previous_knowledge"
+        ],
+        "software": [
+            "software"
+        ]
+    },
+    {
+        "id_course": "scrapy",
+        "name": "name",
+        "image_url": "https://image_url.png",
+        "teacher": "teacher1",
+        "routes": [
+            "routes"
+        ],
+        "modules": [
+            "modules"
+        ],
+        "time_content": 3,
+        "project": "project1",
+        "tutorials": [
+            "tutorials"
+        ],
+        "comments": [
+            "comments"
+        ],
+        "description": "description",
+        "time_practice": 10,
+        "previous_knowledge": [
+            "previous_knowledge"
+        ],
+        "software": [
+            "software"
+        ]
+    },
+    {
+        "id_course": "git",
+        "name": "name",
+        "image_url": "https://image_url.png",
+        "teacher": "teacher1",
+        "routes": [
+            "routes"
+        ],
+        "modules": [
+            "modules"
+        ],
+        "time_content": 3,
+        "project": "project1",
+        "tutorials": [
+            "tutorials"
+        ],
+        "comments": [
+            "comments"
+        ],
+        "description": "description",
+        "time_practice": 10,
+        "previous_knowledge": [
+            "previous_knowledge"
+        ],
+        "software": [
+            "software"
+        ]
+    },
+    {
+        "id_course": "programacion_basica",
+        "name": "name",
+        "image_url": "https://image_url.png",
+        "teacher": "teacher1",
+        "routes": [
+            "routes"
+        ],
+        "modules": [
+            "modules"
+        ],
+        "time_content": 3,
+        "project": "project1",
+        "tutorials": [
+            "tutorials"
+        ],
+        "comments": [
+            "comments"
+        ],
+        "description": "description",
+        "time_practice": 10,
+        "previous_knowledge": [
+            "previous_knowledge"
+        ],
+        "software": [
+            "software"
+        ]
+    }
+]

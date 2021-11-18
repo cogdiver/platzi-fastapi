@@ -109,6 +109,7 @@ class BaseUser(BaseModel):
     image_url: HttpUrl = Field(...)
     kind: Optional[TypeUser] = Field(default="student")
     status: Optional[Status] = Field(default="public")
+    teacher: Optional[BaseTeacher] = Field(default=None)
 
 ## Users
 class SocialNetwork(BaseModel):
@@ -197,8 +198,13 @@ class ClassContent(BaseClass):
 
 
 ## Teachers
-class BaseTeacher(BaseUser):
+class BaseTeacher(BaseModel):
     id_teacher: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+    name: str = Field(
         ...,
         min_length=1,
         max_length=100
@@ -289,7 +295,7 @@ class RouteDescription(BaseRoute):
 ## Categories
 class BaseCategoryRoute(BaseCategory):
     routes: List[str] = Field(...)
-    
+
 class CategoryRoutes(BaseCategory):
     routes: List[BaseRoute] = Field(...)
 

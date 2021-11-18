@@ -6,9 +6,38 @@
         "courses_number": 5,
         "short_description": "short_description",
         "long_description": "long_description",
-        "glosario": ["glosario1","glosario2"],
-        "teachers": ["teacher1","teacher2"],
-        "sections": ["section1","section2"]
+        "glosario": [
+            "glosario1",
+            "glosario2"
+        ],
+        "teachers": [
+            "teacher1",
+            "teacher2"
+        ],
+        "sections": [
+            {
+                "title": "section1",
+                "level": "basic",
+                "courses": [
+                    "programacion_basica"
+                ]
+            },
+            {
+                "title": "section2",
+                "level": "intermediate",
+                "courses": [
+                    "git"
+                ]
+            },
+            {
+                "title": "section3",
+                "level": "advanced",
+                "courses": [
+                    "python",
+                    "scrapy"
+                ]
+            }
+        ]
     },
     {
         "id_route": "react",
@@ -17,8 +46,37 @@
         "courses_number": 6,
         "short_description": "short_description",
         "long_description": "long_description",
-        "glosario": ["glosario1","glosario2"],
-        "teachers": ["teacher1","teacher2"],
-        "sections": ["section1","section2"]
+        "glosario": [
+            "glosario1",
+            "glosario2"
+        ],
+        "teachers": [
+            "teacher1",
+            "teacher2"
+        ],
+        "sections": [
+            {
+                "title": "section1",
+                "level": "basic",
+                "courses": [
+                    "programacion_basica"
+                ]
+            },
+            {
+                "title": "section2",
+                "level": "intermediate",
+                "courses": [
+                    "git"
+                ]
+            },
+            {
+                "title": "section3",
+                "level": "advanced",
+                "courses": [
+                    "python",
+                    "scrapy"
+                ]
+            }
+        ]
     }
 ]

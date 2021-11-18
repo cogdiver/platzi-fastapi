@@ -236,7 +236,17 @@ def delete_category(id_category):
     tags=["Routes"]
 )
 def routes():
-    pass
+    with open('./data/routes.json', 'r') as f:
+        routes = json.loads(f.read())
+    
+    routes = list(map(lambda r: {
+        "id_route": r["id_route"],
+        "name": r["name"],
+        "image_url": r["image_url"],
+        "courses_number": r["courses_number"]
+    }, routes))
+
+    return routes
 
 @app.get(
     path="/{id_route}",
@@ -245,8 +255,13 @@ def routes():
     summary="get a route",
     tags=["Routes"]
 )
-def get_route():
-    pass
+def get_route(id_route):
+    with open('./data/routes.json', 'r') as f:
+        routes = json.loads(f.read())
+    
+    route = list(filter(lambda r: r['id_route'] == id_route, routes))[0]
+
+    return route
 
 @app.post(
     path="/{id_route}",
