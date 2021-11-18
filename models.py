@@ -48,12 +48,12 @@ class BaseCourse(BaseModel):
     id_course: str = Field(
         ...,
         min_length=1,
-        max_length=20
+        max_length=100
     )
     name: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=100
     )
     image_url: HttpUrl = Field(...)
 
@@ -62,12 +62,12 @@ class BaseClass(BaseModel):
     id_class: str = Field(
         ...,
         min_length=1,
-        max_length=20
+        max_length=100
     )
     name: str = Field(
         ...,
         min_length=1,
-        max_length=30
+        max_length=100
     )
 
 ### Base Route
@@ -75,12 +75,12 @@ class BaseRoute(BaseModel):
     id_route: str = Field(
         ...,
         min_length=1,
-        max_length=15
+        max_length=100
     )
     name: str = Field(
         ...,
         min_length=1,
-        max_length=20
+        max_length=100
     )
     image_url: HttpUrl = Field(...)
     courses_number: int = Field(...)
@@ -90,12 +90,12 @@ class BaseCategory(BaseModel):
     id_category: str = Field(
         ...,
         min_length=1,
-        max_length=10
+        max_length=100
     )
     name: str = Field(
         ...,
         min_length=1,
-        max_length=15
+        max_length=100
     )
 
 ### Base User
@@ -104,7 +104,7 @@ class BaseUser(BaseModel):
     name: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=100
     )
     image_url: HttpUrl = Field(...)
     kind: Optional[TypeUser] = Field(default="student")
@@ -128,12 +128,12 @@ class Project(BaseModel):
     title: str = Field(
         ...,
         min_length=1,
-        max_length=20
+        max_length=100
     )
     description: str = Field(
         ...,
         min_length=20,
-        max_length=200
+        max_length=100
     )
     image_url: Optional[HttpUrl] = Field(default=None)
 
@@ -141,7 +141,7 @@ class Resourse(BaseModel):
     description: str = Field(
         ...,
         min_length=1,
-        max_length=15
+        max_length=100
     )
     url: HttpUrl = Field(...)
 
@@ -169,7 +169,7 @@ class BaseContributionTitle(BaseContribution):
     title: str = Field(
         ...,
         min_length=1,
-        max_length=30
+        max_length=100
     )
 
 ### Blogs and Tutorials
@@ -183,7 +183,7 @@ class Module(BaseModel):
     name: str = Field(
         ...,
         min_length=1,
-        max_length=20
+        max_length=100
     )
     classes: List[BaseClass] = Field(...)
 
@@ -201,7 +201,7 @@ class BaseTeacher(BaseUser):
     id_teacher: str = Field(
         ...,
         min_length=1,
-        max_length=15
+        max_length=100
     )
     image_teacher_url: HttpUrl = Field(...)
 
@@ -241,7 +241,7 @@ class CourseInfoComplete(CourseInfoBasic):
     description: str = Field(
         ...,
         min_length=1,
-        max_length=200
+        max_length=100
     )
     time_practice: int = Field(..., gt=1, le=25)
     previous_knowledge: Optional[List[str]] = Field(default=[])
@@ -266,7 +266,7 @@ class Section(BaseModel):
     title: str = Field(
         ...,
         min_length=1,
-        max_length=15
+        max_length=100
     )
     level: Levels = Field(...)
     courses: List[BaseCourse] = Field(...)
@@ -275,7 +275,7 @@ class RouteDescription(BaseRoute):
     short_description: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=100
     )
     long_description: str = Field(
         ...,
@@ -287,6 +287,9 @@ class RouteDescription(BaseRoute):
 
 
 ## Categories
+class BaseCategoryRoute(BaseCategory):
+    routes: List[str] = Field(...)
+    
 class CategoryRoutes(BaseCategory):
     routes: List[BaseRoute] = Field(...)
 

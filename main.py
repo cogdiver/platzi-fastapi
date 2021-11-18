@@ -1,9 +1,11 @@
 # Python
 from typing import List
+import json
 
 # FastAPI
 from fastapi import FastAPI
 from fastapi import status
+from fastapi import Body
 
 app = FastAPI()
 
@@ -18,13 +20,17 @@ def home():
 # Categories
 @app.get(
     path="/categorias",
-    response_model=List[BaseCategory],
+    # response_model=List[BaseCategory],
     status_code=status.HTTP_200_OK,
     summary="get all categories",
     tags=["Categories"]
 )
 def all_categories():
-    pass
+    with open('./data/categories.json', 'r', encoding='utf-8') as f:
+        categories = json.loads(f.read())
+    
+    categories = [{"id_category":c["id_category"],"name":c["name"]} for c in categories]
+    return categories
 
 @app.get(
     path="/categorias/{id_category}",
@@ -33,17 +39,33 @@ def all_categories():
     summary="get a category",
     tags=["Categories"]
 )
-def get_category():
-    pass
+def get_category(id_category):
+    with open('./data/categories.json', 'r', encoding='utf-8') as f:
+        categories = json.loads(f.read())
+    
+    with open('./data/routes.json', 'r', encoding='utf-8') as f:
+        routes = json.loads(f.read())
+    
+    categories = list(filter(lambda c: c['id_category']==id_category, categories))[0]
+    routes = list(filter(lambda r: r['id_route'] in categories['routes'], routes))
+
+    categories['routes'] = list(map(lambda r: {
+        "id_route": r["id_route"], 
+        "name": r["name"], 
+        "image_url": r["image_url"], 
+        "courses_number": r["courses_number"]
+    }, routes))
+
+    return categories
 
 @app.post(
-    path="/categorias/{id_category}",
-    response_model=CategoryRoutes,
+    path="/categorias",
+    response_model=BaseCategoryRoute,
     status_code=status.HTTP_201_CREATED,
     summary="create a category",
     tags=["Categories"]
 )
-def post_category():
+def post_category(category: BaseCategoryRoute = Body(...)):
     pass
 
 @app.put(

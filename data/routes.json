@@ -1,1 +1,24 @@
-{}
+[
+    {
+        "id_route": "vue",
+        "name": "Vue",
+        "image_url": "https://imagenes.com/vue.jpg",
+        "courses_number": 5,
+        "short_description": "short_description",
+        "long_description": "long_description",
+        "glosario": ["glosario1","glosario2"],
+        "teachers": ["teacher1","teacher2"],
+        "sections": ["section1","section2"]
+    },
+    {
+        "id_route": "react",
+        "name": "React",
+        "image_url": "https://imagenes.com/react.jpg",
+        "courses_number": 6,
+        "short_description": "short_description",
+        "long_description": "long_description",
+        "glosario": ["glosario1","glosario2"],
+        "teachers": ["teacher1","teacher2"],
+        "sections": ["section1","section2"]
+    }
+]
