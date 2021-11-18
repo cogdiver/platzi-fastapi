@@ -20,7 +20,7 @@ def home():
 
 # Categories
 @app.get(
-    path="/categorias",
+    path="/categoria",
     response_model=List[BaseCategory],
     status_code=status.HTTP_200_OK,
     summary="get all categories",
@@ -44,7 +44,7 @@ def all_categories():
     return categories
 
 @app.get(
-    path="/categorias/{id_category}",
+    path="/categoria/{id_category}",
     response_model=CategoryRoutes,
     status_code=status.HTTP_200_OK,
     summary="get a category",
@@ -83,7 +83,7 @@ def get_category(id_category):
     return categories
 
 @app.post(
-    path="/categorias",
+    path="/categoria",
     response_model=BaseCategoryRoute,
     status_code=status.HTTP_201_CREATED,
     summary="create a category",
@@ -94,7 +94,7 @@ def post_category(category: BaseCategoryRoute = Body(...)):
     This path operation create a new category
 
     Parameters:
-        - Categories: BaseCategoryRoute
+        - Category: BaseCategoryRoute
     
     Return a json with the new category
     """
@@ -104,38 +104,128 @@ def post_category(category: BaseCategoryRoute = Body(...)):
     id_routes = list(map(lambda r: r['id_route'], routes))
     category = category.dict()
 
-    with open('./data/categories.json', 'r+', encoding='utf-8') as f:
+    with open('./data/categories.json', 'r', encoding='utf-8') as f:
         categories = json.loads(f.read())
-        
-        for r in category['routes']:
-            if r not in id_routes:
-                raise HTTPException(status_code=404, detail=f"Invalid id route: '{r}'")
-    
-        categories.append(category)
-        f.seek(0)
-        f.write(json.dumps(categories))
 
-        return category
+    id_categories = list(map(lambda c: c['id_category'], categories))
+    name_categories = list(map(lambda c: c['name'], categories))
+
+    if category['id_category'] in id_categories:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id category '{r}'"
+        )
+
+    if category['name'] in name_categories:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name category '{r}'"
+        )
+
+    for r in category['routes']:
+        if r not in id_routes:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id route '{r}'"
+            )
+    
+    categories.append(category)
+
+    with open('./data/categories.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(categories, ensure_ascii=False))
+
+    return category
 
 @app.put(
-    path="/categorias/{id_category}",
-    response_model=CategoryRoutes,
+    path="/categoria/{id_category}",
+    response_model=BaseCategoryRoute,
     status_code=status.HTTP_200_OK,
     summary="update a category",
     tags=["Categories"]
 )
-def put_category():
-    pass
+def put_category(id_category, category: BaseCategoryRoute = Body(...)):
+    """
+    This path operation update a category
+
+    Parameters:
+        - id_category: str
+        - Category: BaseCategoryRoute
+    
+    Return a json with the updated category
+    """
+    category = category.dict()
+
+    if id_category != category['id_category']:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid ids category '{id_category}' and '{category['id_category']}'"
+        )
+
+    with open('./data/categories.json', 'r', encoding='utf-8') as f:
+        categories = json.loads(f.read())
+
+    id_categories = list(map(lambda c: c['id_category'], categories))
+    
+    if id_category not in id_categories:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id category '{id_category}'"
+        )
+    
+    with open('./data/routes.json', 'r', encoding='utf-8') as f2:
+        routes = json.loads(f2.read())
+    
+    id_routes = list(map(lambda r: r['id_route'], routes))
+
+    for r in category['routes']:
+        if r not in id_routes:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id route: '{r}'"
+            )
+
+    categories = list(filter(lambda c: c['id_category']!=id_category, categories))
+    categories.append(category)
+        
+    with open('./data/categories.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(categories, ensure_ascii=False))
+
+    return category
 
 @app.delete(
-    path="/categorias/{id_category}",
-    response_model=CategoryRoutes,
+    path="/categoria/{id_category}",
+    response_model=BaseCategoryRoute,
     status_code=status.HTTP_200_OK,
     summary="delete a category",
     tags=["Categories"]
 )
-def delete_category():
-    pass
+def delete_category(id_category):
+    """
+    This path operation delete a category
+
+    Parameters:
+        - id_category: str
+    
+    Return a json with the delete category
+    """
+    with open('./data/categories.json', 'r', encoding='utf-8') as f:
+        categories = json.loads(f.read())
+
+    id_categories = list(map(lambda c: c['id_category'], categories))
+    
+    if id_category not in id_categories:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id category '{id_category}'"
+        )
+
+    category = list(filter(lambda c: c['id_category'] == id_category, categories))[0]
+    categories = list(filter(lambda c: c['id_category'] != id_category, categories))
+        
+    with open('./data/categories.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(categories, ensure_ascii=False))
+
+    return category
 
 # Routes
 @app.get(

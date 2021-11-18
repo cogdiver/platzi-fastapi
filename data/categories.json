@@ -1,7 +1,7 @@
 [
     {
         "id_category": "desarrollo",
-        "name": "Desarrollo y Tecnolog\u00eda",
+        "name": "Desarrollo y Tecnología",
         "routes": [
             "vue",
             "react"
@@ -9,7 +9,7 @@
     },
     {
         "id_category": "habilidades",
-        "name": "Habilidades Blandas",
+        "name": "Habilidades blandas",
         "routes": [
             "vue",
             "react"
