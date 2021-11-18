@@ -5,10 +5,11 @@ from typing import List
 from fastapi import FastAPI
 from fastapi import status
 
-# Models
-from models import *
 
 app = FastAPI()
+
+# Models
+from models import *
 
 # Home
 @app.get(path="/")
@@ -90,6 +91,16 @@ def course():
 
 # Classes
 @app.get(
+    path="/clases",
+    response_model=List[BaseClass],
+    status_code=status.HTTP_200_OK,
+    summary="get all class with a basic information",
+    tags=["Class"]
+)
+def all_classes():
+    pass
+
+@app.get(
     path="/clases/{id_course}/{id_class}",
     response_model=ClassContent,
     status_code=status.HTTP_200_OK,
@@ -107,7 +118,7 @@ def classes():
     response_model=List[ContributionAnswer],
     status_code=status.HTTP_200_OK,
     summary="get all comments",
-    tags=["Contributions", "Comments"]
+    tags=["Comments"]
 )
 def comments():
     pass
@@ -117,7 +128,7 @@ def comments():
     response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
     summary="get a comment",
-    tags=["Contributions", "Comments"]
+    tags=["Comments"]
 )
 def comment():
     pass
@@ -128,7 +139,7 @@ def comment():
     response_model=List[ContributionTitle],
     status_code=status.HTTP_200_OK,
     summary="get all blogs",
-    tags=["Contributions", "Blog"],
+    tags=["Blog"],
 )
 def blog():
     pass
@@ -138,7 +149,7 @@ def blog():
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
     summary="get a blog publication",
-    tags=["Contributions", "Blog"],
+    tags=["Blog"],
 )
 def blog():
     pass
@@ -149,7 +160,7 @@ def blog():
     response_model=List[ContributionAnswer],
     status_code=status.HTTP_200_OK,
     summary="get all foros",
-    tags=["Contributions", "Foro"]
+    tags=["Foro"]
 )
 def foro():
     pass
@@ -159,7 +170,7 @@ def foro():
     response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
     summary="get a foro publication",
-    tags=["Contributions", "Foro"]
+    tags=["Foro"]
 )
 def foro():
     pass
@@ -170,7 +181,7 @@ def foro():
     response_model=List[ContributionTitle],
     status_code=status.HTTP_200_OK,
     summary="get all tutorials",
-    tags=["Contributions", "Tutorial"]
+    tags=["Tutorial"]
 )
 def tutorials():
     pass
@@ -180,7 +191,7 @@ def tutorials():
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
     summary="get a tutorial publication",
-    tags=["Contributions", "Tutorial"]
+    tags=["Tutorial"]
 )
 def tutorial():
     pass
