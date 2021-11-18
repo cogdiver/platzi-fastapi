@@ -6,6 +6,7 @@ import json
 from fastapi import FastAPI
 from fastapi import status
 from fastapi import Body
+from fastapi import HTTPException
 
 app = FastAPI()
 
@@ -20,12 +21,22 @@ def home():
 # Categories
 @app.get(
     path="/categorias",
-    # response_model=List[BaseCategory],
+    response_model=List[BaseCategory],
     status_code=status.HTTP_200_OK,
     summary="get all categories",
     tags=["Categories"]
 )
 def all_categories():
+    """
+    This path operation returns all categories
+
+    Parameters:
+
+    Returns a list of categories with following attributes:
+        - id_category: str
+        - name: str
+
+    """
     with open('./data/categories.json', 'r', encoding='utf-8') as f:
         categories = json.loads(f.read())
     
@@ -40,6 +51,19 @@ def all_categories():
     tags=["Categories"]
 )
 def get_category(id_category):
+    """
+    This path operation the routes for a category
+
+    Parameters:
+        - id_category: str
+    
+    Returns a category with its routes' list with the following attributes:
+        - id_route: str
+        - name: str
+        - image_url: HttpUrl
+        - courses_number: str
+    """
+
     with open('./data/categories.json', 'r', encoding='utf-8') as f:
         categories = json.loads(f.read())
     
@@ -66,7 +90,32 @@ def get_category(id_category):
     tags=["Categories"]
 )
 def post_category(category: BaseCategoryRoute = Body(...)):
-    pass
+    """
+    This path operation create a new category
+
+    Parameters:
+        - Categories: BaseCategoryRoute
+    
+    Return a json with the new category
+    """
+    with open('./data/routes.json', 'r', encoding='utf-8') as f:
+        routes = json.loads(f.read())
+    
+    id_routes = list(map(lambda r: r['id_route'], routes))
+    category = category.dict()
+
+    with open('./data/categories.json', 'r+', encoding='utf-8') as f:
+        categories = json.loads(f.read())
+        
+        for r in category['routes']:
+            if r not in id_routes:
+                raise HTTPException(status_code=404, detail=f"Invalid id route: '{r}'")
+    
+        categories.append(category)
+        f.seek(0)
+        f.write(json.dumps(categories))
+
+        return category
 
 @app.put(
     path="/categorias/{id_category}",
