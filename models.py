@@ -98,6 +98,20 @@ class BaseCategory(BaseModel):
         max_length=100
     )
 
+### Base Teacher
+class BaseTeacher(BaseModel):
+    id_teacher: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+    image_teacher_url: HttpUrl = Field(...)
+
 ### Base User
 class BaseUser(BaseModel):
     id_user: UUID = Field(...)
@@ -157,7 +171,6 @@ class BaseContributionBasic(BaseContribution):
         min_length=1,
     )
 
-
 class Contribution(BaseContributionBasic):
     id_contribution: UUID = Field(...)
     kind: TypeContribution = Field(...)
@@ -198,19 +211,6 @@ class ClassContent(BaseClass):
 
 
 ## Teachers
-class BaseTeacher(BaseModel):
-    id_teacher: str = Field(
-        ...,
-        min_length=1,
-        max_length=100
-    )
-    name: str = Field(
-        ...,
-        min_length=1,
-        max_length=100
-    )
-    image_teacher_url: HttpUrl = Field(...)
-
 class TeacherBasic(BaseTeacher):
     work_position: str = Field(
         ...,
@@ -277,6 +277,24 @@ class Section(BaseModel):
     level: Levels = Field(...)
     courses: List[BaseCourse] = Field(...)
 
+class Glossary(BaseModel):
+    id_glossary: UUID = Field(...)
+    title: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+    description: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+    category: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+
 class RouteDescription(BaseRoute):
     short_description: str = Field(
         ...,
@@ -287,7 +305,7 @@ class RouteDescription(BaseRoute):
         ...,
         min_length=1
     )
-    glosario: List[str] = Field(...)
+    glossary: List[Glossary] = Field(...)
     teachers: List[TeacherBasic] = Field(...)
     sections: List[Section] = Field(...)
 

@@ -1,6 +1,7 @@
 # Python
 from typing import List
 import json
+import functools
 
 # FastAPI
 from fastapi import FastAPI
@@ -236,6 +237,17 @@ def delete_category(id_category):
     tags=["Routes"]
 )
 def routes():
+    """
+    This path operation returns all routes
+
+    Parameters:
+
+    Returns a list of routes with following attributes:
+        - id_route: str
+        - name: str
+        - image_url: HttpUrl
+        - courses_number: int
+    """
     with open('./data/routes.json', 'r') as f:
         routes = json.loads(f.read())
     
@@ -256,10 +268,72 @@ def routes():
     tags=["Routes"]
 )
 def get_route(id_route):
+    """
+    This path operation the description for a route
+
+    Parameters:
+        - id_route: str
+    
+    Returns a route with with the following attributes:
+        - id_route: str
+        - name: str
+        - image_url: HttpUrl
+        - courses_number: int
+        - short_description: str
+        - long_description: str
+        - glosario: List[Glossary]
+        - teachers: List[TeacherBasic]
+        - sections: List[Section]
+    """
     with open('./data/routes.json', 'r') as f:
         routes = json.loads(f.read())
     
+    id_routes = list(map(lambda r: r['id_route'], routes))
+
+    if id_route not in id_routes:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
+        )
+    
     route = list(filter(lambda r: r['id_route'] == id_route, routes))[0]
+    del routes
+
+    # get the glossary
+    with open('./data/glossary.json', 'r') as f:
+        glossary = json.loads(f.read())
+    
+    glossary = list(filter(lambda g: g['id_glossary'] in route["glossary"], glossary))
+    route["glossary"] = glossary
+
+    # get the courses
+    with open('./data/courses.json', 'r') as f:
+        all_courses = json.loads(f.read())
+    
+    id_courses = list(map(lambda s: s['courses'], route['sections']))
+    
+    for i in range(len(id_courses)):
+        courses = list(filter(lambda c: c['id_course'] in id_courses[i], all_courses))
+        courses = list(map(lambda c: {
+            "id_course": c["id_course"],
+            "name": c["name"],
+            "image_url": c["image_url"]
+        }, courses))
+        route['sections'][i]["courses"] = courses
+
+    # get the teachers
+    with open('./data/teachers.json', 'r') as f:
+        teachers = json.loads(f.read())
+    
+    teachers = list(filter(lambda t: t['id_teacher'] in route["teachers"], teachers))
+    teachers = list(map(lambda t: {
+        "id_teacher": t["id_teacher"],
+        "name": t["name"],
+        "image_teacher_url": t["image_teacher_url"],
+        "work_position": t["work_position"],
+        "short_description": t["short_description"]
+    }, teachers))
+    route["teachers"] = teachers
 
     return route
 
