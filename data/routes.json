@@ -79,5 +79,46 @@
                 ]
             }
         ]
+    },
+    {
+        "id_route": "vues",
+        "name": "Vues",
+        "image_url": "https://imagenes.com/vue.jpg",
+        "courses_number": 5,
+        "short_description": "short_description",
+        "long_description": "long_description",
+        "glossary": [
+            "e3cdd158-493d-11ec-81d3-0242ac130003",
+            "ea225d6c-493d-11ec-81d3-0242ac130003",
+            "ef5087d2-493d-11ec-81d3-0242ac130003"
+        ],
+        "teachers": [
+            "teacher1",
+            "teacher2"
+        ],
+        "sections": [
+            {
+                "title": "section1",
+                "level": "Levels.basic",
+                "courses": [
+                    "programacion_basica"
+                ]
+            },
+            {
+                "title": "section2",
+                "level": "Levels.intermediate",
+                "courses": [
+                    "git"
+                ]
+            },
+            {
+                "title": "section3",
+                "level": "Levels.advanced",
+                "courses": [
+                    "python",
+                    "scrapy"
+                ]
+            }
+        ]
     }
 ]

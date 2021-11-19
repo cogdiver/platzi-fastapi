@@ -268,13 +268,18 @@ class CourseExam(BaseCourse):
 
 
 ## Routes
-class Section(BaseModel):
+class BaseSection(BaseModel):
     title: str = Field(
         ...,
         min_length=1,
         max_length=100
     )
     level: Levels = Field(...)
+
+class SectionCreate(BaseSection):
+    courses: List[str] = Field(...)
+
+class Section(BaseSection):
     courses: List[BaseCourse] = Field(...)
 
 class Glossary(BaseModel):
@@ -295,7 +300,7 @@ class Glossary(BaseModel):
         max_length=100
     )
 
-class RouteDescription(BaseRoute):
+class BaseRouteDescription(BaseRoute):
     short_description: str = Field(
         ...,
         min_length=1,
@@ -305,7 +310,14 @@ class RouteDescription(BaseRoute):
         ...,
         min_length=1
     )
-    glossary: List[Glossary] = Field(...)
+
+class RouteDescriptionCreate(BaseRouteDescription):
+    glossary: Optional[List[str]] = Field(...)
+    teachers: List[str] = Field(...)
+    sections: List[SectionCreate] = Field(...)
+
+class RouteDescription(BaseRouteDescription):
+    glossary: Optional[List[Glossary]] = Field(...)
     teachers: List[TeacherBasic] = Field(...)
     sections: List[Section] = Field(...)
 
