@@ -535,13 +535,44 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
 
 @app.delete(
     path="/{id_route}",
-    response_model=RouteDescription,
+    response_model=RouteDescriptionCreate,
     status_code=status.HTTP_200_OK,
     summary="delete a route",
     tags=["Routes"]
 )
-def delete_route():
-    pass
+def delete_route(id_route):
+    with open('./data/routes.json', 'r', encoding='utf-8') as f:
+        routes = json.loads(f.read())
+    
+    # id_route must be unique
+    id_routes = list(map(lambda r: r['id_route'], routes))
+    if id_route not in id_routes:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
+        )
+    del id_routes
+
+    # Removing route of all categories
+    with open('./data/categories.json', 'r', encoding='utf-8') as f:
+        categories = json.loads(f.read())
+    
+    for c in categories:
+        if id_route in c["routes"]:
+            c["routes"] = list(filter(lambda r: r != id_route, c["routes"]))
+    
+    # Save the categories
+    with open('./data/categories.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(categories, ensure_ascii=False))
+    del categories
+
+    # Save the routes
+    route = list(filter(lambda r: r['id_route'] == id_route, routes))[0]
+    routes = list(filter(lambda r: r['id_route'] != id_route, routes))
+    with open('./data/routes.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(routes, ensure_ascii=False))
+    
+    return route
 
 # Courses
 @app.get(
