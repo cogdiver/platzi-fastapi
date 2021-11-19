@@ -99,24 +99,23 @@
         "sections": [
             {
                 "title": "section1",
-                "level": "Levels.basic",
+                "level": "basic",
                 "courses": [
                     "programacion_basica"
                 ]
             },
             {
                 "title": "section2",
-                "level": "Levels.intermediate",
+                "level": "intermediate",
                 "courses": [
                     "git"
                 ]
             },
             {
                 "title": "section3",
-                "level": "Levels.advanced",
+                "level": "advanced",
                 "courses": [
-                    "python",
-                    "scrapy"
+                    "python"
                 ]
             }
         ]

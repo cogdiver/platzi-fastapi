@@ -158,6 +158,7 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
     """
     category = category.dict()
 
+    # Considering remove this restriction
     if id_category != category['id_category']:
         raise HTTPException(
             status_code=406,
@@ -167,25 +168,29 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
     with open('./data/categories.json', 'r', encoding='utf-8') as f:
         categories = json.loads(f.read())
 
+    # id_category must be valid
     id_categories = list(map(lambda c: c['id_category'], categories))
-    
+    del categories
     if id_category not in id_categories:
         raise HTTPException(
             status_code=404,
             detail=f"HTTP_404_NOT_FOUND: Invalid id category '{id_category}'"
         )
+    del id_categories
     
     with open('./data/routes.json', 'r', encoding='utf-8') as f2:
         routes = json.loads(f2.read())
     
+    # id_routes must be valid
     id_routes = list(map(lambda r: r['id_route'], routes))
-
+    del routes
     for r in category['routes']:
         if r not in id_routes:
             raise HTTPException(
                 status_code=404,
                 detail=f"HTTP_404_NOT_FOUND: Invalid id route: '{r}'"
             )
+    del id_routes
 
     categories = list(filter(lambda c: c['id_category']!=id_category, categories))
     categories.append(category)
@@ -356,7 +361,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
     Parameters:
         - Route: RouteDescription
     
-    Return a json with the new route with a BaseRoute structure
+    Return the new route in a json with a BaseRoute structure
     """
     route = route.dict()
     with open('./data/routes.json', 'r', encoding='utf-8') as f:
@@ -422,7 +427,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
     # Parsing route
     route["image_url"] = str(route["image_url"])
     for s in route["sections"]:
-        s["level"] = str(s["level"])
+        s["level"] = s["level"].value
 
     # Save the route
     routes.append(route)
@@ -433,13 +438,100 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
 
 @app.put(
     path="/{id_route}",
-    response_model=RouteDescription,
+    response_model=RouteDescriptionCreate,
     status_code=status.HTTP_200_OK,
     summary="update a route",
     tags=["Routes"]
 )
-def put_route():
-    pass
+def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
+    """
+    This path operation update a route
+
+    Parameters:
+        - id_route: str
+        - Route: RouteDescription
+    
+    Return the updated route in a json with a BaseRoute structure
+    """
+    route = route.dict()
+    
+    # Considering remove this restriction
+    if id_route != route['id_route']:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid ids route '{id_route}' and '{route['id_route']}'"
+        )
+
+    with open('./data/routes.json', 'r', encoding='utf-8') as f:
+        routes = json.loads(f.read())
+    
+    # id_route must be valid
+    id_routes = list(map(lambda r: r['id_route'], routes))
+    if id_route not in id_routes:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
+        )
+    del id_routes
+    
+    # the id_glossaries must be valid if exist
+    if 'glossary' in route:
+        with open('./data/glossary.json', 'r') as f:
+            glossary = json.loads(f.read())
+        
+        id_glossary = list(map(lambda g: g['id_glossary'], glossary))
+        del glossary
+        for g in route["glossary"]:
+            if g not in id_glossary:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"HTTP_404_NOT_FOUND: Invalid id glossary '{g}'"
+                )
+        del id_glossary
+    
+    # the id_teachers must be valid
+    with open('./data/teachers.json', 'r') as f:
+        teachers = json.loads(f.read())
+    
+    id_teachers = list(map(lambda t: t['id_teacher'], teachers))
+    del teachers
+    for t in route["teachers"]:
+        if t not in id_teachers:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id teacher '{t}'"
+            )
+    del id_teachers
+    
+    # the id_courses must be valid
+    with open('./data/courses.json', 'r') as f:
+        courses = json.loads(f.read())
+    
+    id_courses = list(map(lambda c: c['id_course'], courses))
+    courses = list(map(lambda s: s["courses"], route["sections"]))
+    courses = functools.reduce(lambda a,b: a + b, courses)
+
+    for c in courses:
+        if c not in id_courses:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id course '{c}'"
+            )
+    del courses
+    del id_courses
+
+    # Parsing route
+    route["image_url"] = str(route["image_url"])
+    for s in route["sections"]:
+        s["level"] = s["level"].value
+
+    # Save the route
+    routes = list(filter(lambda r: r["id_route"] != id_route, routes))
+    routes.append(route)
+    with open('./data/routes.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(routes, ensure_ascii=False))
+
+    return route
 
 @app.delete(
     path="/{id_route}",
