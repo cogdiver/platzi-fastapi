@@ -281,7 +281,7 @@ def routes():
 )
 def get_route(id_route):
     """
-    This path operation the description for a route
+    This path operation return the description for a route
 
     Parameters:
         - id_route: str
@@ -351,6 +351,36 @@ def get_route(id_route):
     route["teachers"] = teachers
 
     return route
+
+@app.get(
+    path="/{id_route}/basic",
+    response_model=RouteDescriptionCreate,
+    status_code=status.HTTP_200_OK,
+    summary="get a route with a basic information",
+    tags=["Routes"]
+)
+def get_route_basic(id_route):
+    """
+    This path operation the basic information for a route
+
+    Parameters:
+        - id_route: str
+    
+    Returns a route with a RouteDescriptionCreate structure:
+    """
+    with open('./data/routes.json', 'r') as f:
+        routes = json.loads(f.read())
+    
+    route = list(filter(lambda r: r['id_route'] == id_route, routes))
+    del routes
+    if not route:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
+        )
+
+
+    return route[0]
 
 @app.post(
     path="/",
@@ -474,7 +504,7 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     id_routes = list(map(lambda r: r['id_route'], routes))
     if id_route not in id_routes:
         raise HTTPException(
-            status_code=406,
+            status_code=404,
             detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
         )
     del id_routes
@@ -546,6 +576,14 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     tags=["Routes"]
 )
 def delete_route(id_route):
+    """
+    This path operation delete a route
+
+    Parameters:
+        - id_route: str
+    
+    Return the deleted route in a json with a RouteDescriptionCreate structure
+    """
     with open('./data/routes.json', 'r', encoding='utf-8') as f:
         routes = json.loads(f.read())
     
@@ -553,7 +591,7 @@ def delete_route(id_route):
     id_routes = list(map(lambda r: r['id_route'], routes))
     if id_route not in id_routes:
         raise HTTPException(
-            status_code=406,
+            status_code=404,
             detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
         )
     del id_routes
