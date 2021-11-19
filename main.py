@@ -15,9 +15,14 @@ app = FastAPI()
 from models import *
 
 # Home
+from home import HOME
+
 @app.get(path="/")
 def home():
-    return {"Platzi": "It's Working"}
+    print(HOME)
+    return {
+        "Platzi": "Never stop learning, because life never stops teaching"
+    }
 
 # Categories
 @app.get(
