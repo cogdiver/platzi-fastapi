@@ -47,9 +47,10 @@
         "courses_number": 6,
         "short_description": "short_description",
         "long_description": "long_description",
-        "glosario": [
-            "glosario1",
-            "glosario2"
+        "glossary": [
+            "e3cdd158-493d-11ec-81d3-0242ac130003",
+            "ea225d6c-493d-11ec-81d3-0242ac130003",
+            "ef5087d2-493d-11ec-81d3-0242ac130003"
         ],
         "teachers": [
             "teacher1",

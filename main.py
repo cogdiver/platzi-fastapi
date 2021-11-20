@@ -1,13 +1,13 @@
 # Python
-from typing import List
 import json
 import functools
+from typing import List
 
 # FastAPI
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body
 from fastapi import HTTPException
+from fastapi import Body
 
 app = FastAPI()
 
@@ -23,6 +23,7 @@ def home():
     return {
         "Platzi": "Never stop learning, because life never stops teaching"
     }
+
 
 # Categories
 @app.get(
@@ -114,7 +115,7 @@ def post_category(category: BaseCategoryRoute = Body(...)):
     if category['id_category'] in id_categories:
         raise HTTPException(
             status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id category '{r}'"
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id category '{category['id_category']}'"
         )
 
     # name must be unique
@@ -122,7 +123,7 @@ def post_category(category: BaseCategoryRoute = Body(...)):
     if category['name'] in name_categories:
         raise HTTPException(
             status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name category '{r}'"
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name category '{category['id_category']}'"
         )
 
     # the id_courses must be valid
@@ -240,6 +241,7 @@ def delete_category(id_category):
 
     return category
 
+
 # Routes
 @app.get(
     path="/rutas",
@@ -254,26 +256,15 @@ def routes():
 
     Parameters:
 
-    Returns a list of routes with following attributes:
-        - id_route: str
-        - name: str
-        - image_url: HttpUrl
-        - courses_number: int
+    Returns a list of routes with a BaseRoute structure:
     """
     with open('./data/routes.json', 'r') as f:
         routes = json.loads(f.read())
-    
-    routes = list(map(lambda r: {
-        "id_route": r["id_route"],
-        "name": r["name"],
-        "image_url": r["image_url"],
-        "courses_number": r["courses_number"]
-    }, routes))
 
     return routes
 
 @app.get(
-    path="/{id_route}",
+    path="/rutas/{id_route}",
     response_model=RouteDescription,
     status_code=status.HTTP_200_OK,
     summary="get a route",
@@ -327,13 +318,7 @@ def get_route(id_route):
     
     for i in range(len(id_courses)):
         courses = list(filter(lambda c: c['id_course'] in id_courses[i], all_courses))
-        courses = list(map(lambda c: {
-            "id_course": c["id_course"],
-            "name": c["name"],
-            "image_url": c["image_url"]
-        }, courses))
         route['sections'][i]["courses"] = courses
-    
     del all_courses
 
     # get the teachers
@@ -341,19 +326,12 @@ def get_route(id_route):
         teachers = json.loads(f.read())
     
     teachers = list(filter(lambda t: t['id_teacher'] in route["teachers"], teachers))
-    teachers = list(map(lambda t: {
-        "id_teacher": t["id_teacher"],
-        "name": t["name"],
-        "image_teacher_url": t["image_teacher_url"],
-        "work_position": t["work_position"],
-        "short_description": t["short_description"]
-    }, teachers))
     route["teachers"] = teachers
 
     return route
 
 @app.get(
-    path="/{id_route}/basic",
+    path="/rutas/{id_route}/basic",
     response_model=RouteDescriptionCreate,
     status_code=status.HTTP_200_OK,
     summary="get a route with a basic information",
@@ -383,7 +361,7 @@ def get_route_basic(id_route):
     return route[0]
 
 @app.post(
-    path="/",
+    path="/rutas",
     response_model=BaseRoute,
     status_code=status.HTTP_201_CREATED,
     summary="create a route",
@@ -472,7 +450,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
     return route
 
 @app.put(
-    path="/{id_route}",
+    path="/rutas/{id_route}",
     response_model=RouteDescriptionCreate,
     status_code=status.HTTP_200_OK,
     summary="update a route",
@@ -569,7 +547,7 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     return route
 
 @app.delete(
-    path="/{id_route}",
+    path="/rutas/{id_route}",
     response_model=RouteDescriptionCreate,
     status_code=status.HTTP_200_OK,
     summary="delete a route",
@@ -617,6 +595,7 @@ def delete_route(id_route):
     
     return route
 
+
 # Courses
 @app.get(
     path="/cursos",
@@ -626,7 +605,17 @@ def delete_route(id_route):
     tags=["Courses"]
 )
 def courses():
-    pass
+    """
+    This path operation returns all courses
+
+    Parameters:
+
+    Returns a list of routes with a BaseCourse structure:
+    """
+    with open('./data/courses.json') as f:
+        courses = json.loads(f.read())
+    
+    return courses
 
 @app.get(
     path="/clases/{id_course}",
@@ -635,8 +624,90 @@ def courses():
     summary="get a basic description of a course",
     tags=["Courses"]
 )
-def class_course():
-    pass
+def class_course(id_course):
+    """
+    This path operation return the description for a route
+
+    Parameters:
+        - id_course: str
+    
+    Returns a course with with a CourseInfo structure:
+    """
+    with open('./data/courses.json') as f:
+        courses = json.loads(f.read())
+
+    # id_course must be valid
+    id_courses = list(map(lambda c: c['id_course'], courses))
+    if id_course not in id_courses:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id course {id_course}"
+        )
+    del id_courses
+
+    course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
+    # get the teacher information
+    with open('./data/teachers.json', 'r') as f:
+        teachers = json.loads(f.read())
+
+    teacher = list(filter(lambda t: t["id_teacher"] == course["id_teacher"], teachers))[0]
+    del teachers
+    course["id_teacher"] = teacher
+    del teacher
+
+    # get the routes information
+    with open('./data/routes.json', 'r') as f:
+        routes = json.loads(f.read())
+
+    routes = list(filter(lambda r: r["id_route"] in course["routes"], routes))
+    course["routes"] = routes
+    del routes
+
+    # get the class information
+    with open('./data/classes.json', 'r') as f:
+        all_classes = json.loads(f.read())
+    
+    for m in course["modules"]:
+        classes = list(filter(lambda c: c["id_class"] in m["classes"], all_classes))
+        m["classes"] = classes
+    del all_classes
+
+    # get the project information
+    with open('./data/projects.json', 'r') as f:
+        projects = json.loads(f.read())
+
+    # get the tutorials information
+    with open('./data/tutorials.json', 'r') as f:
+        tutorials = json.loads(f.read())
+
+    # get the comments information
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    return course
+
+@app.get(
+    path="/clases/{id_course}/basic",
+    response_model=CourseInfo,
+    status_code=status.HTTP_200_OK,
+    summary="get a basic description of a course",
+    tags=["Courses"]
+)
+def class_course(id_course):
+    """
+    This path operation return the description for a route
+
+    Parameters:
+        - id_route: str
+    
+    Returns a route with with a CourseInfo structure:
+    """
+    with open('./data/courses.json') as f:
+        courses = json.loads(f.read())
+
+    course = list(filter(lambda c: c, courses))
+    del courses
+    return courses
 
 @app.get(
     path="/cursos/{id_course}",
@@ -646,6 +717,14 @@ def class_course():
     tags=["Courses"]
 )
 def get_course():
+    """
+    This path operation return the description for a route
+
+    Parameters:
+        - id_route: str
+    
+    Returns a route with with a CourseInfoComplete structure:
+    """
     pass
 
 @app.post(
@@ -677,6 +756,7 @@ def put_course():
 )
 def delete_course():
     pass
+
 
 # Classes
 @app.get(
@@ -728,6 +808,7 @@ def put_classes():
 )
 def delete_classes():
     pass
+
 
 # Contributions
 

@@ -8,7 +8,22 @@
             "routes"
         ],
         "modules": [
-            "modules"
+            {
+                "id_module": "module1",
+                "name": "moludo 1.0",
+                "classes": [
+                    "class1",
+                    "class2"
+                ]
+            },
+            {
+                "id_module": "module2",
+                "name": "moludo 2.0",
+                "classes": [
+                    "class2",
+                    "class3"
+                ]
+            }
         ],
         "time_content": 3,
         "project": "project1",
@@ -36,7 +51,22 @@
             "routes"
         ],
         "modules": [
-            "modules"
+            {
+                "id_module": "module1",
+                "name": "moludo 1.0",
+                "classes": [
+                    "class1",
+                    "class2"
+                ]
+            },
+            {
+                "id_module": "module2",
+                "name": "moludo 2.0",
+                "classes": [
+                    "class2",
+                    "class3"
+                ]
+            }
         ],
         "time_content": 3,
         "project": "project1",
@@ -64,7 +94,22 @@
             "routes"
         ],
         "modules": [
-            "modules"
+            {
+                "id_module": "module1",
+                "name": "moludo 1.0",
+                "classes": [
+                    "class1",
+                    "class2"
+                ]
+            },
+            {
+                "id_module": "module2",
+                "name": "moludo 2.0",
+                "classes": [
+                    "class2",
+                    "class3"
+                ]
+            }
         ],
         "time_content": 3,
         "project": "project1",
@@ -92,7 +137,22 @@
             "routes"
         ],
         "modules": [
-            "modules"
+            {
+                "id_module": "module1",
+                "name": "moludo 1.0",
+                "classes": [
+                    "class1",
+                    "class2"
+                ]
+            },
+            {
+                "id_module": "module2",
+                "name": "moludo 2.0",
+                "classes": [
+                    "class2",
+                    "class3"
+                ]
+            }
         ],
         "time_content": 3,
         "project": "project1",

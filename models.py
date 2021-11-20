@@ -233,17 +233,24 @@ class TeacherComplete(TeacherBasic):
 
 ## Courses
 class CourseInfoBasic(BaseCourse):
+    teacher: List[str] = Field(...)
+    routes: Optional[List[str]] = Field(default=[])
+    modules: List[Module] = Field(...)
+    time_content: int = Field(..., gt=1, le=7)
+    project: Optional[Project] = Field(default=None)
+
+class CourseInfoClass(BaseCourse):
     teacher: BaseTeacher = Field(...)
     routes: Optional[List[BaseRoute]] = Field(default=[])
     modules: List[Module] = Field(...)
     time_content: int = Field(..., gt=1, le=7)
     project: Optional[Project] = Field(default=None)
 
-class CourseInfo(CourseInfoBasic):
+class CourseInfo(CourseInfoClass):
     tutorials: Optional[List[BaseContributionTitle]] = Field(default=[])
     comments: Optional[List[Contribution]] = Field(default=[])
 
-class CourseInfoComplete(CourseInfoBasic):
+class CourseInfoComplete(CourseInfoClass):
     description: str = Field(
         ...,
         min_length=1,

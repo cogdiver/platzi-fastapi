@@ -1,1 +1,29 @@
-{}
+[
+    {
+        "id_class": "class1",
+        "name": "class 1",
+        "course": "course",
+        "video_url": "video_url",
+        "description": "description",
+        "resourses": "resourses",
+        "contribution": "contribution"
+    },
+    {
+        "id_class": "class2",
+        "name": "class 2",
+        "course": "course",
+        "video_url": "video_url",
+        "description": "description",
+        "resourses": "resourses",
+        "contribution": "contribution"
+    },
+    {
+        "id_class": "class3",
+        "name": "class 3",
+        "course": "course",
+        "video_url": "video_url",
+        "description": "description",
+        "resourses": "resourses",
+        "contribution": "contribution"
+    }
+]
