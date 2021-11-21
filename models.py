@@ -166,6 +166,7 @@ class Resourse(BaseModel):
     url: HttpUrl = Field(...)
 
 class BaseContribution(BaseModel):
+    id_contribution: UUID = Field(...)
     user: BaseUser = Field(...)
     date_publication: date = Field(...)
     likes: int = Field(..., ge=0)
@@ -177,7 +178,6 @@ class BaseContributionBasic(BaseContribution):
     )
 
 class Contribution(BaseContributionBasic):
-    id_contribution: UUID = Field(...)
     kind: TypeContribution = Field(...)
 
 ### Comments and Foro
@@ -198,7 +198,7 @@ class ContributionTitle(BaseContributionTitle):
 
 ## Classes
 class Module(BaseModel):
-    id_module: UUID = Field(...)
+    id_module: str = Field(...) # UUID
     name: str = Field(
         ...,
         min_length=1,

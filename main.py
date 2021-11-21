@@ -687,7 +687,7 @@ def class_course(id_course):
     with open('./data/tutorials.json', 'r') as f:
         tutorials = json.loads(f.read())
     
-    tutorials = list(filter(lambda t: t["id_tutorial"] in course["id_tutorials"], tutorials))
+    tutorials = list(filter(lambda t: t["id_contribution"] in course["id_tutorials"], tutorials))
 
     ## get the user information for the tutorials
     with open('./data/users.json', 'r') as f:
@@ -696,7 +696,6 @@ def class_course(id_course):
     for t in tutorials:
         t["user"] = list(filter(lambda u: u["id_user"] == t["id_user"], users))[0]
     
-    del users
     course["tutorials"] = tutorials
     del tutorials
 
@@ -705,6 +704,13 @@ def class_course(id_course):
         comments = json.loads(f.read())
 
     comments = list(filter(lambda c: c["id_contribution"] in course["id_comments"], comments))
+    
+    ## get the user information for the comments
+    for c in comments:
+        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+    
+    del users
+    course["comments"] = comments
     del comments
 
     return course
