@@ -3,15 +3,15 @@
         "id_course": "python",
         "name": "name",
         "image_url": "https://image_url.png",
-        "teacher": "teacher1",
-        "routes": [
+        "id_teacher": "teacher1",
+        "id_routes": [
             "routes"
         ],
         "modules": [
             {
                 "id_module": "module1",
                 "name": "moludo 1.0",
-                "classes": [
+                "id_classes": [
                     "class1",
                     "class2"
                 ]
@@ -19,7 +19,7 @@
             {
                 "id_module": "module2",
                 "name": "moludo 2.0",
-                "classes": [
+                "id_classes": [
                     "class2",
                     "class3"
                 ]
@@ -27,11 +27,12 @@
         ],
         "time_content": 3,
         "project": "project1",
-        "tutorials": [
-            "tutorials"
+        "id_tutorials": [
+            "tutorial1",
+            "tutorial2"
         ],
-        "comments": [
-            "comments"
+        "id_comments": [
+            "f733dbc2-4aee-11ec-81d3-0242ac130003"
         ],
         "description": "description",
         "time_practice": 10,
@@ -47,14 +48,14 @@
         "name": "name",
         "image_url": "https://image_url.png",
         "teacher": "teacher1",
-        "routes": [
+        "id_routes": [
             "routes"
         ],
         "modules": [
             {
                 "id_module": "module1",
                 "name": "moludo 1.0",
-                "classes": [
+                "id_classes": [
                     "class1",
                     "class2"
                 ]
@@ -62,7 +63,7 @@
             {
                 "id_module": "module2",
                 "name": "moludo 2.0",
-                "classes": [
+                "id_classes": [
                     "class2",
                     "class3"
                 ]
@@ -70,11 +71,11 @@
         ],
         "time_content": 3,
         "project": "project1",
-        "tutorials": [
-            "tutorials"
+        "id_tutorials": [
+            "tutorial3"
         ],
-        "comments": [
-            "comments"
+        "id_comments": [
+            "f2630d8e-4aee-11ec-81d3-0242ac130003"
         ],
         "description": "description",
         "time_practice": 10,
@@ -90,14 +91,14 @@
         "name": "name",
         "image_url": "https://image_url.png",
         "teacher": "teacher1",
-        "routes": [
+        "id_routes": [
             "routes"
         ],
         "modules": [
             {
                 "id_module": "module1",
                 "name": "moludo 1.0",
-                "classes": [
+                "id_classes": [
                     "class1",
                     "class2"
                 ]
@@ -105,7 +106,7 @@
             {
                 "id_module": "module2",
                 "name": "moludo 2.0",
-                "classes": [
+                "id_classes": [
                     "class2",
                     "class3"
                 ]
@@ -113,11 +114,11 @@
         ],
         "time_content": 3,
         "project": "project1",
-        "tutorials": [
-            "tutorials"
+        "id_tutorials": [
+            "tutorial4"
         ],
-        "comments": [
-            "comments"
+        "id_comments": [
+            "ec6323a6-4aee-11ec-81d3-0242ac130003"
         ],
         "description": "description",
         "time_practice": 10,
@@ -133,14 +134,14 @@
         "name": "name",
         "image_url": "https://image_url.png",
         "teacher": "teacher1",
-        "routes": [
+        "id_routes": [
             "routes"
         ],
         "modules": [
             {
                 "id_module": "module1",
                 "name": "moludo 1.0",
-                "classes": [
+                "id_classes": [
                     "class1",
                     "class2"
                 ]
@@ -148,19 +149,19 @@
             {
                 "id_module": "module2",
                 "name": "moludo 2.0",
-                "classes": [
+                "id_classes": [
                     "class2",
                     "class3"
                 ]
             }
         ],
         "time_content": 3,
-        "project": "project1",
-        "tutorials": [
-            "tutorials"
+        "id_project": "project2",
+        "id_tutorials": [
+            "tutorial5"
         ],
-        "comments": [
-            "comments"
+        "id_comments": [
+            "192e6f44-4aef-11ec-81d3-0242ac130003"
         ],
         "description": "description",
         "time_practice": 10,

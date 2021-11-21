@@ -646,20 +646,22 @@ def class_course(id_course):
     del id_courses
 
     course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
+    del courses
+
     # get the teacher information
     with open('./data/teachers.json', 'r') as f:
         teachers = json.loads(f.read())
 
     teacher = list(filter(lambda t: t["id_teacher"] == course["id_teacher"], teachers))[0]
     del teachers
-    course["id_teacher"] = teacher
+    course["teacher"] = teacher
     del teacher
 
     # get the routes information
     with open('./data/routes.json', 'r') as f:
         routes = json.loads(f.read())
 
-    routes = list(filter(lambda r: r["id_route"] in course["routes"], routes))
+    routes = list(filter(lambda r: r["id_route"] in course["id_routes"], routes))
     course["routes"] = routes
     del routes
 
@@ -668,7 +670,7 @@ def class_course(id_course):
         all_classes = json.loads(f.read())
     
     for m in course["modules"]:
-        classes = list(filter(lambda c: c["id_class"] in m["classes"], all_classes))
+        classes = list(filter(lambda c: c["id_class"] in m["id_classes"], all_classes))
         m["classes"] = classes
     del all_classes
 
@@ -676,13 +678,34 @@ def class_course(id_course):
     with open('./data/projects.json', 'r') as f:
         projects = json.loads(f.read())
 
+    project = list(filter(lambda p: p['id_project']==course['id_project'], projects))[0]
+    del projects
+    course['project'] = project
+    del project
+
     # get the tutorials information
     with open('./data/tutorials.json', 'r') as f:
         tutorials = json.loads(f.read())
+    
+    tutorials = list(filter(lambda t: t["id_tutorial"] in course["id_tutorials"], tutorials))
+
+    ## get the user information for the tutorials
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    for t in tutorials:
+        t["user"] = list(filter(lambda u: u["id_user"] == t["id_user"], users))[0]
+    
+    del users
+    course["tutorials"] = tutorials
+    del tutorials
 
     # get the comments information
     with open('./data/comments.json', 'r') as f:
         comments = json.loads(f.read())
+
+    comments = list(filter(lambda c: c["id_contribution"] in course["id_comments"], comments))
+    del comments
 
     return course
 
@@ -734,7 +757,7 @@ def get_course():
     summary="create a course",
     tags=["Courses"]
 )
-def post_course():
+def post_course(id_course, course: CourseInfo =  Body(...)):
     pass
 
 @app.put(

@@ -140,6 +140,11 @@ class UserLogin(BaseUser):
 
 ## Contributions
 class Project(BaseModel):
+    id_project: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
     title: str = Field(
         ...,
         min_length=1,
