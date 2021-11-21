@@ -197,13 +197,17 @@ class ContributionTitle(BaseContributionTitle):
 
 
 ## Classes
-class Module(BaseModel):
+class BaseModule(BaseModel):
     id_module: str = Field(...) # UUID
     name: str = Field(
         ...,
         min_length=1,
         max_length=100
     )
+class ModuleBasic(BaseModule):
+    id_classes: List[str] = Field(...)
+
+class Module(BaseModule):
     classes: List[BaseClass] = Field(...)
 
 class ClassContent(BaseClass):
@@ -237,18 +241,29 @@ class TeacherComplete(TeacherBasic):
 
 
 ## Courses
-class CourseInfoBasic(BaseCourse):
-    teacher: List[str] = Field(...)
-    routes: Optional[List[str]] = Field(default=[])
-    modules: List[Module] = Field(...)
+class BaseCourseInfo(BaseCourse):
     time_content: int = Field(..., gt=1, le=7)
-    project: Optional[Project] = Field(default=None)
+
+class CourseInfoBasic(BaseCourse):
+    id_teacher: str = Field(...)
+    id_routes: Optional[List[str]] = Field(default=[])
+    modules: List[ModuleBasic] = Field(...)
+    id_project: Optional[str] = Field(default=None)
+    id_tutorials: Optional[List[UUID]] = Field(default=[])
+    id_comments: Optional[List[UUID]] = Field(default=[])
+    description: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
+    time_practice: int = Field(..., gt=1, le=25)
+    previous_knowledge: Optional[List[str]] = Field(default=[])
+    software: Optional[List[str]] = Field(default=[])
 
 class CourseInfoClass(BaseCourse):
     teacher: BaseTeacher = Field(...)
     routes: Optional[List[BaseRoute]] = Field(default=[])
     modules: List[Module] = Field(...)
-    time_content: int = Field(..., gt=1, le=7)
     project: Optional[Project] = Field(default=None)
 
 class CourseInfo(CourseInfoClass):

@@ -717,26 +717,34 @@ def class_course(id_course):
 
 @app.get(
     path="/clases/{id_course}/basic",
-    response_model=CourseInfo,
+    response_model=CourseInfoBasic,
     status_code=status.HTTP_200_OK,
     summary="get a basic description of a course",
     tags=["Courses"]
 )
-def class_course(id_course):
+def class_course_basic(id_course):
     """
-    This path operation return the description for a route
+    This path operation return the basic description for a route
 
     Parameters:
         - id_route: str
     
-    Returns a route with with a CourseInfo structure:
+    Returns a route with with a CourseInfoBasic structure:
     """
     with open('./data/courses.json') as f:
         courses = json.loads(f.read())
 
-    course = list(filter(lambda c: c, courses))
-    del courses
-    return courses
+    # id_course must be valid
+    id_courses = list(map(lambda c: c['id_course'], courses))
+    if id_course not in id_courses:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id course {id_course}"
+        )
+    del id_courses
+    course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
+
+    return course
 
 @app.get(
     path="/cursos/{id_course}",
