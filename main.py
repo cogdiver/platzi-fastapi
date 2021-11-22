@@ -1109,8 +1109,18 @@ def get_classes_basic(id_class):
     with open('./data/classes.json') as f:
         classes = json.loads(f.read())
 
-    class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
+    # id_class mush be valid
+    id_classes = list(map(lambda c: c["id_class"], classes))
+    if id_class not in id_classes:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id class '{id_class}'"
+        )
+    del id_classes
 
+    class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
+    del classes
+    
     # Parsing class resourses
     for r in class_["resourses"]:
         r["url"] = str(r["url"])
@@ -1124,11 +1134,17 @@ def get_classes_basic(id_class):
     summary="get a complete description of a class",
     tags=["Class"]
 )
-def get_classes():
+def get_classes(id_course, id_class):
     with open('./data/classes.json') as f:
         classes = json.loads(f.read())
+
+    class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
+
+    # Parsing class resourses
+    for r in class_["resourses"]:
+        r["url"] = str(r["url"])
     
-    return classes
+    return class_
 
 @app.post(
     path="/clases/{id_course}/{id_class}",
