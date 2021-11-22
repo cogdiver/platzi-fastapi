@@ -2,7 +2,7 @@
     {
         "id_teacher": "teacher1",
         "name": "name1",
-        "image_teacher_url": "https://image_teacher_url_1.png",
+        "image_teacher_url": "https://images.com/image_teacher_url_1.png",
         "work_position": "work_position_1",
         "short_description": "short_description_1",
         "long_description": "long_description",
@@ -16,7 +16,7 @@
     {
         "id_teacher": "teacher2",
         "name": "name2",
-        "image_teacher_url": "https://image_teacher_url_2.png",
+        "image_teacher_url": "https://images.com/image_teacher_url_2.png",
         "work_position": "work_position_2",
         "short_description": "short_description_2",
         "long_description": "long_description",

@@ -753,16 +753,96 @@ def class_course_basic(id_course):
     summary="get a complete description of a course",
     tags=["Courses"]
 )
-def get_course():
+def get_course(id_course):
     """
-    This path operation return the description for a route
+    This path operation return the complete description for a route
 
     Parameters:
         - id_route: str
     
     Returns a route with with a CourseInfoComplete structure:
     """
-    pass
+    with open('./data/courses.json') as f:
+        courses = json.loads(f.read())
+
+    # id_course must be valid
+    id_courses = list(map(lambda c: c['id_course'], courses))
+    if id_course not in id_courses:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id course {id_course}"
+        )
+    del id_courses
+
+    course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
+    del courses
+
+    # get the teacher information
+    with open('./data/teachers.json', 'r') as f:
+        teachers = json.loads(f.read())
+
+    teacher = list(filter(lambda t: t["id_teacher"] == course["id_teacher"], teachers))[0]
+    del teachers
+    course["teacher"] = teacher
+    del teacher
+
+    # get the routes information
+    with open('./data/routes.json', 'r') as f:
+        routes = json.loads(f.read())
+
+    routes = list(filter(lambda r: r["id_route"] in course["id_routes"], routes))
+    course["routes"] = routes
+    del routes
+
+    # get the class information
+    with open('./data/classes.json', 'r') as f:
+        all_classes = json.loads(f.read())
+    
+    for m in course["modules"]:
+        classes = list(filter(lambda c: c["id_class"] in m["id_classes"], all_classes))
+        m["classes"] = classes
+    del all_classes
+
+    # get the project information
+    with open('./data/projects.json', 'r') as f:
+        projects = json.loads(f.read())
+
+    project = list(filter(lambda p: p['id_project']==course['id_project'], projects))[0]
+    del projects
+    course['project'] = project
+    del project
+
+    # get the tutorials information
+    with open('./data/tutorials.json', 'r') as f:
+        tutorials = json.loads(f.read())
+    
+    tutorials = list(filter(lambda t: t["id_contribution"] in course["id_tutorials"], tutorials))
+
+    ## get the user information for the tutorials
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    for t in tutorials:
+        t["user"] = list(filter(lambda u: u["id_user"] == t["id_user"], users))[0]
+    
+    course["tutorials"] = tutorials
+    del tutorials
+
+    # get the comments information
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    comments = list(filter(lambda c: c["id_contribution"] in course["id_comments"], comments))
+    
+    ## get the user information for the comments
+    for c in comments:
+        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+    
+    del users
+    course["comments"] = comments
+    del comments
+
+    return course
 
 @app.post(
     path="/cursos/{id_course}",

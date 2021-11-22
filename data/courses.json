@@ -92,7 +92,7 @@
         "image_url": "https://image_url.png",
         "id_teacher": "teacher1",
         "id_routes": [
-            "routes"
+            "vue"
         ],
         "modules": [
             {
@@ -135,7 +135,7 @@
         "image_url": "https://image_url.png",
         "id_teacher": "teacher1",
         "id_routes": [
-            "routes"
+            "react"
         ],
         "modules": [
             {
