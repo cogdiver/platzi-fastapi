@@ -1120,7 +1120,7 @@ def get_classes_basic(id_class):
 
     class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
     del classes
-    
+
     # Parsing class resourses
     for r in class_["resourses"]:
         r["url"] = str(r["url"])
@@ -1135,8 +1135,41 @@ def get_classes_basic(id_class):
     tags=["Class"]
 )
 def get_classes(id_course, id_class):
+    with open('./data/courses.json') as f:
+        courses = json.loads(f.read())
+    
+    # id_course mush be valid
+    id_courses = list(map(lambda c: c["id_course"], courses))
+    if id_course not in id_courses:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id course '{id_course}'"
+        )
+    del id_courses
+
     with open('./data/classes.json') as f:
         classes = json.loads(f.read())
+
+    # id_class mush be valid
+    id_classes = list(map(lambda c: c["id_class"], classes))
+    if id_class not in id_classes:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id class '{id_class}'"
+        )
+    del id_classes
+
+    # id_class mush be valid for id_course
+    course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
+    del courses
+    id_classes = list(map(lambda c: c["id_classes"], course["modules"]))
+    id_classes = functools.reduce(lambda a,b: a+b, id_classes)
+    if id_class not in id_classes:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id class '{id_class}' for the id course '{id_course}'"
+        )
+    del id_classes
 
     class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
 
