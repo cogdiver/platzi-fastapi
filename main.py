@@ -725,7 +725,7 @@ def class_course(id_course):
     return course
 
 @app.get(
-    path="/clases/{id_course}/basic",
+    path="/cursos/{id_course}/basic",
     response_model=CourseInfoBasic,
     status_code=status.HTTP_200_OK,
     summary="get a basic description of a course",
@@ -1099,6 +1099,25 @@ def all_classes():
     return classes
 
 @app.get(
+    path="/clases/{id_class}/basic",
+    response_model=ClassContentBasic,
+    status_code=status.HTTP_200_OK,
+    summary="get a complete description of a class",
+    tags=["Class"]
+)
+def get_classes_basic(id_class):
+    with open('./data/classes.json') as f:
+        classes = json.loads(f.read())
+
+    class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
+
+    # Parsing class resourses
+    for r in class_["resourses"]:
+        r["url"] = str(r["url"])
+    
+    return class_
+
+@app.get(
     path="/clases/{id_course}/{id_class}",
     response_model=ClassContent,
     status_code=status.HTTP_200_OK,
@@ -1106,7 +1125,10 @@ def all_classes():
     tags=["Class"]
 )
 def get_classes():
-    pass
+    with open('./data/classes.json') as f:
+        classes = json.loads(f.read())
+    
+    return classes
 
 @app.post(
     path="/clases/{id_course}/{id_class}",
@@ -1116,7 +1138,10 @@ def get_classes():
     tags=["Class"]
 )
 def post_classes():
-    pass
+    with open('./data/classes.json') as f:
+        classes = json.loads(f.read())
+    
+    return classes
 
 @app.put(
     path="/clases/{id_course}/{id_class}",
@@ -1126,7 +1151,10 @@ def post_classes():
     tags=["Class"]
 )
 def put_classes():
-    pass
+    with open('./data/classes.json') as f:
+        classes = json.loads(f.read())
+    
+    return classes
 
 @app.delete(
     path="/clases/{id_course}/{id_class}",
@@ -1136,7 +1164,10 @@ def put_classes():
     tags=["Class"]
 )
 def delete_classes():
-    pass
+    with open('./data/classes.json') as f:
+        classes = json.loads(f.read())
+    
+    return classes
 
 
 # Contributions

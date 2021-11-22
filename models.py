@@ -211,13 +211,19 @@ class ModuleBasic(BaseModule):
 class Module(BaseModule):
     classes: List[BaseClass] = Field(...)
 
+class ClassContentBasic(BaseClass):
+    video_url: HttpUrl = Field(...)
+    description: Optional[str] = Field(default=None)
+    resourses: Optional[List[Resourse]] = Field(default=[])
+    id_comments: Optional[List[UUID]] = Field(default=[])
+
 class ClassContent(BaseClass):
     course: BaseCourse = Field(...)
     video_url: HttpUrl = Field(...)
     modules: List[Module] = Field(...)
     description: Optional[str] = Field(default=None)
     resourses: Optional[List[Resourse]] = Field(default=[])
-    contribution: Optional[List[ContributionAnswer]] = Field(default=[])
+    comments: Optional[List[ContributionAnswer]] = Field(default=[])
 
 
 ## Teachers
