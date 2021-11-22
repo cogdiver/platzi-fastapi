@@ -1093,7 +1093,10 @@ def delete_course(id_course):
     tags=["Class"]
 )
 def all_classes():
-    pass
+    with open('./data/classes.json') as f:
+        classes = json.loads(f.read())
+    
+    return classes
 
 @app.get(
     path="/clases/{id_course}/{id_class}",

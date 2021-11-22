@@ -204,6 +204,7 @@ class BaseModule(BaseModel):
         min_length=1,
         max_length=100
     )
+
 class ModuleBasic(BaseModule):
     id_classes: List[str] = Field(...)
 
