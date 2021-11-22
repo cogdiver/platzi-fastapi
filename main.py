@@ -164,13 +164,6 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
     """
     category = category.dict()
 
-    # Considering remove this restriction
-    if id_category != category['id_category']:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid ids category '{id_category}' and '{category['id_category']}'"
-        )
-
     with open('./data/categories.json', 'r', encoding='utf-8') as f:
         categories = json.loads(f.read())
 
@@ -183,6 +176,17 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
             detail=f"HTTP_404_NOT_FOUND: Invalid id category '{id_category}'"
         )
     del id_categories
+
+    # name must be unique
+    temp_categories = list(filter(lambda c: c["id_category"] != id_category, categories))
+    name_categories = list(map(lambda c: c['name'], temp_categories))
+    if category["name"] in name_categories:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name category '{category['name']}'"
+        )
+    del temp_categories
+    del name_categories
     
     with open('./data/routes.json', 'r', encoding='utf-8') as f2:
         routes = json.loads(f2.read())
@@ -467,14 +471,8 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     Return the updated route in a json with a BaseRoute structure
     """
     route = route.dict()
-    
-    # Considering remove this restriction
-    if id_route != route['id_route']:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid ids route '{id_route}' and '{route['id_route']}'"
-        )
 
+    
     with open('./data/routes.json', 'r', encoding='utf-8') as f:
         routes = json.loads(f.read())
     
@@ -486,6 +484,17 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
             detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
         )
     del id_routes
+
+    # name must be unique
+    temp_routes = list(filter(lambda r: r["id_route"] != id_route, routes))
+    name_routes = list(map(lambda r: r['name'], temp_routes))
+    if route["name"] in name_routes:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name route '{route['name']}'"
+        )
+    del temp_routes
+    del name_routes
     
     # the id_glossaries must be valid if exist
     if 'glossary' in route:
@@ -942,13 +951,99 @@ def post_course(course: CourseInfoBasic =  Body(...)):
 
 @app.put(
     path="/cursos/{id_course}",
-    response_model=CourseInfoComplete,
+    response_model=CourseInfoBasic,
     status_code=status.HTTP_200_OK,
     summary="update a course",
     tags=["Courses"]
 )
-def put_course():
-    pass
+def put_course(id_course, course: CourseInfoBasic = Body(...)):
+    """
+    This path operation update a new course
+
+    Parameters:
+        - course: CourseInfoBasic
+    
+    Return the new course in a json with a CourseInfoBasic structure
+    """
+    course = course.dict()
+    with open('./data/courses.json', 'r', encoding='utf-8') as f:
+        courses = json.loads(f.read())
+    
+    # id_course must be valid
+    id_courses = list(map(lambda c: c['id_course'], courses))
+    if id_course in id_courses:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id route '{id_course}'"
+        )
+    
+    # name must be unique
+    temp_course = list(filter(lambda c: c["id_course"] != id_course, courses))
+    name_courses = list(map(lambda c: c['name'], temp_course))
+    if course["name"] in name_courses:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name course '{course['name']}'"
+        )
+    
+    # the id in the key must be valid
+    keys = ["id_teacher", "id_project"]
+    for key in keys:
+        with open(f'./data/{key.split("_")[1]}s.json', 'r') as f:
+            temp_file = json.loads(f.read())
+        
+        id_temps = list(map(lambda t: t[key], temp_file))
+        if course[key] not in id_temps:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id {key.split('_')[1]} '{course[key]}'"
+            )
+    
+    # Parsing course
+    course["image_url"] = str(course["image_url"])
+    for key in ["id_tutorials", "id_comments"]:
+        course[key] = [str(v) for v in course[key]]
+
+    # the ids for the opcional keys must be valid if exist
+    optionals = {
+        "id_routes": "id_route",
+        "id_tutorials": "id_contribution",
+        "id_comments": "id_contribution"
+    }
+    for key, id_file in optionals.items():
+        if key in course:
+            with open(f'./data/{key.split("_")[1]}.json', 'r') as f:
+                temp_file = json.loads(f.read())
+            
+            id_temps = list(map(lambda t: t[id_file], temp_file))
+            for t in course[key]:
+                if t not in id_temps:
+                    raise HTTPException(
+                        status_code=404,
+                        detail=f"HTTP_404_NOT_FOUND: Invalid id {key.split('_')[1][:-1]} '{t}'"
+                    )
+    
+    # the id_classes must be valid
+    with open('./data/classes.json', 'r') as f:
+        classes = json.loads(f.read())
+    
+    id_classes = list(map(lambda c: c['id_class'], classes))
+    classes = list(map(lambda m: m["id_classes"], course["modules"]))
+    classes = functools.reduce(lambda a,b: a + b, classes)
+
+    for c in classes:
+        if c not in id_classes:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id course '{c}'"
+            )
+
+    # Save the course
+    courses.append(course)
+    with open('./data/courses.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(courses, ensure_ascii=False))
+    
+    return course
 
 @app.delete(
     path="/cursos/{id_course}",
