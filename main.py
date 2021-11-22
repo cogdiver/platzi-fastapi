@@ -1055,8 +1055,33 @@ def put_course(id_course, course: CourseInfoBasic = Body(...)):
     summary="delete a course",
     tags=["Courses"]
 )
-def delete_course():
-    pass
+def delete_course(id_course):
+    """
+    This path operation delete a new course
+
+    Parameters:
+        - course: CourseInfoBasic
+    
+    Return the deleted course in a json with a CourseInfoBasic structure
+    """
+    with open('./data/courses.json', 'r', encoding='utf-8') as f:
+        courses = json.loads(f.read())
+    
+    # id_course must be valid
+    id_courses = list(map(lambda c: c['id_course'], courses))
+    if id_course not in id_courses:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id course '{id_course}'"
+        )
+    
+    # Save the course
+    course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
+    courses = list(filter(lambda c: c["id_course"] != id_course, courses))
+    with open('./data/courses.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(courses, ensure_ascii=False))
+    
+    return course
 
 
 # Classes
