@@ -1,7 +1,7 @@
 [
     {
         "id_course": "python",
-        "name": "name",
+        "name": "name_python",
         "image_url": "https://image_url.png",
         "id_teacher": "teacher1",
         "id_routes": [
@@ -45,7 +45,7 @@
     },
     {
         "id_course": "scrapy",
-        "name": "name",
+        "name": "name_scrapy",
         "image_url": "https://image_url.png",
         "id_teacher": "teacher1",
         "id_routes": [
@@ -88,7 +88,7 @@
     },
     {
         "id_course": "git",
-        "name": "name",
+        "name": "name_git",
         "image_url": "https://image_url.png",
         "id_teacher": "teacher1",
         "id_routes": [
@@ -131,7 +131,7 @@
     },
     {
         "id_course": "programacion_basica",
-        "name": "name",
+        "name": "name_programacion_basica",
         "image_url": "https://image_url.png",
         "id_teacher": "teacher1",
         "id_routes": [

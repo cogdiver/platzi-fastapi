@@ -845,14 +845,100 @@ def get_course(id_course):
     return course
 
 @app.post(
-    path="/cursos/{id_course}",
-    response_model=CourseInfoComplete,
+    path="/cursos",
+    response_model=CourseInfoBasic,
     status_code=status.HTTP_201_CREATED,
     summary="create a course",
     tags=["Courses"]
 )
-def post_course(id_course, course: CourseInfo =  Body(...)):
-    pass
+def post_course(course: CourseInfoBasic =  Body(...)):
+    """
+    This path operation create a new course
+
+    Parameters:
+        - course: CourseInfoBasic
+    
+    Return the new course in a json with a CourseInfoBasic structure
+    """
+    course = course.dict()
+    with open('./data/courses.json', 'r', encoding='utf-8') as f:
+        courses = json.loads(f.read())
+    
+    # id_course must be unique
+    id_courses = list(map(lambda c: c['id_course'], courses))
+    if course["id_course"] in id_courses:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id route '{course['id_course']}'"
+        )
+    
+    # name must be unique
+    name_courses = list(map(lambda c: c['name'], courses))
+    if course["name"] in name_courses:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name course '{course['name']}'"
+        )
+    
+    # the id in the key must be valid
+    keys = ["id_teacher", "id_project"]
+    for key in keys:
+        with open(f'./data/{key.split("_")[1]}s.json', 'r') as f:
+            temp_file = json.loads(f.read())
+        
+        id_temps = list(map(lambda t: t[key], temp_file))
+        if course[key] not in id_temps:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id {key.split('_')[1]} '{course[key]}'"
+            )
+    
+    # Parsing course
+    course["image_url"] = str(course["image_url"])
+    for key in ["id_tutorials", "id_comments"]:
+        course[key] = [str(v) for v in course[key]]
+
+    # the ids for the opcional keys must be valid if exist
+    optionals = {
+        "id_routes": "id_route",
+        "id_tutorials": "id_contribution",
+        "id_comments": "id_contribution"
+    }
+    for key, id_file in optionals.items():
+        if key in course:
+            with open(f'./data/{key.split("_")[1]}.json', 'r') as f:
+                temp_file = json.loads(f.read())
+            
+            id_temps = list(map(lambda t: t[id_file], temp_file))
+            for t in course[key]:
+                if t not in id_temps:
+                    raise HTTPException(
+                        status_code=404,
+                        detail=f"HTTP_404_NOT_FOUND: Invalid id {key.split('_')[1][:-1]} '{t}'"
+                    )
+    
+    # the id_classes must be valid
+    with open('./data/classes.json', 'r') as f:
+        classes = json.loads(f.read())
+    
+    id_classes = list(map(lambda c: c['id_class'], classes))
+    classes = list(map(lambda m: m["id_classes"], course["modules"]))
+    classes = functools.reduce(lambda a,b: a + b, classes)
+
+    for c in classes:
+        if c not in id_classes:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id course '{c}'"
+            )
+
+    # Save the course
+    courses.append(course)
+    with open('./data/courses.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(courses, ensure_ascii=False))
+    
+    return course
+
 
 @app.put(
     path="/cursos/{id_course}",
