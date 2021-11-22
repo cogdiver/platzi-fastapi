@@ -971,21 +971,23 @@ def put_course(id_course, course: CourseInfoBasic = Body(...)):
     
     # id_course must be valid
     id_courses = list(map(lambda c: c['id_course'], courses))
-    if id_course in id_courses:
+    if id_course not in id_courses:
         raise HTTPException(
             status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id route '{id_course}'"
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id course '{id_course}'"
         )
     
     # name must be unique
-    temp_course = list(filter(lambda c: c["id_course"] != id_course, courses))
-    name_courses = list(map(lambda c: c['name'], temp_course))
+    temp_courses = list(filter(lambda c: c["id_course"] != id_course, courses))
+    name_courses = list(map(lambda c: c['name'], temp_courses))
     if course["name"] in name_courses:
         raise HTTPException(
             status_code=406,
             detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name course '{course['name']}'"
         )
-    
+    del temp_courses    
+    del name_courses
+
     # the id in the key must be valid
     keys = ["id_teacher", "id_project"]
     for key in keys:
@@ -1039,6 +1041,7 @@ def put_course(id_course, course: CourseInfoBasic = Body(...)):
             )
 
     # Save the course
+    courses = list(filter(lambda c: c["id_course"] != id_course, courses))
     courses.append(course)
     with open('./data/courses.json', 'w', encoding='utf-8') as f:
         f.write(json.dumps(courses, ensure_ascii=False))
@@ -1047,7 +1050,7 @@ def put_course(id_course, course: CourseInfoBasic = Body(...)):
 
 @app.delete(
     path="/cursos/{id_course}",
-    response_model=CourseInfoComplete,
+    response_model=CourseInfoBasic,
     status_code=status.HTTP_200_OK,
     summary="delete a course",
     tags=["Courses"]

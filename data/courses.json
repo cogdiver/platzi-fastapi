@@ -131,7 +131,7 @@
     },
     {
         "id_course": "programacion_basica",
-        "name": "name_programacion_basica",
+        "name": "programacion basica",
         "image_url": "https://image_url.png",
         "id_teacher": "teacher1",
         "id_routes": [
@@ -155,7 +155,6 @@
                 ]
             }
         ],
-        "time_content": 3,
         "id_project": "project2",
         "id_tutorials": [
             "9e1f46cc-4af1-11ec-81d3-0242ac130003"
