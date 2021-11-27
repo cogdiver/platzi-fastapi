@@ -1550,7 +1550,7 @@ def get_comment(id_comment):
     # get user for comment
     with open('./data/users.json', 'r') as f:
         users = json.loads(f.read())
-    
+
     comment["user"] = list(filter(lambda u: u["id_user"] == comment["id_user"], users))[0]
     
     # get answers
@@ -1576,6 +1576,47 @@ def get_comment(id_comment):
             )
         )
     
+    return comment
+
+@app.get(
+    path="/comentario/{id_comment}/basic",
+    response_model=ContributionBasic,
+    status_code=status.HTTP_200_OK,
+    summary="get a comment",
+    tags=["Comments"]
+)
+def get_comment_basic(id_comment):
+    """
+    This path operation return the basic description for a comment
+
+    Parameters:
+        - id_comment: str
+    
+    Returns a comment with with a ContributionAnswer structure:
+    """
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+    
+    id_comments = list(map(lambda c: c["id_contribution"], comments))
+
+    # id_comment must be valid
+    if id_comment not in id_comments:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id comment '{id_comment}'"
+        )
+    del id_comments
+
+    # get comment
+    comment = list(filter(lambda c: c["id_contribution"]==id_comment, comments))[0]
+    del comments
+
+    # get user for comment
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    comment["user"] = list(filter(lambda u: u["id_user"] == comment["id_user"], users))[0]
+
     return comment
 
 @app.post(
@@ -1763,6 +1804,46 @@ def get_blog(id_blog):
     
     return blog
 
+@app.get(
+    path="/blog/{id_blog}/basic",
+    response_model=ContributionTitleBasic,
+    status_code=status.HTTP_200_OK,
+    summary="get a blog publication",
+    tags=["Blog"],
+)
+def get_blog_basic(id_blog):
+    """
+    This path operation returns the basic description for a blog
+
+    Parameters:
+
+    Returns a blog with a ContributionTitleBasic structure:
+    """
+    with open('./data/blogs.json', 'r') as f:
+        blogs = json.loads(f.read())
+    
+    id_blogs = list(map(lambda c: c["id_contribution"], blogs))
+
+    # id_blog must be valid
+    if id_blog not in id_blogs:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id blog '{id_blog}'"
+        )
+    del id_blogs
+
+    # get blog
+    blog = list(filter(lambda c: c["id_contribution"]==id_blog, blogs))[0]
+    del blogs
+
+    # get user for blog
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    blog["user"] = list(filter(lambda u: u["id_user"] == blog["id_user"], users))[0]
+
+    return blog
+
 @app.post(
     path="/blog/{id_bog}",
     response_model=ContributionTitle,
@@ -1948,6 +2029,47 @@ def get_forum(id_forum):
     
     return forum
 
+@app.get(
+    path="/forum/{id_forum}/basic",
+    response_model=ContributionTitleBasic,
+    status_code=status.HTTP_200_OK,
+    summary="get a forum publication",
+    tags=["Forum"]
+)
+def get_forum_basic(id_forum):
+    """
+    This path operation return the basic description for a forum
+
+    Parameters:
+        - id_forum: str
+    
+    Returns a forum with with a ContributionTitleBasic structure:
+    """
+    with open('./data/forums.json', 'r') as f:
+        forums = json.loads(f.read())
+    
+    id_forums = list(map(lambda c: c["id_contribution"], forums))
+
+    # id_forum must be valid
+    if id_forum not in id_forums:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id forum '{id_forum}'"
+        )
+    del id_forums
+
+    # get forum
+    forum = list(filter(lambda c: c["id_contribution"]==id_forum, forums))[0]
+    del forums
+
+    # get user for forum
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    forum["user"] = list(filter(lambda u: u["id_user"] == forum["id_user"], users))[0]
+
+    return forum
+
 @app.post(
     path="/forum/{id_forum}",
     response_model=ContributionAnswer,
@@ -2131,6 +2253,47 @@ def get_tutorial(id_tutorial):
                 )
             )
     
+    return tutorial
+
+@app.get(
+    path="/tutorial/{id_tutorial}/basic",
+    response_model=ContributionTitleBasic,
+    status_code=status.HTTP_200_OK,
+    summary="get a tutorial publication",
+    tags=["Tutorial"]
+)
+def get_tutorial_basic(id_tutorial):
+    """
+    This path operation return the basic description for a tutorial
+
+    Parameters:
+        - id_tutorial: str
+    
+    Returns a tutorial with with a ContributionTitleBasic structure:
+    """
+    with open('./data/tutorials.json', 'r') as f:
+        tutorials = json.loads(f.read())
+    
+    id_tutorials = list(map(lambda c: c["id_contribution"], tutorials))
+
+    # id_tutorial must be valid
+    if id_tutorial not in id_tutorials:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id tutorial '{id_tutorial}'"
+        )
+    del id_tutorials
+
+    # get tutorial
+    tutorial = list(filter(lambda c: c["id_contribution"]==id_tutorial, tutorials))[0]
+    del tutorials
+
+    # get user for tutorial
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    tutorial["user"] = list(filter(lambda u: u["id_user"] == tutorial["id_user"], users))[0]
+
     return tutorial
 
 @app.post(

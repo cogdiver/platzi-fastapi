@@ -180,7 +180,7 @@ class BaseContributionBasic(BaseContribution):
 class Contribution(BaseContributionBasic):
     kind: TypeContribution = Field(...)
 
-### Comments and Foro
+### Comments
 class ContributionAnswer(Contribution):
     answers: Optional[List[BaseContributionBasic]] = Field(default=[])
 
@@ -191,10 +191,22 @@ class BaseContributionTitle(BaseContribution):
         max_length=100
     )
 
-### Blogs and Tutorials
+### Blogs, Tutorials and Forums
 class ContributionTitle(BaseContributionTitle):
     comments: Optional[List[ContributionAnswer]] = Field(default=[])
 
+### Contributions Basic
+class ContributionBasic(Contribution):
+    answers: Optional[List[UUID]] = Field(default=None)
+    id_user: UUID = Field(...)
+
+class ContributionTitleBasic(BaseContributionTitle):
+    id_comments: Optional[List[UUID]] = Field(default=None)
+    title: str = Field(
+        ...,
+        min_length=1,
+        max_length=100
+    )
 
 ## Classes
 class BaseModule(BaseModel):
