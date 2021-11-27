@@ -1591,7 +1591,7 @@ def get_comment_basic(id_comment):
 
     Parameters:
         - id_comment: str
-    
+
     Returns a comment with with a ContributionAnswer structure:
     """
     with open('./data/comments.json', 'r') as f:
