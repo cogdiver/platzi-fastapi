@@ -219,8 +219,8 @@ class ClassContentBasic(BaseClass):
 
 class ClassContent(BaseClass):
     course: BaseCourse = Field(...)
-    video_url: HttpUrl = Field(...)
     modules: List[Module] = Field(...)
+    video_url: HttpUrl = Field(...)
     description: Optional[str] = Field(default=None)
     resourses: Optional[List[Resourse]] = Field(default=[])
     comments: Optional[List[ContributionAnswer]] = Field(default=[])

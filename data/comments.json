@@ -5,7 +5,11 @@
         "date_publication": "2021-11-21",
         "likes": 10,
         "content": "content",
-        "kind": "comment"
+        "kind": "comment",
+        "id_answers": [
+            "f2630d8e-4aee-11ec-81d3-0242ac130003",
+            "192e6f44-4aef-11ec-81d3-0242ac130003"
+        ]
     },
     {
         "id_contribution": "f2630d8e-4aee-11ec-81d3-0242ac130003",

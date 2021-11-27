@@ -627,7 +627,7 @@ def courses():
     return courses
 
 @app.get(
-    path="/clases/{id_course}",
+    path="/cursos/clases/{id_course}",
     response_model=CourseInfo,
     status_code=status.HTTP_200_OK,
     summary="get a basic description of a course",
@@ -1147,18 +1147,6 @@ def get_classes(id_course, id_class):
         )
     del id_courses
 
-    with open('./data/classes.json') as f:
-        classes = json.loads(f.read())
-
-    # id_class mush be valid
-    id_classes = list(map(lambda c: c["id_class"], classes))
-    if id_class not in id_classes:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id class '{id_class}'"
-        )
-    del id_classes
-
     # id_class mush be valid for id_course
     course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
     del courses
@@ -1169,19 +1157,100 @@ def get_classes(id_course, id_class):
             status_code=404,
             detail=f"HTTP_404_NOT_FOUND: Invalid id class '{id_class}' for the id course '{id_course}'"
         )
-    del id_classes
+
+    with open('./data/classes.json') as f:
+        classes = json.loads(f.read())
 
     class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
+    classes = list(filter(lambda c: c["id_class"] in id_classes, classes))
+    classes = list(map(lambda c: {"id_class": c["id_class"], "name":c["name"]}, classes))
 
     # Parsing class resourses
     for r in class_["resourses"]:
         r["url"] = str(r["url"])
+
+    # get course and modules
+    course["modules"] = list(
+        map(
+            lambda m: {**m, **{"classes": list(
+                filter(
+                    lambda c: c["id_class"] in m["id_classes"],
+                    classes
+                )
+            )}},
+            course["modules"]
+        )
+    )
+    class_["course"] = course
+    del classes
+    class_["modules"] = course["modules"]
+    del course
+
+    # get comments and answers
+    with open('./data/comments.json') as f:
+        all_comments = json.loads(f.read())
     
+    comments = list(filter(lambda c: c['id_contribution'] in class_["id_comments"], all_comments))
+
+    with open('./data/users.json') as f:
+        users = json.loads(f.read())
+    
+    comments = list(
+        map(
+            lambda c: {
+                **c,
+                **{"user": list(
+                    filter(
+                        lambda u: u["id_user"] == c["id_user"],
+                        users
+                    )
+                )[0]},
+            },
+            comments,
+        )
+    )
+    comments = list(
+        map(
+            lambda c: {
+                **c,
+                **{"answers": list(
+                    filter(
+                        lambda a: a["id_contribution"] in c["id_answers"],
+                        all_comments
+                    )
+                )},
+            } if 'id_answers' in c else c,
+            comments,
+        )
+    )
+    comments = list(
+        map(
+            lambda c: {
+                **c,
+                **{"answers": list(
+                    map(
+                        lambda a: {**a, **{'user': list(
+                            filter(
+                                lambda u: u["id_user"] == a["id_user"],
+                                users
+                            )
+                        )[0]}},
+                        c["answers"]
+                    )
+                )},
+            } if 'answers' in c else c,
+            comments,
+        )
+    )
+    del all_comments
+
+    class_["comments"] = comments
+
     return class_
 
 @app.post(
-    path="/clases/{id_course}/{id_class}",
-    response_model=ClassContent,
+    path="/clases/{id_class}",
+    response_model=ClassContentBasic,
     status_code=status.HTTP_201_CREATED,
     summary="create a class for a course",
     tags=["Class"]
@@ -1194,7 +1263,7 @@ def post_classes():
 
 @app.put(
     path="/clases/{id_course}/{id_class}",
-    response_model=ClassContent,
+    response_model=ClassContentBasic,
     status_code=status.HTTP_200_OK,
     summary="update a class",
     tags=["Class"]
@@ -1207,7 +1276,7 @@ def put_classes():
 
 @app.delete(
     path="/clases/{id_course}/{id_class}",
-    response_model=ClassContent,
+    response_model=ClassContentBasic,
     status_code=status.HTTP_200_OK,
     summary="delete a class from a course",
     tags=["Class"]
