@@ -650,7 +650,7 @@ def class_course(id_course):
     if id_course not in id_courses:
         raise HTTPException(
             status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id course {id_course}"
+            detail=f"HTTP_404_NOT_FOUND: Invalid id course '{id_course}'"
         )
     del id_courses
 
@@ -1241,8 +1241,8 @@ def get_class(id_course, id_class):
                         all_comments
                     )
                 )},
-            } if 'id_answers' in c else c,
-            comments,
+            } if c['id_answers'] else c,
+            comments
         )
     )
     comments = list(
@@ -1260,7 +1260,7 @@ def get_class(id_course, id_class):
                         c["answers"]
                     )
                 )},
-            } if 'answers' in c else c,
+            } if c['id_answers'] else c,
             comments,
         )
     )
@@ -1472,7 +1472,48 @@ def delete_classes(id_class):
     tags=["Comments"]
 )
 def all_comments():
-    pass
+    """
+    This path operation returns all comments
+
+    Parameters:
+
+    Returns a list of comments with a ContributionAnswer structure:
+    """
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    comments = list(
+        map(
+            lambda c: {**c, **{"user": list(
+                filter(
+                    lambda u: u["id_user"] == c["id_user"],
+                    users
+                )
+            )[0]}},
+            comments
+        )
+    )
+    del users
+
+    comments = list(
+        map(
+            lambda c: {
+                **c,
+                **{"answers": list(
+                    filter(
+                        lambda a: a["id_contribution"] in c["id_answers"],
+                        comments
+                    )
+                )}
+            } if c["id_answers"] else c,
+            comments
+        )
+    )
+    
+    return comments
 
 @app.get(
     path="/comentario/{id_comment}",
@@ -1481,8 +1522,61 @@ def all_comments():
     summary="get a comment",
     tags=["Comments"]
 )
-def get_comment():
-    pass
+def get_comment(id_comment):
+    """
+    This path operation return the complete information for a comment
+
+    Parameters:
+        - id_comment: str
+    
+    Returns a comment with with a ContributionAnswer structure:
+    """
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+    
+    id_comments = list(map(lambda c: c["id_contribution"], comments))
+
+    # id_comment must be valid
+    if id_comment not in id_comments:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id id_comment '{id_comment}'"
+        )
+    del id_comments
+
+    # get comment
+    comment = list(filter(lambda c: c["id_contribution"]==id_comment, comments))[0]
+
+    # get user for comment
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+    
+    comment["user"] = list(filter(lambda u: u["id_user"] == comment["id_user"], users))[0]
+    
+    # get answers
+    if comment["id_answers"]:
+        comment["answers"] = list(
+            filter(
+                lambda a: a["id_contribution"] in comment["id_answers"],
+                comments
+            )
+        )
+        del comments
+    
+        ## get users for answers
+        comment["answers"] = list(
+            map(
+                lambda a: {**a, **{"user": list(
+                    filter(
+                        lambda u: u["id_user"] == a["id_user"],
+                        users
+                    )
+                )[0]}},
+                comment["answers"]
+            )
+        )
+    
+    return comment
 
 @app.post(
     path="/comentario/{id_comment}",
@@ -1523,7 +1617,13 @@ def delete_comment():
     tags=["Blog"],
 )
 def all_blogs():
-    pass
+    """
+    This path operation returns all classes
+
+    Parameters:
+
+    Returns a list of classes with a BaseClass structure:
+    """
 
 @app.get(
     path="/blog/{id_bog}",
@@ -1574,7 +1674,13 @@ def delete_blog():
     tags=["Foro"]
 )
 def all_foros():
-    pass
+    """
+    This path operation returns all classes
+
+    Parameters:
+
+    Returns a list of classes with a BaseClass structure:
+    """
 
 @app.get(
     path="/comunidad/{id_foro}",
@@ -1625,7 +1731,13 @@ def delete_foro():
     tags=["Tutorial"]
 )
 def all_tutorials():
-    pass
+    """
+    This path operation returns all classes
+
+    Parameters:
+
+    Returns a list of classes with a BaseClass structure:
+    """
 
 @app.get(
     path="/tutorial/{id_tutorial}",
