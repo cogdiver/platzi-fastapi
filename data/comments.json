@@ -17,8 +17,7 @@
         "date_publication": "2021-11-21",
         "likes": 10,
         "content": "content",
-        "kind": "comment",
-        "id_answers": []
+        "kind": "comment"
     },
     {
         "id_contribution": "192e6f44-4aef-11ec-81d3-0242ac130003",

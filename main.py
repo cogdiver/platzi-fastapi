@@ -1540,7 +1540,7 @@ def get_comment(id_comment):
     if id_comment not in id_comments:
         raise HTTPException(
             status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id id_comment '{id_comment}'"
+            detail=f"HTTP_404_NOT_FOUND: Invalid id comment '{id_comment}'"
         )
     del id_comments
 
@@ -1618,22 +1618,150 @@ def delete_comment():
 )
 def all_blogs():
     """
-    This path operation returns all classes
+    This path operation returns all blogs
 
     Parameters:
 
-    Returns a list of classes with a BaseClass structure:
+    Returns a list of blogs with a ContributionTitle structure:
     """
+    with open('./data/blogs.json', 'r') as f:
+        blogs = json.loads(f.read())
+
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+
+    # get comments and user for each blog
+    blogs = list(
+        map(
+            lambda b: {
+                **b,
+                **[{"comments": list(
+                    filter(
+                        lambda c: c["id_contribution"] in b["id_comments"],
+                        comments
+                    )
+                )} if b["id_comments"] else {"comments": []}][0],
+                **{"user": list(
+                    filter(
+                        lambda u: u["id_user"] == b["id_user"],
+                        users
+                    )
+                )[0]}
+            },
+            blogs
+        )
+    )
+
+    # get users and answers for all blogs
+    for b in blogs:
+        for c in b["comments"]:
+            # get user for each blog's comment
+            c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+    
+            # get answers for each blog's comment
+            if "id_answers" in c and c["id_answers"]:
+                c["answers"] = list(
+                    filter(
+                        lambda a: a["id_contribution"] in c["id_answers"],
+                        comments
+                    )
+                )
+            
+                ## get users for answers
+                c["answers"] = list(
+                    map(
+                        lambda a: {**a, **{"user": list(
+                            filter(
+                                lambda u: u["id_user"] == a["id_user"],
+                                users
+                            )
+                        )[0]}},
+                        c["answers"]
+                    )
+                )
+    
+    return blogs
 
 @app.get(
-    path="/blog/{id_bog}",
+    path="/blog/{id_blog}",
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
     summary="get a blog publication",
     tags=["Blog"],
 )
-def get_blog():
-    pass
+def get_blog(id_blog):
+    """
+    This path operation returns a blog
+
+    Parameters:
+
+    Returns a blog with a ContributionTitle structure:
+    """
+    with open('./data/blogs.json', 'r') as f:
+        blogs = json.loads(f.read())
+    
+    # id_blog must be valid
+    id_blogs = list(map(lambda b: b["id_contribution"], blogs))
+    if id_blog not in id_blogs:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id blog '{id_blog}'"
+        )
+    del id_blogs
+
+    # get blog
+    blog = list(filter(lambda b: b["id_contribution"] == id_blog, blogs))[0]
+    del blogs
+
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+
+    # get comments
+    blog["comments"] = list(
+        filter(
+            lambda c: c["id_contribution"] in blog["id_comments"],
+            comments
+        )
+    ) if blog["id_comments"] else []
+
+    # get user
+    blog["user"] = list(filter(lambda u: u["id_user"] == blog["id_user"], users))[0]
+
+
+    # get answers and users
+    for c in blog["comments"]:
+        # get user for each blog's comment
+        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+
+        # get answers for each blog's comment
+        if "id_answers" in c and c["id_answers"]:
+            c["answers"] = list(
+                filter(
+                    lambda a: a["id_contribution"] in c["id_answers"],
+                    comments
+                )
+            )
+        
+            ## get users for answers
+            c["answers"] = list(
+                map(
+                    lambda a: {**a, **{"user": list(
+                        filter(
+                            lambda u: u["id_user"] == a["id_user"],
+                            users
+                        )
+                    )[0]}},
+                    c["answers"]
+                )
+            )
+    
+    return blog
 
 @app.post(
     path="/blog/{id_bog}",
@@ -1665,61 +1793,189 @@ def put_blog():
 def delete_blog():
     pass
 
-## Foro
+## Forum
 @app.get(
-    path="/foros",
-    response_model=List[ContributionAnswer],
+    path="/forums",
+    response_model=List[ContributionTitle],
     status_code=status.HTTP_200_OK,
-    summary="get all foros",
-    tags=["Foro"]
+    summary="get all forums",
+    tags=["Forum"]
 )
-def all_foros():
+def all_forums():
     """
-    This path operation returns all classes
+    This path operation returns all forums
 
     Parameters:
 
-    Returns a list of classes with a BaseClass structure:
+    Returns a list of forums with a ContributionTitle structure:
     """
+    with open('./data/forums.json', 'r') as f:
+        forums = json.loads(f.read())
+
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+
+    # get comments and user for each blog
+    forums = list(
+        map(
+            lambda f: {
+                **f,
+                **[{"comments": list(
+                    filter(
+                        lambda c: c["id_contribution"] in f["id_comments"],
+                        comments
+                    )
+                )} if f["id_comments"] else {"comments": []}][0],
+                **{"user": list(
+                    filter(
+                        lambda u: u["id_user"] == b["id_user"],
+                        users
+                    )
+                )[0]}
+            },
+            forums
+        )
+    )
+
+    # get users and answers for all forums
+    for f in forums:
+        for c in f["comments"]:
+            # get user for each blog's comment
+            c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+    
+            # get answers for each blog's comment
+            if "id_answers" in c and c["id_answers"]:
+                c["answers"] = list(
+                    filter(
+                        lambda a: a["id_contribution"] in c["id_answers"],
+                        comments
+                    )
+                )
+            
+                ## get users for answers
+                c["answers"] = list(
+                    map(
+                        lambda a: {**a, **{"user": list(
+                            filter(
+                                lambda u: u["id_user"] == a["id_user"],
+                                users
+                            )
+                        )[0]}},
+                        c["answers"]
+                    )
+                )
+    
+    return forums
 
 @app.get(
-    path="/comunidad/{id_foro}",
-    response_model=ContributionAnswer,
+    path="/forum/{id_forum}",
+    response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
-    summary="get a foro publication",
-    tags=["Foro"]
+    summary="get a forum publication",
+    tags=["Forum"]
 )
-def get_foro():
-    pass
+def get_forum(id_forum):
+    """
+    This path operation returns a forum
+
+    Parameters:
+
+    Returns a forum with a ContributionTitle structure:
+    """
+    with open('./data/forums.json', 'r') as f:
+        forums = json.loads(f.read())
+    
+    # id_forum must be valid
+    id_forums = list(map(lambda f: f["id_contribution"], forums))
+    if id_forum not in id_forums:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id forum '{id_forum}'"
+        )
+    del id_forums
+
+    # get forum
+    forum = list(filter(lambda f: f["id_contribution"] == id_forum, forums))[0]
+    del forums
+
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+
+    # get comments
+    forum["comments"] = list(
+        filter(
+            lambda c: c["id_contribution"] in forum["id_comments"],
+            comments
+        )
+    ) if forum["id_comments"] else []
+
+    # get user
+    forum["user"] = list(filter(lambda u: u["id_user"] == forum["id_user"], users))[0]
+
+
+    # get answers and users
+    for c in forum["comments"]:
+        # get user for each forum's comment
+        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+
+        # get answers for each forum's comment
+        if "id_answers" in c and c["id_answers"]:
+            c["answers"] = list(
+                filter(
+                    lambda a: a["id_contribution"] in c["id_answers"],
+                    comments
+                )
+            )
+        
+            ## get users for answers
+            c["answers"] = list(
+                map(
+                    lambda a: {**a, **{"user": list(
+                        filter(
+                            lambda u: u["id_user"] == a["id_user"],
+                            users
+                        )
+                    )[0]}},
+                    c["answers"]
+                )
+            )
+    
+    return forum
 
 @app.post(
-    path="/comunidad/{id_foro}",
+    path="/forum/{id_forum}",
     response_model=ContributionAnswer,
     status_code=status.HTTP_201_CREATED,
-    summary="create a foro publication",
-    tags=["Foro"]
+    summary="create a forum publication",
+    tags=["Forum"]
 )
-def post_foro():
+def post_forum():
     pass
 
 @app.put(
-    path="/comunidad/{id_foro}",
+    path="/forum/{id_forum}",
     response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
-    summary="update a foro publication",
-    tags=["Foro"]
+    summary="update a forum publication",
+    tags=["Forum"]
 )
-def put_foro():
+def put_forum():
     pass
 
 @app.delete(
-    path="/comunidad/{id_foro}",
+    path="/forum/{id_forum}",
     response_model=ContributionAnswer,
     status_code=status.HTTP_200_OK,
-    summary="delete a foro publication",
-    tags=["Foro"]
+    summary="delete a forum publication",
+    tags=["Forum"]
 )
-def delete_foro():
+def delete_forum():
     pass
 
 ## Tutorial
@@ -1732,12 +1988,72 @@ def delete_foro():
 )
 def all_tutorials():
     """
-    This path operation returns all classes
+    This path operation returns all tutorials
 
     Parameters:
 
-    Returns a list of classes with a BaseClass structure:
+    Returns a list of tutorials with a ContributionTitle structure:
     """
+    with open('./data/tutorials.json', 'r') as f:
+        tutorials = json.loads(f.read())
+
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+
+    # get comments and user for each blog
+    tutorials = list(
+        map(
+            lambda t: {
+                **t,
+                **[{"comments": list(
+                    filter(
+                        lambda c: c["id_contribution"] in t["id_comments"],
+                        comments
+                    )
+                )} if t["id_comments"] else {"comments": []}][0],
+                **{"user": list(
+                    filter(
+                        lambda u: u["id_user"] == t["id_user"],
+                        users
+                    )
+                )[0]}
+            },
+            tutorials
+        )
+    )
+
+    # get users and answers for all tutorials
+    for t in tutorials:
+        for c in t["comments"]:
+            # get user for each blog's comment
+            c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+    
+            # get answers for each blog's comment
+            if "id_answers" in c and c["id_answers"]:
+                c["answers"] = list(
+                    filter(
+                        lambda a: a["id_contribution"] in c["id_answers"],
+                        comments
+                    )
+                )
+            
+                ## get users for answers
+                c["answers"] = list(
+                    map(
+                        lambda a: {**a, **{"user": list(
+                            filter(
+                                lambda u: u["id_user"] == a["id_user"],
+                                users
+                            )
+                        )[0]}},
+                        c["answers"]
+                    )
+                )
+    
+    return tutorials
 
 @app.get(
     path="/tutorial/{id_tutorial}",
@@ -1746,8 +2062,76 @@ def all_tutorials():
     summary="get a tutorial publication",
     tags=["Tutorial"]
 )
-def get_tutorial():
-    pass
+def get_tutorial(id_tutorial):
+    """
+    This path operation returns a tutorial
+
+    Parameters:
+
+    Returns a tutorial with a ContributionTitle structure:
+    """
+    with open('./data/tutorials.json', 'r') as f:
+        tutorials = json.loads(f.read())
+    
+    # id_tutorial must be valid
+    id_tutorials = list(map(lambda t: t["id_contribution"], tutorials))
+    if id_tutorial not in id_tutorials:
+        raise HTTPException(
+            status_code = 404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id tutorial '{id_tutorial}'"
+        )
+    del id_tutorials
+
+    # get tutorial
+    tutorial = list(filter(lambda t: t["id_contribution"] == id_tutorial, tutorials))[0]
+    del tutorials
+
+    with open('./data/comments.json', 'r') as f:
+        comments = json.loads(f.read())
+
+    with open('./data/users.json', 'r') as f:
+        users = json.loads(f.read())
+
+    # get comments
+    tutorial["comments"] = list(
+        filter(
+            lambda c: c["id_contribution"] in tutorial["id_comments"],
+            comments
+        )
+    ) if tutorial["id_comments"] else []
+
+    # get user
+    tutorial["user"] = list(filter(lambda u: u["id_user"] == tutorial["id_user"], users))[0]
+
+
+    # get answers and users
+    for c in tutorial["comments"]:
+        # get user for each tutorial's comment
+        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
+
+        # get answers for each tutorial's comment
+        if "id_answers" in c and c["id_answers"]:
+            c["answers"] = list(
+                filter(
+                    lambda a: a["id_contribution"] in c["id_answers"],
+                    comments
+                )
+            )
+        
+            ## get users for answers
+            c["answers"] = list(
+                map(
+                    lambda a: {**a, **{"user": list(
+                        filter(
+                            lambda u: u["id_user"] == a["id_user"],
+                            users
+                        )
+                    )[0]}},
+                    c["answers"]
+                )
+            )
+    
+    return tutorial
 
 @app.post(
     path="/tutorial/{id_tutorial}",

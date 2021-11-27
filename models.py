@@ -193,7 +193,7 @@ class BaseContributionTitle(BaseContribution):
 
 ### Blogs and Tutorials
 class ContributionTitle(BaseContributionTitle):
-    answers: Optional[List[ContributionAnswer]] = Field(default=[])
+    comments: Optional[List[ContributionAnswer]] = Field(default=[])
 
 
 ## Classes
