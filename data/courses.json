@@ -20,7 +20,6 @@
                 "id_module": "module2",
                 "name": "moludo 2.0",
                 "id_classes": [
-                    "class2",
                     "class3"
                 ]
             }
