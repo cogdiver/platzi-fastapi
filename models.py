@@ -167,11 +167,13 @@ class Resourse(BaseModel):
 
 class BaseContribution(BaseModel):
     id_contribution: UUID = Field(...)
-    user: BaseUser = Field(...)
     date_publication: date = Field(...)
-    likes: int = Field(..., ge=0)
+    likes: int = Field(..., gt=0)
 
-class BaseContributionBasic(BaseContribution):
+class BaseContributionUser(BaseContribution):
+    user: BaseUser = Field(...)
+
+class BaseContributionBasic(BaseContributionUser):
     content: str = Field(
         ...,
         min_length=1,
@@ -184,7 +186,7 @@ class Contribution(BaseContributionBasic):
 class ContributionAnswer(Contribution):
     answers: Optional[List[BaseContributionBasic]] = Field(default=[])
 
-class BaseContributionTitle(BaseContribution):
+class BaseContributionTitle(BaseContributionUser):
     title: str = Field(
         ...,
         min_length=1,
@@ -196,11 +198,17 @@ class ContributionTitle(BaseContributionTitle):
     comments: Optional[List[ContributionAnswer]] = Field(default=[])
 
 ### Contributions Basic
-class ContributionBasic(Contribution):
-    answers: Optional[List[UUID]] = Field(default=None)
+class ContributionBasic(BaseContribution):
     id_user: UUID = Field(...)
+    kind: TypeContribution = Field(...)
+    content: str = Field(
+        ...,
+        min_length=1,
+    )
+    answers: Optional[List[UUID]] = Field(default=None)
 
-class ContributionTitleBasic(BaseContributionTitle):
+class ContributionTitleBasic(BaseContribution):
+    id_user: UUID = Field(...)
     id_comments: Optional[List[UUID]] = Field(default=None)
     title: str = Field(
         ...,

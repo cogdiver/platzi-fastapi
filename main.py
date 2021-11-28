@@ -880,7 +880,8 @@ def post_course(course: CourseInfoBasic =  Body(...)):
             status_code=406,
             detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id route '{course['id_course']}'"
         )
-    
+    del id_courses
+
     # name must be unique
     name_courses = list(map(lambda c: c['name'], courses))
     if course["name"] in name_courses:
@@ -888,7 +889,8 @@ def post_course(course: CourseInfoBasic =  Body(...)):
             status_code=406,
             detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name course '{course['name']}'"
         )
-    
+    del name_courses
+
     # the id in the key must be valid
     keys = ["id_teacher", "id_project"]
     for key in keys:
@@ -1609,25 +1611,82 @@ def get_comment_basic(id_comment):
 
     # get comment
     comment = list(filter(lambda c: c["id_contribution"]==id_comment, comments))[0]
-    del comments
-
-    # get user for comment
-    with open('./data/users.json', 'r') as f:
-        users = json.loads(f.read())
-    
-    comment["user"] = list(filter(lambda u: u["id_user"] == comment["id_user"], users))[0]
 
     return comment
 
 @app.post(
-    path="/comentario/{id_comment}",
-    response_model=ContributionAnswer,
+    path="/comentario",
+    response_model=ContributionBasic,
     status_code=status.HTTP_201_CREATED,
     summary="create a comment",
     tags=["Comments"]
 )
-def post_comment():
-    pass
+def post_comment(comment: ContributionBasic = Body(...)):
+    """
+    This path operation create a new comment
+
+    Parameters:
+        - comment: ContributionBasic
+
+    Return the new comment in a json with a ContributionBasic structure
+    """
+    comment = comment.dict()
+    with open('./data/comments.json', 'r', encoding='utf-8') as f:
+        comments = json.loads(f.read())
+
+    # Parsing
+    comment["id_contribution"] = str(comment["id_contribution"])
+    comment["id_user"] = str(comment["id_user"])
+    comment["date_publication"] = str(comment["date_publication"])
+
+    # id_contribution must be unique
+    id_comments = list(map(lambda c: c['id_contribution'], comments))
+    if comment["id_contribution"] in id_comments:
+        print('*'*20)
+        print(comment["id_contribution"])
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{comment['id_contribution']}'"
+        )
+    del id_comments
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if comment["id_user"] not in id_users:
+        print('*'*20)
+        print(comment["id_user"])
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{comment['id_user']}'"
+        )
+
+    comment['kind'] = comment['kind'].value
+    # kind must be valid
+    if comment['kind'] not in ["comment", "question"]:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid comment kind '{comment['kind']}'"
+        )
+
+    # id_answers must be empty
+    if 'id_answers' in comment and comment['id_answers']:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id answers, must be empty"
+        )
+
+    # Save comments
+    del comment["answers"]
+    comment["id_answers"] = []
+    comments.append(comment)
+    with open('./data/comments.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(comments, ensure_ascii=False))
+    
+    return comment
 
 @app.put(
     path="/comentario/{id_comment}",
@@ -1834,18 +1893,11 @@ def get_blog_basic(id_blog):
 
     # get blog
     blog = list(filter(lambda c: c["id_contribution"]==id_blog, blogs))[0]
-    del blogs
-
-    # get user for blog
-    with open('./data/users.json', 'r') as f:
-        users = json.loads(f.read())
-    
-    blog["user"] = list(filter(lambda u: u["id_user"] == blog["id_user"], users))[0]
 
     return blog
 
 @app.post(
-    path="/blog/{id_bog}",
+    path="/blog",
     response_model=ContributionTitle,
     status_code=status.HTTP_201_CREATED,
     summary="create a blog publication",
@@ -2060,18 +2112,11 @@ def get_forum_basic(id_forum):
 
     # get forum
     forum = list(filter(lambda c: c["id_contribution"]==id_forum, forums))[0]
-    del forums
-
-    # get user for forum
-    with open('./data/users.json', 'r') as f:
-        users = json.loads(f.read())
-    
-    forum["user"] = list(filter(lambda u: u["id_user"] == forum["id_user"], users))[0]
 
     return forum
 
 @app.post(
-    path="/forum/{id_forum}",
+    path="/forum",
     response_model=ContributionAnswer,
     status_code=status.HTTP_201_CREATED,
     summary="create a forum publication",
@@ -2287,12 +2332,6 @@ def get_tutorial_basic(id_tutorial):
     # get tutorial
     tutorial = list(filter(lambda c: c["id_contribution"]==id_tutorial, tutorials))[0]
     del tutorials
-
-    # get user for tutorial
-    with open('./data/users.json', 'r') as f:
-        users = json.loads(f.read())
-    
-    tutorial["user"] = list(filter(lambda u: u["id_user"] == tutorial["id_user"], users))[0]
 
     return tutorial
 
