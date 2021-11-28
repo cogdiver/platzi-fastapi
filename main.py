@@ -1,4 +1,5 @@
 # Python
+from typing import Optional
 import json
 import functools
 from typing import List
@@ -8,6 +9,7 @@ from fastapi import FastAPI
 from fastapi import status
 from fastapi import HTTPException
 from fastapi import Body
+from fastapi import Query
 
 app = FastAPI()
 
@@ -1766,13 +1768,75 @@ def put_comment(id_comment, comment: ContributionBasic = Body(...)):
 
 @app.delete(
     path="/comentario/{id_comment}",
-    response_model=ContributionAnswer,
+    response_model=ContributionBasic,
     status_code=status.HTTP_200_OK,
     summary="delete a comment",
     tags=["Comments"]
 )
-def delete_comment():
-    pass
+def delete_comment(
+    id_comment,
+    kind: Optional[TypeContribution] = Query(default="comment")
+):
+    """
+    This path operation delete a comment
+
+    Parameters:
+        - id_comment: str
+
+    Return the deleted comment in a json with a ContributionBasic structure
+    """
+    with open('./data/comments.json', 'r', encoding='utf-8') as f:
+        comments = json.loads(f.read())
+
+    # id_comment must be valid
+    id_comments = list(map(lambda c: c['id_contribution'], comments))
+    if id_comment not in id_comments:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comment '{id_comment}'"
+        )
+    del id_comments
+
+    comment = list(filter(lambda  c: c["id_contribution"] == id_comment, comments))[0]
+    comments = list(filter(lambda  c: c["id_contribution"] != id_comment, comments))
+    kind = kind.value
+
+    # delete comment from all files
+    if kind in ["tutorial", "blog", "forum"]:
+        with open(f'./data/{kind}s.json', 'r', encoding='utf-8') as f:
+            contributions = json.loads(f.read())
+
+        contributions = list(
+            map(
+                lambda c: {
+                    **c,
+                    **{"id_comments": [v for v in c["id_comments"] if v != id_comment]}
+                } if c["id_comments"] else c,
+                contributions
+            )
+        )
+
+        with open(f'./data/{kind}s.json', 'w', encoding='utf-8') as f:
+            f.write(json.dumps(contributions, ensure_ascii=False))
+
+    elif kind == "answers":
+        comments = list(
+            map(
+                lambda c: {
+                    **c,
+                    **{"id_answers": [v for v in c["id_answers"] if v != id_comment]}
+                } if "id_answers" in c and c["id_answers"] else c,
+                comments
+            )
+        )
+    
+    comments = list(filter(lambda c: c["id_contribution"] != id_comment, comments))
+
+    # Save the comment
+    with open('./data/comments.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(comments, ensure_ascii=False))
+
+    return comment
 
 ## Blog
 @app.get(
@@ -2120,13 +2184,39 @@ def put_blog(id_blog, blog: ContributionTitleBasic = Body(...)):
 
 @app.delete(
     path="/blog/{id_blog}",
-    response_model=ContributionTitle,
+    response_model=ContributionTitleBasic,
     status_code=status.HTTP_200_OK,
     summary="delete a blog publication",
     tags=["Blog"],
 )
-def delete_blog():
-    pass
+def delete_blog(id_blog):
+    """
+    This path operation delete a blog
+
+    Parameters:
+        - id_blog: str
+    
+    Return the deleted blog in a json with a ContributionTitleBasic structure
+    """
+    with open('./data/blogs.json', 'r', encoding='utf-8') as f:
+        blogs = json.loads(f.read())
+
+    # id_blog must be valid
+    id_blogs = list(map(lambda c: c['id_blog'], blogs))
+    if id_blog not in id_blogs:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id blog '{id_blog}'"
+        )
+    del id_blogs
+
+    # Save the blog
+    blog = list(filter(lambda  c: c["id_blog"] == id_blog, blogs))[0]
+    blogs = list(filter(lambda  c: c["id_blog"] != id_blog, blogs))
+    with open('./data/blogs.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(blogs, ensure_ascii=False))
+    
+    return blog
 
 ## Forum
 @app.get(
@@ -2480,8 +2570,34 @@ def put_forum(id_forum, forum: ContributionTitleBasic = Body(...)):
     summary="delete a forum publication",
     tags=["Forum"]
 )
-def delete_forum():
-    pass
+def delete_forum(id_forum):
+    """
+    This path operation delete a forum
+
+    Parameters:
+        - id_forum: str
+    
+    Return the deleted forum in a json with a ContributionTitleBasic structure
+    """
+    with open('./data/forums.json', 'r', encoding='utf-8') as f:
+        forums = json.loads(f.read())
+
+    # id_forum must be valid
+    id_forums = list(map(lambda c: c['id_forum'], forums))
+    if id_forum not in id_forums:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id forum '{id_forum}'"
+        )
+    del id_forums
+
+    # Save the forum
+    forum = list(filter(lambda  c: c["id_forum"] == id_forum, forums))[0]
+    forums = list(filter(lambda  c: c["id_forum"] != id_forum, forums))
+    with open('./data/forums.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(forums, ensure_ascii=False))
+    
+    return forum
 
 ## Tutorial
 @app.get(
@@ -2836,6 +2952,32 @@ def put_tutorial(id_tutorial, tutorial: ContributionTitleBasic = Body(...)):
     summary="delete a tutorial publication",
     tags=["Tutorial"]
 )
-def delete_tutorial():
-    pass
+def delete_tutorial(id_tutorial):
+    """
+    This path operation delete a tutorial
+
+    Parameters:
+        - id_tutorial: str
+    
+    Return the deleted tutorial in a json with a ContributionTitleBasic structure
+    """
+    with open('./data/tutorials.json', 'r', encoding='utf-8') as f:
+        tutorials = json.loads(f.read())
+
+    # id_tutorial must be valid
+    id_tutorials = list(map(lambda c: c['id_tutorial'], tutorials))
+    if id_tutorial not in id_tutorials:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id tutorial '{id_tutorial}'"
+        )
+    del id_tutorials
+
+    # Save the tutorial
+    tutorial = list(filter(lambda  c: c["id_tutorial"] == id_tutorial, tutorials))[0]
+    tutorials = list(filter(lambda  c: c["id_tutorial"] != id_tutorial, tutorials))
+    with open('./data/tutorials.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(tutorials, ensure_ascii=False))
+    
+    return tutorial
 

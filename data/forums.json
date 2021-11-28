@@ -8,7 +8,6 @@
         "content": "content",
         "kind": "forum",
         "id_comments": [
-            "f2630d8e-4aee-11ec-81d3-0242ac130003",
             "192e6f44-4aef-11ec-81d3-0242ac130003"
         ]
     },
@@ -40,9 +39,7 @@
         "title": "title___4",
         "content": "content",
         "kind": "question",
-        "id_comments": [
-            "ec6323a6-4aee-11ec-81d3-0242ac130003"
-        ]
+        "id_comments": []
     },
     {
         "id_contribution": "f833dbc2-4aee-11ec-81d3-0242ac130003",

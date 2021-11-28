@@ -18,6 +18,7 @@ class TypeContribution(Enum):
     tutorial = "tutorial"
     blog = "blog"
     forum = "forum"
+    answers = "answers"
 
 class TypeUser(Enum):
     team = "team"
@@ -184,7 +185,7 @@ class Contribution(BaseContributionBasic):
 
 ### Comments
 class ContributionAnswer(Contribution):
-    answers: Optional[List[BaseContributionBasic]] = Field(default=[])
+    answers: Optional[List[Contribution]] = Field(default=[])
 
 class BaseContributionTitle(BaseContributionUser):
     title: str = Field(
