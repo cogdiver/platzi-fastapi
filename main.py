@@ -959,7 +959,7 @@ def post_course(course: CourseInfoBasic =  Body(...)):
 )
 def put_course(id_course, course: CourseInfoBasic = Body(...)):
     """
-    This path operation update a new course
+    This path operation update a course
 
     Parameters:
         - course: CourseInfoBasic
@@ -1339,7 +1339,7 @@ def post_classes(class_: ClassContentBasic = Body(...)):
 )
 def put_classes(id_class, class_: ClassContentBasic = Body(...)):
     """
-    This path operation update a new class
+    This path operation update a class
 
     Parameters:
         - class_: ClassContentBasic
@@ -1638,12 +1638,11 @@ def post_comment(comment: ContributionBasic = Body(...)):
     comment["id_contribution"] = str(comment["id_contribution"])
     comment["id_user"] = str(comment["id_user"])
     comment["date_publication"] = str(comment["date_publication"])
+    comment['kind'] = comment['kind'].value
 
     # id_contribution must be unique
     id_comments = list(map(lambda c: c['id_contribution'], comments))
     if comment["id_contribution"] in id_comments:
-        print('*'*20)
-        print(comment["id_contribution"])
         raise HTTPException(
             status_code=406,
             detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{comment['id_contribution']}'"
@@ -1657,14 +1656,12 @@ def post_comment(comment: ContributionBasic = Body(...)):
     id_users = list(map(lambda u: u['id_user'], users))
     del users
     if comment["id_user"] not in id_users:
-        print('*'*20)
-        print(comment["id_user"])
         raise HTTPException(
             status_code=404,
             detail=f"HTTP_404_NOT_FOUND: Invalid id user '{comment['id_user']}'"
         )
+    del id_users
 
-    comment['kind'] = comment['kind'].value
     # kind must be valid
     if comment['kind'] not in ["comment", "question"]:
         raise HTTPException(
@@ -1680,8 +1677,6 @@ def post_comment(comment: ContributionBasic = Body(...)):
         )
 
     # Save comments
-    del comment["answers"]
-    comment["id_answers"] = []
     comments.append(comment)
     with open('./data/comments.json', 'w', encoding='utf-8') as f:
         f.write(json.dumps(comments, ensure_ascii=False))
@@ -1690,13 +1685,84 @@ def post_comment(comment: ContributionBasic = Body(...)):
 
 @app.put(
     path="/comentario/{id_comment}",
-    response_model=ContributionAnswer,
+    response_model=ContributionBasic,
     status_code=status.HTTP_200_OK,
     summary="update a comment",
     tags=["Comments"]
 )
-def put_comment():
-    pass
+def put_comment(id_comment, comment: ContributionBasic = Body(...)):
+    """
+    This path operation update a new comment
+
+    Parameters:
+        - id_comment: str
+        - comment: ContributionBasic
+
+    Return the updated comment in a json with a ContributionBasic structure
+    """
+    with open('./data/comments.json', 'r', encoding='utf-8') as f:
+        comments = json.loads(f.read())
+    
+    # id_contribution must be valid
+    id_comments = list(map(lambda c: c['id_contribution'], comments))
+    if id_comment not in id_comments:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_comment}'"
+        )
+    del id_comments
+
+    comments = list(filter(lambda c: c["id_contribution"] != id_comment, comments))
+    comment = comment.dict()
+    # Parsing
+    comment["id_contribution"] = str(comment["id_contribution"])
+    comment["id_user"] = str(comment["id_user"])
+    comment["date_publication"] = str(comment["date_publication"])
+    comment['kind'] = comment['kind'].value
+
+    # id_contribution must be unique
+    id_comments = list(map(lambda c: c['id_contribution'], comments))
+    if comment["id_contribution"] in id_comments:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{comment['id_contribution']}'"
+        )
+
+    # id_answers must be valid
+    for a in comment['id_answers']:
+        if a not in id_comments:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{a}'"
+            )
+    del id_comments
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if comment["id_user"] not in id_users:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{comment['id_user']}'"
+        )
+    del id_users
+
+    # kind must be valid
+    if comment['kind'] not in ["comment", "question"]:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid comment kind '{comment['kind']}'"
+        )
+
+    # Save comments
+    comments.append(comment)
+    with open('./data/comments.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(comments, ensure_ascii=False))
+    
+    return comment
 
 @app.delete(
     path="/comentario/{id_comment}",
@@ -1898,26 +1964,162 @@ def get_blog_basic(id_blog):
 
 @app.post(
     path="/blog",
-    response_model=ContributionTitle,
+    response_model=ContributionTitleBasic,
     status_code=status.HTTP_201_CREATED,
     summary="create a blog publication",
     tags=["Blog"],
 )
-def post_blog():
-    pass
+def post_blog(blog: ContributionTitleBasic = Body(...)):
+    """
+    This path operation create a new blog
+
+    Parameters:
+        - blog: ContributionTitleBasic
+
+    Return the new blog in a json with a ContributionTitleBasic structure
+    """
+    blog = blog.dict()
+    with open('./data/blogs.json', 'r', encoding='utf-8') as f:
+        blogs = json.loads(f.read())
+
+    # Parsing
+    blog["id_contribution"] = str(blog["id_contribution"])
+    blog["id_user"] = str(blog["id_user"])
+    blog["date_publication"] = str(blog["date_publication"])
+    blog['kind'] = blog['kind'].value
+
+    # id_contribution must be unique
+    id_blogs = list(map(lambda b: b['id_contribution'], blogs))
+    if blog["id_contribution"] in id_blogs:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{blog['id_contribution']}'"
+        )
+    del id_blogs
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if blog["id_user"] not in id_users:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{blog['id_user']}'"
+        )
+    del id_users
+
+    # kind must be valid
+    if blog['kind'] != "blog":
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid blog kind '{blog['kind']}'"
+        )
+
+    # id_answers must be empty
+    if 'id_comments' in blog and blog['id_comments']:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comments, must be empty"
+        )
+
+    # Save blogs
+    blogs.append(blog)
+    with open('./data/blogs.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(blogs, ensure_ascii=False))
+    
+    return blog
 
 @app.put(
-    path="/blog/{id_bog}",
-    response_model=ContributionTitle,
+    path="/blog/{id_blog}",
+    response_model=ContributionTitleBasic,
     status_code=status.HTTP_200_OK,
     summary="update a blog publication",
     tags=["Blog"],
 )
-def put_blog():
-    pass
+def put_blog(id_blog, blog: ContributionTitleBasic = Body(...)):
+    """
+    This path operation update a blog
+
+    Parameters:
+        - id_blog: str
+        - blog: ContributionTitleBasic
+
+    Return the updated blog in a json with a ContributionTitleBasic structure
+    """
+    with open('./data/blogs.json', 'r', encoding='utf-8') as f:
+        blogs = json.loads(f.read())
+    
+    # id_contribution must be valid
+    id_blogs = list(map(lambda c: c['id_contribution'], blogs))
+    if id_blog not in id_blogs:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_blog}'"
+        )
+    del id_blogs
+
+    blogs = list(filter(lambda c: c["id_contribution"] != id_blog, blogs))
+    blog = blog.dict()
+    # Parsing
+    blog["id_contribution"] = str(blog["id_contribution"])
+    blog["id_user"] = str(blog["id_user"])
+    blog["date_publication"] = str(blog["date_publication"])
+    blog['kind'] = blog['kind'].value
+
+    # id_contribution must be unique
+    id_blogs = list(map(lambda c: c['id_contribution'], blogs))
+    if blog["id_contribution"] in id_blogs:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{blog['id_contribution']}'"
+        )
+    del id_blogs
+
+    with open('./data/comments.json', 'r', encoding='utf-8') as f:
+        comments = json.loads(f.read())
+    
+    # id_comments must be valid
+    id_comments = list(map(lambda c: c['id_contribution'], comments))
+    del comments
+    for c in blog['id_comments']:
+        if c not in id_comments:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{c}'"
+            )
+    del id_comments
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if blog["id_user"] not in id_users:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{blog['id_user']}'"
+        )
+    del id_users
+
+    # kind must be valid
+    if blog['kind'] != "blog":
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid blog kind '{blog['kind']}'"
+        )
+
+    # Save blogs
+    blogs.append(blog)
+    with open('./data/blogs.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(blogs, ensure_ascii=False))
+    
+    return blog
 
 @app.delete(
-    path="/blog/{id_bog}",
+    path="/blog/{id_blog}",
     response_model=ContributionTitle,
     status_code=status.HTTP_200_OK,
     summary="delete a blog publication",
@@ -2117,23 +2319,159 @@ def get_forum_basic(id_forum):
 
 @app.post(
     path="/forum",
-    response_model=ContributionAnswer,
+    response_model=ContributionTitleBasic,
     status_code=status.HTTP_201_CREATED,
     summary="create a forum publication",
     tags=["Forum"]
 )
-def post_forum():
-    pass
+def post_forum(forum: ContributionTitleBasic = Body(...)):
+    """
+    This path operation create a new forum
+
+    Parameters:
+        - forum: ContributionTitleBasic
+
+    Return the new forum in a json with a ContributionTitleBasic structure
+    """
+    forum = forum.dict()
+    with open('./data/forums.json', 'r', encoding='utf-8') as f:
+        forums = json.loads(f.read())
+
+    # Parsing
+    forum["id_contribution"] = str(forum["id_contribution"])
+    forum["id_user"] = str(forum["id_user"])
+    forum["date_publication"] = str(forum["date_publication"])
+    forum['kind'] = forum['kind'].value
+
+    # id_contribution must be unique
+    id_forums = list(map(lambda f: f['id_contribution'], forums))
+    if forum["id_contribution"] in id_forums:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{forum['id_contribution']}'"
+        )
+    del id_forums
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if forum["id_user"] not in id_users:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{forum['id_user']}'"
+        )
+    del id_users
+
+    # kind must be valid
+    if forum['kind'] != "forum":
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid forum kind '{forum['kind']}'"
+        )
+
+    # id_answers must be empty
+    if 'id_comments' in forum and forum['id_comments']:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comments, must be empty"
+        )
+
+    # Save forums
+    forums.append(forum)
+    with open('./data/forums.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(forums, ensure_ascii=False))
+    
+    return forum
 
 @app.put(
     path="/forum/{id_forum}",
-    response_model=ContributionAnswer,
+    response_model=ContributionTitleBasic,
     status_code=status.HTTP_200_OK,
     summary="update a forum publication",
     tags=["Forum"]
 )
-def put_forum():
-    pass
+def put_forum(id_forum, forum: ContributionTitleBasic = Body(...)):
+    """
+    This path operation update a forum
+
+    Parameters:
+        - id_forum: str
+        - forum: ContributionTitleBasic
+
+    Return the updated forum in a json with a ContributionTitleBasic structure
+    """
+    with open('./data/forums.json', 'r', encoding='utf-8') as f:
+        forums = json.loads(f.read())
+    
+    # id_contribution must be valid
+    id_forums = list(map(lambda c: c['id_contribution'], forums))
+    if id_forum not in id_forums:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_forum}'"
+        )
+    del id_forums
+
+    forums = list(filter(lambda c: c["id_contribution"] != id_forum, forums))
+    forum = forum.dict()
+    # Parsing
+    forum["id_contribution"] = str(forum["id_contribution"])
+    forum["id_user"] = str(forum["id_user"])
+    forum["date_publication"] = str(forum["date_publication"])
+    forum['kind'] = forum['kind'].value
+
+    # id_contribution must be unique
+    id_forums = list(map(lambda c: c['id_contribution'], forums))
+    if forum["id_contribution"] in id_forums:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{forum['id_contribution']}'"
+        )
+    del id_forums
+
+    with open('./data/comments.json', 'r', encoding='utf-8') as f:
+        comments = json.loads(f.read())
+    
+    # id_comments must be valid
+    id_comments = list(map(lambda c: c['id_contribution'], comments))
+    del comments
+    for c in forum['id_comments']:
+        if c not in id_comments:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{c}'"
+            )
+    del id_comments
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if forum["id_user"] not in id_users:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{forum['id_user']}'"
+        )
+    del id_users
+
+    # kind must be valid
+    if forum['kind'] != "forum":
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid forum kind '{forum['kind']}'"
+        )
+
+    # Save forums
+    forums.append(forum)
+    with open('./data/forums.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(forums, ensure_ascii=False))
+    
+    return forum
 
 @app.delete(
     path="/forum/{id_forum}",
@@ -2336,24 +2674,160 @@ def get_tutorial_basic(id_tutorial):
     return tutorial
 
 @app.post(
-    path="/tutorial/{id_tutorial}",
-    response_model=ContributionTitle,
+    path="/tutorial",
+    response_model=ContributionTitleBasic,
     status_code=status.HTTP_201_CREATED,
     summary="create a tutorial publication",
     tags=["Tutorial"]
 )
-def post_tutorial():
-    pass
+def post_tutorial(tutorial: ContributionTitleBasic = Body(...)):
+    """
+    This path operation create a new tutorial
+
+    Parameters:
+        - tutorial: ContributionTitleBasic
+
+    Return the new tutorial in a json with a ContributionTitleBasic structure
+    """
+    tutorial = tutorial.dict()
+    with open('./data/tutorials.json', 'r', encoding='utf-8') as f:
+        tutorials = json.loads(f.read())
+
+    # Parsing
+    tutorial["id_contribution"] = str(tutorial["id_contribution"])
+    tutorial["id_user"] = str(tutorial["id_user"])
+    tutorial["date_publication"] = str(tutorial["date_publication"])
+    tutorial['kind'] = tutorial['kind'].value
+
+    # id_contribution must be unique
+    id_tutorials = list(map(lambda t: t['id_contribution'], tutorials))
+    if tutorial["id_contribution"] in id_tutorials:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{tutorial['id_contribution']}'"
+        )
+    del id_tutorials
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if tutorial["id_user"] not in id_users:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{tutorial['id_user']}'"
+        )
+    del id_users
+
+    # kind must be valid
+    if tutorial['kind'] != "tutorial":
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid tutorial kind '{tutorial['kind']}'"
+        )
+
+    # id_answers must be empty
+    if 'id_comments' in tutorial and tutorial['id_comments']:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comments, must be empty"
+        )
+
+    # Save tutorials
+    tutorials.append(tutorial)
+    with open('./data/tutorials.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(tutorials, ensure_ascii=False))
+    
+    return tutorial
 
 @app.put(
     path="/tutorial/{id_tutorial}",
-    response_model=ContributionTitle,
+    response_model=ContributionTitleBasic,
     status_code=status.HTTP_200_OK,
     summary="update a tutorial publication",
     tags=["Tutorial"]
 )
-def put_tutorial():
-    pass
+def put_tutorial(id_tutorial, tutorial: ContributionTitleBasic = Body(...)):
+    """
+    This path operation update a tutorial
+
+    Parameters:
+        - id_tutorial: str
+        - tutorial: ContributionTitleBasic
+
+    Return the updated tutorial in a json with a ContributionTitleBasic structure
+    """
+    with open('./data/tutorials.json', 'r', encoding='utf-8') as f:
+        tutorials = json.loads(f.read())
+    
+    # id_contribution must be valid
+    id_tutorials = list(map(lambda c: c['id_contribution'], tutorials))
+    if id_tutorial not in id_tutorials:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_tutorial}'"
+        )
+    del id_tutorials
+
+    tutorials = list(filter(lambda c: c["id_contribution"] != id_tutorial, tutorials))
+    tutorial = tutorial.dict()
+    # Parsing
+    tutorial["id_contribution"] = str(tutorial["id_contribution"])
+    tutorial["id_user"] = str(tutorial["id_user"])
+    tutorial["date_publication"] = str(tutorial["date_publication"])
+    tutorial['kind'] = tutorial['kind'].value
+
+    # id_contribution must be unique
+    id_tutorials = list(map(lambda c: c['id_contribution'], tutorials))
+    if tutorial["id_contribution"] in id_tutorials:
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{tutorial['id_contribution']}'"
+        )
+    del id_tutorials
+
+    with open('./data/comments.json', 'r', encoding='utf-8') as f:
+        comments = json.loads(f.read())
+    
+    # id_comments must be valid
+    id_comments = list(map(lambda c: c['id_contribution'], comments))
+    del comments
+    for c in tutorial['id_comments']:
+        if c not in id_comments:
+            raise HTTPException(
+                status_code=404,
+                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{c}'"
+            )
+    del id_comments
+    
+    with open('./data/users.json', 'r', encoding='utf-8') as f:
+        users = json.loads(f.read())
+
+    # id_user must be valid
+    id_users = list(map(lambda u: u['id_user'], users))
+    del users
+    if tutorial["id_user"] not in id_users:
+        raise HTTPException(
+            status_code=404,
+            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{tutorial['id_user']}'"
+        )
+    del id_users
+
+    # kind must be valid
+    if tutorial['kind'] != "tutorial":
+        raise HTTPException(
+            status_code=406,
+            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid tutorial kind '{tutorial['kind']}'"
+        )
+
+    # Save tutorials
+    tutorials.append(tutorial)
+    with open('./data/tutorials.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(tutorials, ensure_ascii=False))
+    
+    return tutorial
 
 @app.delete(
     path="/tutorial/{id_tutorial}",

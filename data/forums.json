@@ -6,7 +6,7 @@
         "likes": 10,
         "title": "title___1",
         "content": "content",
-        "kind": "comment",
+        "kind": "forum",
         "id_comments": [
             "f2630d8e-4aee-11ec-81d3-0242ac130003",
             "192e6f44-4aef-11ec-81d3-0242ac130003"
@@ -19,7 +19,7 @@
         "likes": 10,
         "title": "title___2",
         "content": "content",
-        "kind": "comment",
+        "kind": "forum",
         "id_comments": []
     },
     {
@@ -43,5 +43,14 @@
         "id_comments": [
             "ec6323a6-4aee-11ec-81d3-0242ac130003"
         ]
+    },
+    {
+        "id_contribution": "f833dbc2-4aee-11ec-81d3-0242ac130003",
+        "date_publication": "2021-11-21",
+        "likes": 10,
+        "id_user": "030c0048-4aed-11ec-81d3-0242ac130003",
+        "id_comments": [],
+        "kind": "forum",
+        "title": "title___4"
     }
 ]

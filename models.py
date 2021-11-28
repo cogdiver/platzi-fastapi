@@ -1,15 +1,15 @@
 # Python
 from typing import Optional
-from typing import List
 from uuid import UUID
 from datetime import date
 from enum import Enum
+from typing import List
 
 # Pydantic
 from pydantic import BaseModel
-from pydantic import Field
 from pydantic import HttpUrl
 from pydantic import EmailStr
+from pydantic import Field
 
 # Enums
 class TypeContribution(Enum):
@@ -17,7 +17,7 @@ class TypeContribution(Enum):
     question = "question"
     tutorial = "tutorial"
     blog = "blog"
-    foro = "foro"
+    forum = "forum"
 
 class TypeUser(Enum):
     team = "team"
@@ -205,16 +205,18 @@ class ContributionBasic(BaseContribution):
         ...,
         min_length=1,
     )
-    answers: Optional[List[UUID]] = Field(default=None)
+    id_answers: Optional[List[UUID]] = Field(default=[])
 
 class ContributionTitleBasic(BaseContribution):
     id_user: UUID = Field(...)
-    id_comments: Optional[List[UUID]] = Field(default=None)
+    id_comments: Optional[List[UUID]] = Field(default=[])
+    kind: TypeContribution = Field(...)
     title: str = Field(
         ...,
         min_length=1,
         max_length=100
     )
+
 
 ## Classes
 class BaseModule(BaseModel):
@@ -366,12 +368,12 @@ class BaseRouteDescription(BaseRoute):
     )
 
 class RouteDescriptionCreate(BaseRouteDescription):
-    glossary: Optional[List[str]] = Field(...)
+    glossary: Optional[List[str]] = Field(default=[])
     teachers: List[str] = Field(...)
     sections: List[SectionCreate] = Field(...)
 
 class RouteDescription(BaseRouteDescription):
-    glossary: Optional[List[Glossary]] = Field(...)
+    glossary: Optional[List[Glossary]] = Field(default=[])
     teachers: List[TeacherBasic] = Field(...)
     sections: List[Section] = Field(...)
 
