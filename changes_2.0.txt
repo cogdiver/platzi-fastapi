@@ -1,0 +1,5 @@
+Create functions for DRY
+Users path operations
+Users autentication
+Use Routes for path operations
+Update data folder
