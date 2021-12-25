@@ -43,3 +43,23 @@ def validate_valid_key(value, values_dict, key, err):
             status_code = 404,
             detail=f"HTTP_404_NOT_FOUND: {err}"
         )
+
+
+# Contributions
+def get_all_contribution():
+    pass
+
+def get_contribution():
+    pass
+
+def get_contribution_basic():
+    pass
+
+def post_contribution():
+    pass
+
+def put_contribution():
+    pass
+
+def delete_contribution():
+    pass
