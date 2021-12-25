@@ -1,4 +1,8 @@
+# Python
 import json
+
+# FastAPI
+from fastapi import HTTPException
 
 
 def get_filename_json(path):
@@ -21,7 +25,7 @@ def validate_unique_key(value, values_dict, key, err):
     """
     valide if a value in a key is unique
     """
-    keys = list(map(lambda c: c[key], values_dict))
+    keys = list(map(lambda v: v[key], values_dict))
     if value in keys:
         raise HTTPException(
             status_code=406,
@@ -33,8 +37,8 @@ def validate_valid_key(value, values_dict, key, err):
     """
     valide if a value in a key is valid
     """
-    keys = list(map(lambda c: c[key], values_dict))
-    if value in keys:
+    keys = list(map(lambda v: v[key], values_dict))
+    if value not in keys:
         raise HTTPException(
             status_code = 404,
             detail=f"HTTP_404_NOT_FOUND: {err}"

@@ -89,31 +89,24 @@ def post_category(category: BaseCategoryRoute = Body(...)):
     categories = get_filename_json('data/categories.json')
 
     # id_category must be unique
-    id_categories = list(map(lambda c: c['id_category'], categories))
-    if category['id_category'] in id_categories:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id category '{category['id_category']}'"
-        )
+    validate_unique_key(
+        category['id_category'], categories, 'id_category',
+        f"Invalid id category '{category['id_category']}'"
+    )
 
     # name must be unique
-    name_categories = list(map(lambda c: c['name'], categories))
-    if category['name'] in name_categories:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name category '{category['id_category']}'"
-        )
+    validate_unique_key(
+        category['name'], categories, 'name',
+        f"Invalid name category '{category['name']}'"
+    )
 
     # the id_courses must be valid
     routes = get_filename_json('data/routes.json')
-    
-    id_routes = list(map(lambda r: r['id_route'], routes))
     for r in category['routes']:
-        if r not in id_routes:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id route '{r}'"
-            )
+        validate_valid_key(
+            r, routes, 'id_route',
+            f"Invalid id route '{r}'"
+        )
     
     # Save the category
     categories.append(category)
@@ -142,38 +135,29 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
     categories = get_filename_json('data/categories.json')
 
     # id_category must be valid
-    id_categories = list(map(lambda c: c['id_category'], categories))
+    validate_valid_key(
+        id_category, categories, 'id_category',
+        f"Invalid id category '{id_category}'"
+    )
     del categories
-    if id_category not in id_categories:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id category '{id_category}'"
-        )
-    del id_categories
 
     # name must be unique
     temp_categories = list(filter(lambda c: c["id_category"] != id_category, categories))
-    name_categories = list(map(lambda c: c['name'], temp_categories))
-    if category["name"] in name_categories:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name category '{category['name']}'"
-        )
+    validate_unique_key(
+        category["name"], temp_categories, 'name',
+        f"Invalid name category '{category['name']}'"
+    )
     del temp_categories
-    del name_categories
     
     routes = get_filename_json('data/routes.json')
     
     # id_routes must be valid
-    id_routes = list(map(lambda r: r['id_route'], routes))
-    del routes
     for r in category['routes']:
-        if r not in id_routes:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id route: '{r}'"
-            )
-    del id_routes
+        validate_valid_key(
+            r, routes, 'id_route',
+            f"Invalid id route: '{r}'"
+        )
+    del routes
 
     categories = list(filter(lambda c: c['id_category']!=id_category, categories))
     categories.append(category)
@@ -198,14 +182,14 @@ def delete_category(id_category):
     Return a json with the delete category
     """
     categories = get_filename_json('data/categories.json')
-    id_categories = list(map(lambda c: c['id_category'], categories))
     
-    if id_category not in id_categories:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id category '{id_category}'"
-        )
+    # id category must be valid
+    validate_valid_key(
+        id_category, categories, 'id_category',
+        f"Invalid id category '{id_category}'"
+    )
 
+    # save categories
     category = list(filter(lambda c: c['id_category'] == id_category, categories))[0]
     categories = list(filter(lambda c: c['id_category'] != id_category, categories))
     write_filename_json('data/categories.json', categories)

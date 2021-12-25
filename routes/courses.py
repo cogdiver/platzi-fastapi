@@ -1,6 +1,7 @@
 # Python
 from typing import List
 import json
+import functools
 
 # FastAPI
 from fastapi import APIRouter

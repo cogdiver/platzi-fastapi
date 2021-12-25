@@ -1,6 +1,7 @@
 # Python
 from typing import List
 import json
+import functools
 
 # FastAPI
 from fastapi import APIRouter
@@ -59,13 +60,12 @@ def get_route(id_route):
         - sections: List[Section]
     """
     routes = get_filename_json('data/routes.json')
-    id_routes = list(map(lambda r: r['id_route'], routes))
-
-    if id_route not in id_routes:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
-        )
+    
+    # id route must be valid
+    validate_valid_key(
+        id_route, routes, 'id_route',
+        f"Invalid id route '{id_route}'"
+    )
     
     route = list(filter(lambda r: r['id_route'] == id_route, routes))[0]
     del routes
@@ -109,16 +109,16 @@ def get_route_basic(id_route):
     Returns a route with a RouteDescriptionCreate structure:
     """
     routes = get_filename_json('data/routes.json')
-    route = list(filter(lambda r: r['id_route'] == id_route, routes))
-    del routes
     
-    if not route:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
-        )
+    # id route must be valid
+    validate_valid_key(
+        id_route, routes, 'id_route',
+        f"Invalid id route '{id_route}'"
+    )
 
-    return route[0]
+    route = list(filter(lambda r: r['id_route'] == id_route, routes))[0]
+
+    return route
 
 @routes_routes.post(
     path="/",
@@ -140,56 +140,48 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
     routes = get_filename_json('data/routes.json')
     
     # id_route must be unique
-    id_routes = list(map(lambda r: r['id_route'], routes))
-    if route["id_route"] in id_routes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id route '{route['id_route']}'"
-        )
+    validate_unique_key(
+        route["id_route"], routes, 'id_route',
+        f"Invalid id route '{route['id_route']}'"
+    )
     
     # name must be unique
-    name_routes = list(map(lambda r: r['name'], routes))
-    if route["name"] in name_routes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name route '{route['name']}'"
-        )
+    validate_unique_key(
+        route["name"], routes, 'name',
+        f"Invalid name route '{route['name']}'"
+    )
     
     # the id_glossaries must be valid if exist
     if 'glossary' in route:
         glossary = get_filename_json('data/glossary.json')
-        
-        id_glossary = list(map(lambda g: g['id_glossary'], glossary))
+
         for g in route["glossary"]:
-            if g not in id_glossary:
-                raise HTTPException(
-                    status_code=404,
-                    detail=f"HTTP_404_NOT_FOUND: Invalid id glossary '{g}'"
-                )
+            validate_valid_key(
+                g, glossary, 'id_glossary',
+                f"Invalid id glossary '{g}'"
+            )
     
     # the id_teachers must be valid
     teachers = get_filename_json('data/teachers.json')
-    id_teachers = list(map(lambda t: t['id_teacher'], teachers))
-    del teachers
     for t in route["teachers"]:
-        if t not in id_teachers:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id teacher '{t}'"
-            )
+        validate_valid_key(
+            t, teachers, 'id_teacher',
+            f"Invalid id teacher '{t}'"
+        )
+    del teachers
     
     # the id_courses must be valid
     courses = get_filename_json('data/courses.json')
-    id_courses = list(map(lambda c: c['id_course'], courses))
-    courses = list(map(lambda s: s["courses"], route["sections"]))
-    courses = functools.reduce(lambda a,b: a + b, courses)
+    id_courses = list(map(lambda s: s["courses"], route["sections"]))
+    id_courses = functools.reduce(lambda a,b: a + b, id_courses)
 
-    for c in courses:
-        if c not in id_courses:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id course '{c}'"
-            )
+    for c in id_courses:
+        validate_valid_key(
+            c, courses, 'id_course',
+            f"Invalid id course '{c}'"
+        )
+    del courses
+    del id_courses
 
     # Parsing route
     route["image_url"] = str(route["image_url"])
@@ -220,70 +212,52 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     Return the updated route in a json with a BaseRoute structure
     """
     route = route.dict()
-
-    
     routes = get_filename_json('data/routes.json')
     
     # id_route must be valid
-    id_routes = list(map(lambda r: r['id_route'], routes))
-    if id_route not in id_routes:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
-        )
-    del id_routes
+    validate_valid_key(
+        id_route, routes, 'id_route',
+        f"Invalid id route '{id_route}'"
+    )
 
     # name must be unique
     temp_routes = list(filter(lambda r: r["id_route"] != id_route, routes))
-    name_routes = list(map(lambda r: r['name'], temp_routes))
-    if route["name"] in name_routes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name route '{route['name']}'"
-        )
+    validate_valid_key(
+        route["name"], temp_routes, 'name',
+        f"Invalid name route '{route['name']}'"
+    )
     del temp_routes
-    del name_routes
     
     # the id_glossaries must be valid if exist
     if 'glossary' in route:
         glossary = get_filename_json('data/glossary.json')
         
-        id_glossary = list(map(lambda g: g['id_glossary'], glossary))
-        del glossary
         for g in route["glossary"]:
-            if g not in id_glossary:
-                raise HTTPException(
-                    status_code=404,
-                    detail=f"HTTP_404_NOT_FOUND: Invalid id glossary '{g}'"
-                )
-        del id_glossary
-    
+            validate_valid_key(
+                g, glossary, 'id_glossary',
+                f"Invalid id glossary '{g}'"
+            )
+        del glossary
+
     # the id_teachers must be valid
     teachers = get_filename_json('data/teachers.json')
-    
-    id_teachers = list(map(lambda t: t['id_teacher'], teachers))
-    del teachers
     for t in route["teachers"]:
-        if t not in id_teachers:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id teacher '{t}'"
-            )
-    del id_teachers
-    
+        validate_valid_key(
+            t, teachers, 'id_teacher',
+            f"Invalid id teacher '{t}'"
+        )
+    del teachers
+
     # the id_courses must be valid
     courses = get_filename_json('data/courses.json')
-    
-    id_courses = list(map(lambda c: c['id_course'], courses))
-    courses = list(map(lambda s: s["courses"], route["sections"]))
-    courses = functools.reduce(lambda a,b: a + b, courses)
+    id_courses = list(map(lambda s: s["courses"], route["sections"]))
+    id_courses = functools.reduce(lambda a,b: a + b, id_courses)
 
-    for c in courses:
-        if c not in id_courses:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id course '{c}'"
-            )
+    for c in id_courses:
+        validate_valid_key(
+            c, courses, 'id_course',
+            f"Invalid id course '{c}'"
+        )
     del courses
     del id_courses
 
@@ -317,14 +291,11 @@ def delete_route(id_route):
     """
     routes = get_filename_json('data/routes.json')
     
-    # id_route must be unique
-    id_routes = list(map(lambda r: r['id_route'], routes))
-    if id_route not in id_routes:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
-        )
-    del id_routes
+    # id_route must be valid
+    validate_valid_key(
+        id_route, routes, 'id_route',
+        f"Invalid id route '{id_route}'"
+    )
 
     # Removing route of all categories
     categories = get_filename_json('data/categories.json')
