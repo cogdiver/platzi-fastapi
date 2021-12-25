@@ -9,6 +9,7 @@ from fastapi import status
 
 # Models
 from models import *
+from utils.functions import *
 
 categories_routes = APIRouter()
 
@@ -32,8 +33,7 @@ def all_categories():
         - name: str
 
     """
-    with open('data/categories.json', 'r', encoding='utf-8') as f:
-        categories = json.loads(f.read())
+    categories = get_filename_json('data/categories.json')
     
     categories = [{"id_category":c["id_category"],"name":c["name"]} for c in categories]
     return categories
@@ -58,24 +58,16 @@ def get_category(id_category):
         - image_url: HttpUrl
         - courses_number: str
     """
-
-    with open('data/categories.json', 'r', encoding='utf-8') as f:
-        categories = json.loads(f.read())
+    categories = get_filename_json('data/categories.json')
+    routes = get_filename_json('data/routes.json')
     
-    with open('data/routes.json', 'r', encoding='utf-8') as f:
-        routes = json.loads(f.read())
+    category = list(filter(lambda c: c['id_category']==id_category, categories))[0]
+    del categories
     
-    categories = list(filter(lambda c: c['id_category']==id_category, categories))[0]
-    routes = list(filter(lambda r: r['id_route'] in categories['routes'], routes))
+    routes = list(filter(lambda r: r['id_route'] in category['routes'], routes))
+    category['routes'] = routes
 
-    categories['routes'] = list(map(lambda r: {
-        "id_route": r["id_route"], 
-        "name": r["name"], 
-        "image_url": r["image_url"], 
-        "courses_number": r["courses_number"]
-    }, routes))
-
-    return categories
+    return category
 
 @categories_routes.post(
     path="/",
@@ -94,9 +86,7 @@ def post_category(category: BaseCategoryRoute = Body(...)):
     Return a json with the new category
     """
     category = category.dict()
-
-    with open('data/categories.json', 'r', encoding='utf-8') as f:
-        categories = json.loads(f.read())
+    categories = get_filename_json('data/categories.json')
 
     # id_category must be unique
     id_categories = list(map(lambda c: c['id_category'], categories))
@@ -115,8 +105,7 @@ def post_category(category: BaseCategoryRoute = Body(...)):
         )
 
     # the id_courses must be valid
-    with open('data/routes.json', 'r', encoding='utf-8') as f:
-        routes = json.loads(f.read())
+    routes = get_filename_json('data/routes.json')
     
     id_routes = list(map(lambda r: r['id_route'], routes))
     for r in category['routes']:
@@ -128,8 +117,7 @@ def post_category(category: BaseCategoryRoute = Body(...)):
     
     # Save the category
     categories.append(category)
-    with open('data/categories.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(categories, ensure_ascii=False))
+    write_filename_json('data/categories.json', categories)
 
     return category
 
@@ -151,9 +139,7 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
     Return a json with the updated category
     """
     category = category.dict()
-
-    with open('data/categories.json', 'r', encoding='utf-8') as f:
-        categories = json.loads(f.read())
+    categories = get_filename_json('data/categories.json')
 
     # id_category must be valid
     id_categories = list(map(lambda c: c['id_category'], categories))
@@ -176,8 +162,7 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
     del temp_categories
     del name_categories
     
-    with open('data/routes.json', 'r', encoding='utf-8') as f2:
-        routes = json.loads(f2.read())
+    routes = get_filename_json('data/routes.json')
     
     # id_routes must be valid
     id_routes = list(map(lambda r: r['id_route'], routes))
@@ -192,9 +177,7 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
 
     categories = list(filter(lambda c: c['id_category']!=id_category, categories))
     categories.append(category)
-        
-    with open('data/categories.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(categories, ensure_ascii=False))
+    write_filename_json('data/categories.json', categories)
 
     return category
 
@@ -214,9 +197,7 @@ def delete_category(id_category):
     
     Return a json with the delete category
     """
-    with open('data/categories.json', 'r', encoding='utf-8') as f:
-        categories = json.loads(f.read())
-
+    categories = get_filename_json('data/categories.json')
     id_categories = list(map(lambda c: c['id_category'], categories))
     
     if id_category not in id_categories:
@@ -227,8 +208,6 @@ def delete_category(id_category):
 
     category = list(filter(lambda c: c['id_category'] == id_category, categories))[0]
     categories = list(filter(lambda c: c['id_category'] != id_category, categories))
-        
-    with open('data/categories.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(categories, ensure_ascii=False))
+    write_filename_json('data/categories.json', categories)
 
     return category

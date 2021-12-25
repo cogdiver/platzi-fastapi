@@ -29,8 +29,7 @@ def routes():
 
     Returns a list of routes with a BaseRoute structure:
     """
-    with open('data/routes.json', 'r') as f:
-        routes = json.loads(f.read())
+    routes = get_filename_json('data/routes.json')
 
     return routes
 
@@ -59,9 +58,7 @@ def get_route(id_route):
         - teachers: List[TeacherBasic]
         - sections: List[Section]
     """
-    with open('data/routes.json', 'r') as f:
-        routes = json.loads(f.read())
-    
+    routes = get_filename_json('data/routes.json')
     id_routes = list(map(lambda r: r['id_route'], routes))
 
     if id_route not in id_routes:
@@ -74,17 +71,13 @@ def get_route(id_route):
     del routes
 
     # get the glossary
-    with open('data/glossary.json', 'r') as f:
-        glossary = json.loads(f.read())
-    
+    glossary = get_filename_json('data/glossary.json')
     glossary = list(filter(lambda g: g['id_glossary'] in route["glossary"], glossary))
     route["glossary"] = glossary
     del glossary
 
     # get the courses
-    with open('data/courses.json', 'r') as f:
-        all_courses = json.loads(f.read())
-    
+    all_courses = get_filename_json('data/courses.json')
     id_courses = list(map(lambda s: s['courses'], route['sections']))
     
     for i in range(len(id_courses)):
@@ -93,9 +86,7 @@ def get_route(id_route):
     del all_courses
 
     # get the teachers
-    with open('data/teachers.json', 'r') as f:
-        teachers = json.loads(f.read())
-    
+    teachers = get_filename_json('data/teachers.json')
     teachers = list(filter(lambda t: t['id_teacher'] in route["teachers"], teachers))
     route["teachers"] = teachers
 
@@ -117,17 +108,15 @@ def get_route_basic(id_route):
     
     Returns a route with a RouteDescriptionCreate structure:
     """
-    with open('data/routes.json', 'r') as f:
-        routes = json.loads(f.read())
-    
+    routes = get_filename_json('data/routes.json')
     route = list(filter(lambda r: r['id_route'] == id_route, routes))
     del routes
+    
     if not route:
         raise HTTPException(
             status_code=404,
             detail=f"HTTP_404_NOT_FOUND: Invalid id route '{id_route}'"
         )
-
 
     return route[0]
 
@@ -148,8 +137,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
     Return the new route in a json with a BaseRoute structure
     """
     route = route.dict()
-    with open('data/routes.json', 'r', encoding='utf-8') as f:
-        routes = json.loads(f.read())
+    routes = get_filename_json('data/routes.json')
     
     # id_route must be unique
     id_routes = list(map(lambda r: r['id_route'], routes))
@@ -169,8 +157,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
     
     # the id_glossaries must be valid if exist
     if 'glossary' in route:
-        with open('data/glossary.json', 'r') as f:
-            glossary = json.loads(f.read())
+        glossary = get_filename_json('data/glossary.json')
         
         id_glossary = list(map(lambda g: g['id_glossary'], glossary))
         for g in route["glossary"]:
@@ -181,9 +168,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
                 )
     
     # the id_teachers must be valid
-    with open('data/teachers.json', 'r') as f:
-        teachers = json.loads(f.read())
-    
+    teachers = get_filename_json('data/teachers.json')
     id_teachers = list(map(lambda t: t['id_teacher'], teachers))
     del teachers
     for t in route["teachers"]:
@@ -194,9 +179,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
             )
     
     # the id_courses must be valid
-    with open('data/courses.json', 'r') as f:
-        courses = json.loads(f.read())
-    
+    courses = get_filename_json('data/courses.json')
     id_courses = list(map(lambda c: c['id_course'], courses))
     courses = list(map(lambda s: s["courses"], route["sections"]))
     courses = functools.reduce(lambda a,b: a + b, courses)
@@ -215,8 +198,7 @@ def post_route(route: RouteDescriptionCreate = Body(...)):
 
     # Save the route
     routes.append(route)
-    with open('data/routes.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(routes, ensure_ascii=False))
+    write_filename_json('data/routes.json', routes)
 
     return route
 
@@ -240,8 +222,7 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     route = route.dict()
 
     
-    with open('data/routes.json', 'r', encoding='utf-8') as f:
-        routes = json.loads(f.read())
+    routes = get_filename_json('data/routes.json')
     
     # id_route must be valid
     id_routes = list(map(lambda r: r['id_route'], routes))
@@ -265,8 +246,7 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     
     # the id_glossaries must be valid if exist
     if 'glossary' in route:
-        with open('data/glossary.json', 'r') as f:
-            glossary = json.loads(f.read())
+        glossary = get_filename_json('data/glossary.json')
         
         id_glossary = list(map(lambda g: g['id_glossary'], glossary))
         del glossary
@@ -279,8 +259,7 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
         del id_glossary
     
     # the id_teachers must be valid
-    with open('data/teachers.json', 'r') as f:
-        teachers = json.loads(f.read())
+    teachers = get_filename_json('data/teachers.json')
     
     id_teachers = list(map(lambda t: t['id_teacher'], teachers))
     del teachers
@@ -293,8 +272,7 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     del id_teachers
     
     # the id_courses must be valid
-    with open('data/courses.json', 'r') as f:
-        courses = json.loads(f.read())
+    courses = get_filename_json('data/courses.json')
     
     id_courses = list(map(lambda c: c['id_course'], courses))
     courses = list(map(lambda s: s["courses"], route["sections"]))
@@ -317,8 +295,7 @@ def put_route(id_route, route: RouteDescriptionCreate = Body(...)):
     # Save the route
     routes = list(filter(lambda r: r["id_route"] != id_route, routes))
     routes.append(route)
-    with open('data/routes.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(routes, ensure_ascii=False))
+    write_filename_json('data/routes.json', routes)
 
     return route
 
@@ -338,8 +315,7 @@ def delete_route(id_route):
     
     Return the deleted route in a json with a RouteDescriptionCreate structure
     """
-    with open('data/routes.json', 'r', encoding='utf-8') as f:
-        routes = json.loads(f.read())
+    routes = get_filename_json('data/routes.json')
     
     # id_route must be unique
     id_routes = list(map(lambda r: r['id_route'], routes))
@@ -351,22 +327,19 @@ def delete_route(id_route):
     del id_routes
 
     # Removing route of all categories
-    with open('data/categories.json', 'r', encoding='utf-8') as f:
-        categories = json.loads(f.read())
+    categories = get_filename_json('data/categories.json')
     
     for c in categories:
         if id_route in c["routes"]:
             c["routes"] = list(filter(lambda r: r != id_route, c["routes"]))
     
     # Save the categories
-    with open('data/categories.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(categories, ensure_ascii=False))
+    write_filename_json('data/categories.json', categories)
     del categories
 
     # Save the routes
     route = list(filter(lambda r: r['id_route'] == id_route, routes))[0]
     routes = list(filter(lambda r: r['id_route'] != id_route, routes))
-    with open('data/routes.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(routes, ensure_ascii=False))
+    write_filename_json('data/routes.json', routes)
     
     return route

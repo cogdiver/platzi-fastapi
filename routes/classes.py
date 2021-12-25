@@ -29,8 +29,7 @@ def all_classes():
 
     Returns a list of classes with a BaseClass structure:
     """
-    with open('data/classes.json') as f:
-        classes = json.loads(f.read())
+    classes = get_filename_json('data/classes.json')
     
     return classes
 
@@ -50,8 +49,7 @@ def get_classes_basic(id_class):
     
     Returns a class with with a ClassContentBasic structure:
     """
-    with open('data/classes.json') as f:
-        classes = json.loads(f.read())
+    classes = get_filename_json('data/classes.json')
 
     # id_class mush be valid
     id_classes = list(map(lambda c: c["id_class"], classes))
@@ -87,8 +85,7 @@ def get_class(id_course, id_class):
     
     Returns a class with with a ClassContent structure:
     """
-    with open('data/courses.json') as f:
-        courses = json.loads(f.read())
+    courses = get_filename_json('data/courses.json')
     
     # id_course mush be valid
     id_courses = list(map(lambda c: c["id_course"], courses))
@@ -110,8 +107,7 @@ def get_class(id_course, id_class):
             detail=f"HTTP_404_NOT_FOUND: Invalid id class '{id_class}' for the id course '{id_course}'"
         )
 
-    with open('data/classes.json') as f:
-        classes = json.loads(f.read())
+    classes = get_filename_json('data/classes.json')
 
     class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
     classes = list(filter(lambda c: c["id_class"] in id_classes, classes))
@@ -139,13 +135,9 @@ def get_class(id_course, id_class):
     del course
 
     # get comments and answers
-    with open('data/comments.json') as f:
-        all_comments = json.loads(f.read())
-    
+    all_comments = get_filename_json('data/comments.json')
     comments = list(filter(lambda c: c['id_contribution'] in class_["id_comments"], all_comments))
-
-    with open('data/users.json') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
     
     comments = list(
         map(
@@ -217,8 +209,7 @@ def post_classes(class_: ClassContentBasic = Body(...)):
     Return the new class in a json with a ClassContentBasic structure
     """
     class_ = class_.dict()
-    with open('data/classes.json', 'r', encoding='utf-8') as f:
-        classes = json.loads(f.read())
+    classes = get_filename_json('data/classes.json')
 
     # id_class must be unique
     id_classes = list(map(lambda c: c['id_class'], classes))
@@ -252,10 +243,9 @@ def post_classes(class_: ClassContentBasic = Body(...)):
         r["url"] = str(r["url"])
     
     # Save the class_
-    classes.append(class_)
-    with open('data/classes.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(classes, ensure_ascii=False))
-    
+    classes.append(class_)    
+    write_filename_json('data/classes.json', classes)
+
     return class_
 
 @classes_routes.put(
@@ -275,8 +265,7 @@ def put_classes(id_class, class_: ClassContentBasic = Body(...)):
     Return the updated class in a json with a ClassContentBasic structure
     """
     class_ = class_.dict()
-    with open('data/classes.json', 'r', encoding='utf-8') as f:
-        classes = json.loads(f.read())
+    classes = get_filename_json('data/classes.json')
     
     # id_class must be valid
     id_classes = list(map(lambda c: c['id_class'], classes))
@@ -310,8 +299,7 @@ def put_classes(id_class, class_: ClassContentBasic = Body(...)):
         class_["id_comments"][i] = str(class_["id_comments"][i])
     
     # id_comments must be valid
-    with open('data/comments.json', 'r', encoding='utf-8') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
     
     id_comments = list(map(lambda c: c["id_contribution"], comments))
     del comments
@@ -330,8 +318,7 @@ def put_classes(id_class, class_: ClassContentBasic = Body(...)):
     
     # Save the class_
     classes.append(class_)
-    with open('data/classes.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(classes, ensure_ascii=False))
+    write_filename_json('data/classes.json', classes)
     
     return class_
 
@@ -351,8 +338,7 @@ def delete_classes(id_class):
     
     Return the deleted class in a json with a ClassContentBasic structure
     """
-    with open('data/classes.json', 'r', encoding='utf-8') as f:
-        classes = json.loads(f.read())
+    classes = get_filename_json('data/classes.json')
 
     # id_class must be valid
     id_classes = list(map(lambda c: c['id_class'], classes))
@@ -363,8 +349,7 @@ def delete_classes(id_class):
         )
         
     # delete class from courses
-    with open('data/courses.json', 'r', encoding='utf-8') as f:
-        courses = json.loads(f.read())
+    courses = get_filename_json('data/courses.json')
     
     courses = list(
         map(
@@ -377,15 +362,13 @@ def delete_classes(id_class):
             courses
         )
     )
-
-    with open('data/courses.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(courses, ensure_ascii=False))
+    
+    write_filename_json('data/courses.json', courses)
     del courses
 
     # Save the class_
     class_ = list(filter(lambda  c: c["id_class"] == id_class, classes))[0]
     classes = list(filter(lambda  c: c["id_class"] != id_class, classes))
-    with open('data/classes.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(classes, ensure_ascii=False))
+    write_filename_json('data/classes.json', classes)
     
     return class_

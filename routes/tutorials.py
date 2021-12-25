@@ -29,14 +29,9 @@ def all_tutorials():
 
     Returns a list of tutorials with a ContributionTitle structure:
     """
-    with open('data/tutorials.json', 'r') as f:
-        tutorials = json.loads(f.read())
-
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
-
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    tutorials = get_filename_json('data/tutorials.json')
+    comments = get_filename_json('data/comments.json')
+    users = get_filename_json('data/users.json')
 
     # get comments and user for each blog
     tutorials = list(
@@ -105,8 +100,7 @@ def get_tutorial(id_tutorial):
 
     Returns a tutorial with a ContributionTitle structure:
     """
-    with open('data/tutorials.json', 'r') as f:
-        tutorials = json.loads(f.read())
+    tutorials = get_filename_json('data/tutorials.json')
     
     # id_tutorial must be valid
     id_tutorials = list(map(lambda t: t["id_contribution"], tutorials))
@@ -121,11 +115,9 @@ def get_tutorial(id_tutorial):
     tutorial = list(filter(lambda t: t["id_contribution"] == id_tutorial, tutorials))[0]
     del tutorials
 
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # get comments
     tutorial["comments"] = list(
@@ -184,8 +176,7 @@ def get_tutorial_basic(id_tutorial):
     
     Returns a tutorial with with a ContributionTitleBasic structure:
     """
-    with open('data/tutorials.json', 'r') as f:
-        tutorials = json.loads(f.read())
+    tutorials = get_filename_json('data/tutorials.json')
     
     id_tutorials = list(map(lambda c: c["id_contribution"], tutorials))
 
@@ -220,8 +211,7 @@ def post_tutorial(tutorial: ContributionTitleBasic = Body(...)):
     Return the new tutorial in a json with a ContributionTitleBasic structure
     """
     tutorial = tutorial.dict()
-    with open('data/tutorials.json', 'r', encoding='utf-8') as f:
-        tutorials = json.loads(f.read())
+    tutorials = get_filename_json('data/tutorials.json')
 
     # Parsing
     tutorial["id_contribution"] = str(tutorial["id_contribution"])
@@ -238,8 +228,7 @@ def post_tutorial(tutorial: ContributionTitleBasic = Body(...)):
         )
     del id_tutorials
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -267,8 +256,7 @@ def post_tutorial(tutorial: ContributionTitleBasic = Body(...)):
 
     # Save tutorials
     tutorials.append(tutorial)
-    with open('data/tutorials.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(tutorials, ensure_ascii=False))
+    write_filename_json('data/tutorials.json', tutorials)
     
     return tutorial
 
@@ -289,8 +277,7 @@ def put_tutorial(id_tutorial, tutorial: ContributionTitleBasic = Body(...)):
 
     Return the updated tutorial in a json with a ContributionTitleBasic structure
     """
-    with open('data/tutorials.json', 'r', encoding='utf-8') as f:
-        tutorials = json.loads(f.read())
+    tutorials = get_filename_json('data/tutorials.json')
     
     # id_contribution must be valid
     id_tutorials = list(map(lambda c: c['id_contribution'], tutorials))
@@ -318,8 +305,7 @@ def put_tutorial(id_tutorial, tutorial: ContributionTitleBasic = Body(...)):
         )
     del id_tutorials
 
-    with open('data/comments.json', 'r', encoding='utf-8') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
     
     # id_comments must be valid
     id_comments = list(map(lambda c: c['id_contribution'], comments))
@@ -332,8 +318,7 @@ def put_tutorial(id_tutorial, tutorial: ContributionTitleBasic = Body(...)):
             )
     del id_comments
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -354,8 +339,7 @@ def put_tutorial(id_tutorial, tutorial: ContributionTitleBasic = Body(...)):
 
     # Save tutorials
     tutorials.append(tutorial)
-    with open('data/tutorials.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(tutorials, ensure_ascii=False))
+    write_filename_json('data/tutorials.json', tutorials)
     
     return tutorial
 
@@ -375,8 +359,7 @@ def delete_tutorial(id_tutorial):
     
     Return the deleted tutorial in a json with a ContributionTitleBasic structure
     """
-    with open('data/tutorials.json', 'r', encoding='utf-8') as f:
-        tutorials = json.loads(f.read())
+    tutorials = get_filename_json('data/tutorials.json')
 
     # id_tutorial must be valid
     id_tutorials = list(map(lambda c: c['id_tutorial'], tutorials))
@@ -390,7 +373,6 @@ def delete_tutorial(id_tutorial):
     # Save the tutorial
     tutorial = list(filter(lambda  c: c["id_tutorial"] == id_tutorial, tutorials))[0]
     tutorials = list(filter(lambda  c: c["id_tutorial"] != id_tutorial, tutorials))
-    with open('data/tutorials.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(tutorials, ensure_ascii=False))
+    write_filename_json('data/tutorials.json', tutorials)
     
     return tutorial

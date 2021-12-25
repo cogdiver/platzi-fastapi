@@ -1,18 +1,5 @@
-# Python
-from typing import Optional
-import json
-import functools
-from typing import List
-
 # FastAPI
 from fastapi import FastAPI
-from fastapi import status
-from fastapi import HTTPException
-from fastapi import Body
-from fastapi import Query
-
-# Models
-from models import *
 
 # Routes
 from routes.categories import categories_routes
@@ -40,9 +27,8 @@ from home import HOME
 
 @app.get(
     path="/",
-    status_code=status.HTTP_200_OK,
     tags=["Home"]
-    )
+)
 def home():
     print(HOME)
     return {

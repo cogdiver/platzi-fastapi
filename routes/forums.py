@@ -29,14 +29,11 @@ def all_forums():
 
     Returns a list of forums with a ContributionTitle structure:
     """
-    with open('data/forums.json', 'r') as f:
-        forums = json.loads(f.read())
+    forums = get_filename_json('data/forums.json')
 
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # get comments and user for each blog
     forums = list(
@@ -105,8 +102,7 @@ def get_forum(id_forum):
 
     Returns a forum with a ContributionTitle structure:
     """
-    with open('data/forums.json', 'r') as f:
-        forums = json.loads(f.read())
+    forums = get_filename_json('data/forums.json')
     
     # id_forum must be valid
     id_forums = list(map(lambda f: f["id_contribution"], forums))
@@ -121,11 +117,9 @@ def get_forum(id_forum):
     forum = list(filter(lambda f: f["id_contribution"] == id_forum, forums))[0]
     del forums
 
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # get comments
     forum["comments"] = list(
@@ -184,8 +178,7 @@ def get_forum_basic(id_forum):
     
     Returns a forum with with a ContributionTitleBasic structure:
     """
-    with open('data/forums.json', 'r') as f:
-        forums = json.loads(f.read())
+    forums = get_filename_json('data/forums.json')
     
     id_forums = list(map(lambda c: c["id_contribution"], forums))
 
@@ -219,8 +212,7 @@ def post_forum(forum: ContributionTitleBasic = Body(...)):
     Return the new forum in a json with a ContributionTitleBasic structure
     """
     forum = forum.dict()
-    with open('data/forums.json', 'r', encoding='utf-8') as f:
-        forums = json.loads(f.read())
+    forums = get_filename_json('data/forums.json')
 
     # Parsing
     forum["id_contribution"] = str(forum["id_contribution"])
@@ -237,8 +229,7 @@ def post_forum(forum: ContributionTitleBasic = Body(...)):
         )
     del id_forums
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -266,8 +257,7 @@ def post_forum(forum: ContributionTitleBasic = Body(...)):
 
     # Save forums
     forums.append(forum)
-    with open('data/forums.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(forums, ensure_ascii=False))
+    write_filename_json('data/forums.json', forums)
     
     return forum
 
@@ -288,8 +278,7 @@ def put_forum(id_forum, forum: ContributionTitleBasic = Body(...)):
 
     Return the updated forum in a json with a ContributionTitleBasic structure
     """
-    with open('data/forums.json', 'r', encoding='utf-8') as f:
-        forums = json.loads(f.read())
+    forums = get_filename_json('data/forums.json')
     
     # id_contribution must be valid
     id_forums = list(map(lambda c: c['id_contribution'], forums))
@@ -317,8 +306,7 @@ def put_forum(id_forum, forum: ContributionTitleBasic = Body(...)):
         )
     del id_forums
 
-    with open('data/comments.json', 'r', encoding='utf-8') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
     
     # id_comments must be valid
     id_comments = list(map(lambda c: c['id_contribution'], comments))
@@ -331,8 +319,7 @@ def put_forum(id_forum, forum: ContributionTitleBasic = Body(...)):
             )
     del id_comments
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -353,8 +340,7 @@ def put_forum(id_forum, forum: ContributionTitleBasic = Body(...)):
 
     # Save forums
     forums.append(forum)
-    with open('data/forums.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(forums, ensure_ascii=False))
+    write_filename_json('data/forums.json', forums)
     
     return forum
 
@@ -374,8 +360,7 @@ def delete_forum(id_forum):
     
     Return the deleted forum in a json with a ContributionTitleBasic structure
     """
-    with open('data/forums.json', 'r', encoding='utf-8') as f:
-        forums = json.loads(f.read())
+    forums = get_filename_json('data/forums.json')
 
     # id_forum must be valid
     id_forums = list(map(lambda c: c['id_forum'], forums))
@@ -389,7 +374,6 @@ def delete_forum(id_forum):
     # Save the forum
     forum = list(filter(lambda  c: c["id_forum"] == id_forum, forums))[0]
     forums = list(filter(lambda  c: c["id_forum"] != id_forum, forums))
-    with open('data/forums.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(forums, ensure_ascii=False))
+    write_filename_json('data/forums.json', forums)
     
     return forum

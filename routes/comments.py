@@ -30,11 +30,9 @@ def all_comments():
 
     Returns a list of comments with a ContributionAnswer structure:
     """
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
     
     comments = list(
         map(
@@ -82,8 +80,7 @@ def get_comment(id_comment):
     
     Returns a comment with with a ContributionAnswer structure:
     """
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
     
     id_comments = list(map(lambda c: c["id_contribution"], comments))
 
@@ -99,8 +96,7 @@ def get_comment(id_comment):
     comment = list(filter(lambda c: c["id_contribution"]==id_comment, comments))[0]
 
     # get user for comment
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     comment["user"] = list(filter(lambda u: u["id_user"] == comment["id_user"], users))[0]
     
@@ -145,8 +141,7 @@ def get_comment_basic(id_comment):
 
     Returns a comment with with a ContributionAnswer structure:
     """
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
     
     id_comments = list(map(lambda c: c["id_contribution"], comments))
 
@@ -180,8 +175,7 @@ def post_comment(comment: ContributionBasic = Body(...)):
     Return the new comment in a json with a ContributionBasic structure
     """
     comment = comment.dict()
-    with open('data/comments.json', 'r', encoding='utf-8') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
     # Parsing
     comment["id_contribution"] = str(comment["id_contribution"])
@@ -198,8 +192,7 @@ def post_comment(comment: ContributionBasic = Body(...)):
         )
     del id_comments
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -227,8 +220,7 @@ def post_comment(comment: ContributionBasic = Body(...)):
 
     # Save comments
     comments.append(comment)
-    with open('data/comments.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(comments, ensure_ascii=False))
+    write_filename_json('data/comments.json', comments)
     
     return comment
 
@@ -249,8 +241,7 @@ def put_comment(id_comment, comment: ContributionBasic = Body(...)):
 
     Return the updated comment in a json with a ContributionBasic structure
     """
-    with open('data/comments.json', 'r', encoding='utf-8') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
     
     # id_contribution must be valid
     id_comments = list(map(lambda c: c['id_contribution'], comments))
@@ -286,8 +277,7 @@ def put_comment(id_comment, comment: ContributionBasic = Body(...)):
             )
     del id_comments
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -308,8 +298,7 @@ def put_comment(id_comment, comment: ContributionBasic = Body(...)):
 
     # Save comments
     comments.append(comment)
-    with open('data/comments.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(comments, ensure_ascii=False))
+    write_filename_json('data/comments.json', comments)
     
     return comment
 
@@ -329,8 +318,7 @@ def delete_comment(id_comment, kind: Optional[TypeContribution] = Query(default=
 
     Return the deleted comment in a json with a ContributionBasic structure
     """
-    with open('data/comments.json', 'r', encoding='utf-8') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
     # id_comment must be valid
     id_comments = list(map(lambda c: c['id_contribution'], comments))
@@ -347,8 +335,7 @@ def delete_comment(id_comment, kind: Optional[TypeContribution] = Query(default=
 
     # delete comment from all files
     if kind in ["tutorial", "blog", "forum"]:
-        with open(f'data/{kind}s.json', 'r', encoding='utf-8') as f:
-            contributions = json.loads(f.read())
+        contributions = get_filename_json(f'data/{kind}s.json')
 
         contributions = list(
             map(
@@ -360,8 +347,7 @@ def delete_comment(id_comment, kind: Optional[TypeContribution] = Query(default=
             )
         )
 
-        with open(f'data/{kind}s.json', 'w', encoding='utf-8') as f:
-            f.write(json.dumps(contributions, ensure_ascii=False))
+        write_filename_json(f'data/{kind}s.json', contributions)
 
     elif kind == "answers":
         comments = list(
@@ -377,7 +363,6 @@ def delete_comment(id_comment, kind: Optional[TypeContribution] = Query(default=
     comments = list(filter(lambda c: c["id_contribution"] != id_comment, comments))
 
     # Save the comment
-    with open('data/comments.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(comments, ensure_ascii=False))
+    write_filename_json('data/comments.json', comments)
 
     return comment

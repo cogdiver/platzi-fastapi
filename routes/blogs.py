@@ -29,14 +29,11 @@ def all_blogs():
 
     Returns a list of blogs with a ContributionTitle structure:
     """
-    with open('data/blogs.json', 'r') as f:
-        blogs = json.loads(f.read())
+    blogs = get_filename_json('data/blogs.json')
 
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # get comments and user for each blog
     blogs = list(
@@ -105,8 +102,7 @@ def get_blog(id_blog):
 
     Returns a blog with a ContributionTitle structure:
     """
-    with open('data/blogs.json', 'r') as f:
-        blogs = json.loads(f.read())
+    blogs = get_filename_json('data/blogs.json')
     
     # id_blog must be valid
     id_blogs = list(map(lambda b: b["id_contribution"], blogs))
@@ -121,11 +117,9 @@ def get_blog(id_blog):
     blog = list(filter(lambda b: b["id_contribution"] == id_blog, blogs))[0]
     del blogs
 
-    with open('data/comments.json', 'r') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
 
-    with open('data/users.json', 'r') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # get comments
     blog["comments"] = list(
@@ -183,8 +177,7 @@ def get_blog_basic(id_blog):
 
     Returns a blog with a ContributionTitleBasic structure:
     """
-    with open('data/blogs.json', 'r') as f:
-        blogs = json.loads(f.read())
+    blogs = get_filename_json('data/blogs.json')
     
     id_blogs = list(map(lambda c: c["id_contribution"], blogs))
 
@@ -218,8 +211,7 @@ def post_blog(blog: ContributionTitleBasic = Body(...)):
     Return the new blog in a json with a ContributionTitleBasic structure
     """
     blog = blog.dict()
-    with open('data/blogs.json', 'r', encoding='utf-8') as f:
-        blogs = json.loads(f.read())
+    blogs = get_filename_json('data/blogs.json')
 
     # Parsing
     blog["id_contribution"] = str(blog["id_contribution"])
@@ -236,8 +228,7 @@ def post_blog(blog: ContributionTitleBasic = Body(...)):
         )
     del id_blogs
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -265,8 +256,7 @@ def post_blog(blog: ContributionTitleBasic = Body(...)):
 
     # Save blogs
     blogs.append(blog)
-    with open('data/blogs.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(blogs, ensure_ascii=False))
+    write_filename_json('data/blogs.json', blogs)
     
     return blog
 
@@ -287,8 +277,7 @@ def put_blog(id_blog, blog: ContributionTitleBasic = Body(...)):
 
     Return the updated blog in a json with a ContributionTitleBasic structure
     """
-    with open('data/blogs.json', 'r', encoding='utf-8') as f:
-        blogs = json.loads(f.read())
+    blogs = get_filename_json('data/blogs.json')
     
     # id_contribution must be valid
     id_blogs = list(map(lambda c: c['id_contribution'], blogs))
@@ -316,8 +305,7 @@ def put_blog(id_blog, blog: ContributionTitleBasic = Body(...)):
         )
     del id_blogs
 
-    with open('data/comments.json', 'r', encoding='utf-8') as f:
-        comments = json.loads(f.read())
+    comments = get_filename_json('data/comments.json')
     
     # id_comments must be valid
     id_comments = list(map(lambda c: c['id_contribution'], comments))
@@ -330,8 +318,7 @@ def put_blog(id_blog, blog: ContributionTitleBasic = Body(...)):
             )
     del id_comments
     
-    with open('data/users.json', 'r', encoding='utf-8') as f:
-        users = json.loads(f.read())
+    users = get_filename_json('data/users.json')
 
     # id_user must be valid
     id_users = list(map(lambda u: u['id_user'], users))
@@ -352,8 +339,7 @@ def put_blog(id_blog, blog: ContributionTitleBasic = Body(...)):
 
     # Save blogs
     blogs.append(blog)
-    with open('data/blogs.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(blogs, ensure_ascii=False))
+    write_filename_json('data/blogs.json', blogs)
     
     return blog
 
@@ -373,8 +359,7 @@ def delete_blog(id_blog):
     
     Return the deleted blog in a json with a ContributionTitleBasic structure
     """
-    with open('data/blogs.json', 'r', encoding='utf-8') as f:
-        blogs = json.loads(f.read())
+    blogs = get_filename_json('data/blogs.json')
 
     # id_blog must be valid
     id_blogs = list(map(lambda c: c['id_blog'], blogs))
@@ -388,7 +373,6 @@ def delete_blog(id_blog):
     # Save the blog
     blog = list(filter(lambda  c: c["id_blog"] == id_blog, blogs))[0]
     blogs = list(filter(lambda  c: c["id_blog"] != id_blog, blogs))
-    with open('data/blogs.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(blogs, ensure_ascii=False))
+    write_filename_json('data/blogs.json', blogs)
     
     return blog
