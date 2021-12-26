@@ -3,6 +3,7 @@ from typing import List
 
 # FastAPI
 from fastapi import APIRouter
+from fastapi import HTTPException
 from fastapi import Body
 from fastapi import Query
 from fastapi import status
