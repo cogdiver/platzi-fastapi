@@ -1,6 +1,5 @@
 # Python
 from typing import List
-import json
 
 # FastAPI
 from fastapi import APIRouter
@@ -9,6 +8,11 @@ from fastapi import status
 
 # Models
 from models import *
+
+# Utils
+from utils.functions import get_filename_json
+from utils.functions import write_filename_json
+from utils.functions import get_all_contributions
 
 forums_routes = APIRouter()
 
@@ -29,61 +33,7 @@ def all_forums():
 
     Returns a list of forums with a ContributionTitle structure:
     """
-    forums = get_filename_json('data/forums.json')
-
-    comments = get_filename_json('data/comments.json')
-
-    users = get_filename_json('data/users.json')
-
-    # get comments and user for each blog
-    forums = list(
-        map(
-            lambda f: {
-                **f,
-                **[{"comments": list(
-                    filter(
-                        lambda c: c["id_contribution"] in f["id_comments"],
-                        comments
-                    )
-                )} if f["id_comments"] else {"comments": []}][0],
-                **{"user": list(
-                    filter(
-                        lambda u: u["id_user"] == f["id_user"],
-                        users
-                    )
-                )[0]}
-            },
-            forums
-        )
-    )
-
-    # get users and answers for all forums
-    for f in forums:
-        for c in f["comments"]:
-            # get user for each blog's comment
-            c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
-    
-            # get answers for each blog's comment
-            if "id_answers" in c and c["id_answers"]:
-                c["answers"] = list(
-                    filter(
-                        lambda a: a["id_contribution"] in c["id_answers"],
-                        comments
-                    )
-                )
-            
-                ## get users for answers
-                c["answers"] = list(
-                    map(
-                        lambda a: {**a, **{"user": list(
-                            filter(
-                                lambda u: u["id_user"] == a["id_user"],
-                                users
-                            )
-                        )[0]}},
-                        c["answers"]
-                    )
-                )
+    forums = get_all_contributions('forums')
     
     return forums
 

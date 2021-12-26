@@ -1,6 +1,5 @@
 # Python
 from typing import List
-import json
 
 # FastAPI
 from fastapi import APIRouter
@@ -9,7 +8,12 @@ from fastapi import status
 
 # Models
 from models import *
-from utils.functions import *
+
+# Utils
+from utils.functions import get_filename_json
+from utils.functions import write_filename_json
+from utils.functions import validate_unique_key
+from utils.functions import validate_valid_key
 
 categories_routes = APIRouter()
 
@@ -34,8 +38,8 @@ def all_categories():
 
     """
     categories = get_filename_json('data/categories.json')
-    
     categories = [{"id_category":c["id_category"],"name":c["name"]} for c in categories]
+
     return categories
 
 @categories_routes.get(
@@ -148,7 +152,6 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
         f"Invalid name category '{category['name']}'"
     )
     del temp_categories
-    
     routes = get_filename_json('data/routes.json')
     
     # id_routes must be valid
@@ -158,7 +161,6 @@ def put_category(id_category, category: BaseCategoryRoute = Body(...)):
             f"Invalid id route: '{r}'"
         )
     del routes
-
     categories = list(filter(lambda c: c['id_category']!=id_category, categories))
     categories.append(category)
     write_filename_json('data/categories.json', categories)

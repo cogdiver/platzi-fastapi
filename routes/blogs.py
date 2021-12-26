@@ -1,6 +1,5 @@
 # Python
 from typing import List
-import json
 
 # FastAPI
 from fastapi import APIRouter
@@ -9,6 +8,11 @@ from fastapi import status
 
 # Models
 from models import *
+
+# Utils
+from utils.functions import get_filename_json
+from utils.functions import write_filename_json
+from utils.functions import get_all_contributions
 
 blogs_routes = APIRouter()
 
@@ -29,61 +33,7 @@ def all_blogs():
 
     Returns a list of blogs with a ContributionTitle structure:
     """
-    blogs = get_filename_json('data/blogs.json')
-
-    comments = get_filename_json('data/comments.json')
-
-    users = get_filename_json('data/users.json')
-
-    # get comments and user for each blog
-    blogs = list(
-        map(
-            lambda b: {
-                **b,
-                **[{"comments": list(
-                    filter(
-                        lambda c: c["id_contribution"] in b["id_comments"],
-                        comments
-                    )
-                )} if b["id_comments"] else {"comments": []}][0],
-                **{"user": list(
-                    filter(
-                        lambda u: u["id_user"] == b["id_user"],
-                        users
-                    )
-                )[0]}
-            },
-            blogs
-        )
-    )
-
-    # get users and answers for all blogs
-    for b in blogs:
-        for c in b["comments"]:
-            # get user for each blog's comment
-            c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
-    
-            # get answers for each blog's comment
-            if "id_answers" in c and c["id_answers"]:
-                c["answers"] = list(
-                    filter(
-                        lambda a: a["id_contribution"] in c["id_answers"],
-                        comments
-                    )
-                )
-            
-                ## get users for answers
-                c["answers"] = list(
-                    map(
-                        lambda a: {**a, **{"user": list(
-                            filter(
-                                lambda u: u["id_user"] == a["id_user"],
-                                users
-                            )
-                        )[0]}},
-                        c["answers"]
-                    )
-                )
+    blogs = get_all_contributions('blogs')
     
     return blogs
 

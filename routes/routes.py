@@ -1,6 +1,5 @@
 # Python
 from typing import List
-import json
 import functools
 
 # FastAPI
@@ -10,6 +9,12 @@ from fastapi import status
 
 # Models
 from models import *
+
+# Utils
+from utils.functions import get_filename_json
+from utils.functions import write_filename_json
+from utils.functions import validate_unique_key
+from utils.functions import validate_valid_key
 
 routes_routes = APIRouter()
 

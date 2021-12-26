@@ -1,15 +1,21 @@
 # Python
 from typing import List
-import json
 import functools
 
 # FastAPI
 from fastapi import APIRouter
+from fastapi import HTTPException
 from fastapi import Body
 from fastapi import status
 
 # Models
 from models import *
+
+# Utils
+from utils.functions import get_filename_json
+from utils.functions import write_filename_json
+from utils.functions import validate_unique_key
+from utils.functions import validate_valid_key
 
 classes_routes = APIRouter()
 
@@ -53,13 +59,10 @@ def get_classes_basic(id_class):
     classes = get_filename_json('data/classes.json')
 
     # id_class mush be valid
-    id_classes = list(map(lambda c: c["id_class"], classes))
-    if id_class not in id_classes:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id class '{id_class}'"
-        )
-    del id_classes
+    validate_valid_key(
+        id_class, classes, 'id_class',
+        f"Invalid id class '{id_class}'"
+    )
 
     class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
     del classes
@@ -89,13 +92,10 @@ def get_class(id_course, id_class):
     courses = get_filename_json('data/courses.json')
     
     # id_course mush be valid
-    id_courses = list(map(lambda c: c["id_course"], courses))
-    if id_course not in id_courses:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id course '{id_course}'"
-        )
-    del id_courses
+    validate_valid_key(
+        id_course, courses, 'id_course',
+        f"Invalid id course '{id_course}'"
+    )
 
     # id_class mush be valid for id_course
     course = list(filter(lambda c: c["id_course"] == id_course, courses))[0]
@@ -109,7 +109,6 @@ def get_class(id_course, id_class):
         )
 
     classes = get_filename_json('data/classes.json')
-
     class_ = list(filter(lambda c: c["id_class"] == id_class, classes))[0]
     classes = list(filter(lambda c: c["id_class"] in id_classes, classes))
     classes = list(map(lambda c: {"id_class": c["id_class"], "name":c["name"]}, classes))
@@ -188,7 +187,6 @@ def get_class(id_course, id_class):
         )
     )
     del all_comments
-
     class_["comments"] = comments
 
     return class_
@@ -213,26 +211,19 @@ def post_classes(class_: ClassContentBasic = Body(...)):
     classes = get_filename_json('data/classes.json')
 
     # id_class must be unique
-    id_classes = list(map(lambda c: c['id_class'], classes))
-    if class_["id_class"] in id_classes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id class '{class_['id_class']}'"
-        )
-    del id_classes
+    validate_unique_key(
+        class_["id_class"], classes, 'id_class',
+        f"Invalid id class '{class_['id_class']}'"
+    )
 
     # name must be unique
-    name_classes = list(map(lambda c: c['name'], classes))
-    if class_["name"] in name_classes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name class '{class_['name']}'"
-        )
-    del name_classes
+    validate_unique_key(
+        class_["name"], classes, 'name',
+        f"Invalid id class '{class_['name']}'"
+    )
 
     # id_comments must not be in class_
     if class_["id_comments"]:
-        print(class_)
         raise HTTPException(
             status_code=406,
             detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid key 'id_comments'"
@@ -269,31 +260,24 @@ def put_classes(id_class, class_: ClassContentBasic = Body(...)):
     classes = get_filename_json('data/classes.json')
     
     # id_class must be valid
-    id_classes = list(map(lambda c: c['id_class'], classes))
-    if id_class not in id_classes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id class '{id_class}'"
-        )
+    validate_valid_key(
+        id_class, classes, 'id_class',
+        f"Invalid id class '{id_class}'"
+    )
     
     classes = list(filter(lambda c: c["id_class"] != id_class, classes))
 
     # id_class must be unique
-    if class_["id_class"] in id_classes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id class '{class_['id_class']}'"
-        )
-    del id_classes
-
+    validate_unique_key(
+        class_["id_class"], classes, 'id_class',
+        f"Invalid id class '{class_['id_class']}'"
+    )
+    
     # name must be unique
-    name_classes = list(map(lambda c: c['name'], classes))
-    if class_["name"] in name_classes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid name class '{class_['name']}'"
-        )
-    del name_classes
+    validate_unique_key(
+        class_["name"], classes, 'name',
+        f"Invalid id class '{class_['name']}'"
+    )
 
     # Parsing id_comments
     for i in range(len(class_["id_comments"])):
@@ -301,16 +285,12 @@ def put_classes(id_class, class_: ClassContentBasic = Body(...)):
     
     # id_comments must be valid
     comments = get_filename_json('data/comments.json')
-    
-    id_comments = list(map(lambda c: c["id_contribution"], comments))
-    del comments
-
     for c in class_["id_comments"]:
-        if c not in id_comments:
-            raise HTTPException(
-                status_code=406,
-                detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comment '{c}'"
-            )
+        validate_valid_key(
+            c, comments, 'id_contribution',
+            f"Invalid id comment '{c}'"
+        )
+    del comments
 
     # Parsing class resourses
     class_["video_url"] = str(class_["video_url"])
@@ -342,16 +322,13 @@ def delete_classes(id_class):
     classes = get_filename_json('data/classes.json')
 
     # id_class must be valid
-    id_classes = list(map(lambda c: c['id_class'], classes))
-    if id_class not in id_classes:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id class '{id_class}'"
-        )
+    validate_valid_key(
+        id_class, classes, 'id_class',
+        f"Invalid id class '{id_class}'"
+    )
         
     # delete class from courses
     courses = get_filename_json('data/courses.json')
-    
     courses = list(
         map(
             lambda c: {**c, **{"modules": list(

@@ -1,6 +1,5 @@
 # Python
 from typing import List
-import json
 
 # FastAPI
 from fastapi import APIRouter
@@ -10,6 +9,10 @@ from fastapi import status
 
 # Models
 from models import *
+
+# Utils
+from utils.functions import get_filename_json
+from utils.functions import write_filename_json
 
 comments_routes = APIRouter()
 
@@ -31,9 +34,7 @@ def all_comments():
     Returns a list of comments with a ContributionAnswer structure:
     """
     comments = get_filename_json('data/comments.json')
-
     users = get_filename_json('data/users.json')
-    
     comments = list(
         map(
             lambda c: {**c, **{"user": list(
