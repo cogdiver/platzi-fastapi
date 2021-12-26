@@ -1,0 +1,53 @@
+[
+    {
+        "id_contribution": "ec6323a6-4aee-11ec-81d3-0242ac130003",
+        "id_user": "0c75673c-4aed-11ec-81d3-0242ac130003",
+        "date_publication": "2021-11-21",
+        "likes": 10,
+        "title": "title___1",
+        "content": "content",
+        "kind": "forum",
+        "id_comments": [
+            "192e6f44-4aef-11ec-81d3-0242ac130003"
+        ]
+    },
+    {
+        "id_contribution": "f2630d8e-4aee-11ec-81d3-0242ac130003",
+        "id_user": "0c75673c-4aed-11ec-81d3-0242ac130003",
+        "date_publication": "2021-11-21",
+        "likes": 10,
+        "title": "title___2",
+        "content": "content",
+        "kind": "forum",
+        "id_comments": []
+    },
+    {
+        "id_contribution": "192e6f44-4aef-11ec-81d3-0242ac130003",
+        "id_user": "030c0048-4aed-11ec-81d3-0242ac130003",
+        "date_publication": "2021-11-21",
+        "likes": 10,
+        "title": "title___3",
+        "content": "content",
+        "kind": "question",
+        "id_comments": []
+    },
+    {
+        "id_contribution": "f733dbc2-4aee-11ec-81d3-0242ac130003",
+        "id_user": "030c0048-4aed-11ec-81d3-0242ac130003",
+        "date_publication": "2021-11-21",
+        "likes": 10,
+        "title": "title___4",
+        "content": "content",
+        "kind": "question",
+        "id_comments": []
+    },
+    {
+        "id_contribution": "f833dbc2-4aee-11ec-81d3-0242ac130003",
+        "date_publication": "2021-11-21",
+        "likes": 10,
+        "id_user": "030c0048-4aed-11ec-81d3-0242ac130003",
+        "id_comments": [],
+        "kind": "forum",
+        "title": "title___4"
+    }
+]

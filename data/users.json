@@ -1,0 +1,16 @@
+[
+    {
+        "id_user": "030c0048-4aed-11ec-81d3-0242ac130003",
+        "name": "name 1",
+        "image_url": "https://fotos.com/image_url.png",
+        "kind": "student",
+        "status": "public"
+    },
+    {
+        "id_user": "0c75673c-4aed-11ec-81d3-0242ac130003",
+        "name": "name 2",
+        "image_url": "https://fotos.com/image_url.png",
+        "kind": "team",
+        "status": "private"
+    }
+]

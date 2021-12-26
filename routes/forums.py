@@ -13,6 +13,11 @@ from models import *
 from utils.functions import get_filename_json
 from utils.functions import write_filename_json
 from utils.functions import get_all_contributions
+from utils.functions import get_contribution
+from utils.functions import get_contribution_basic
+from utils.functions import post_contribution
+from utils.functions import put_contribution
+from utils.functions import delete_contribution
 
 forums_routes = APIRouter()
 
@@ -34,7 +39,7 @@ def all_forums():
     Returns a list of forums with a ContributionTitle structure:
     """
     forums = get_all_contributions('forums')
-    
+
     return forums
 
 @forums_routes.get(
@@ -52,63 +57,7 @@ def get_forum(id_forum):
 
     Returns a forum with a ContributionTitle structure:
     """
-    forums = get_filename_json('data/forums.json')
-    
-    # id_forum must be valid
-    id_forums = list(map(lambda f: f["id_contribution"], forums))
-    if id_forum not in id_forums:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id forum '{id_forum}'"
-        )
-    del id_forums
-
-    # get forum
-    forum = list(filter(lambda f: f["id_contribution"] == id_forum, forums))[0]
-    del forums
-
-    comments = get_filename_json('data/comments.json')
-
-    users = get_filename_json('data/users.json')
-
-    # get comments
-    forum["comments"] = list(
-        filter(
-            lambda c: c["id_contribution"] in forum["id_comments"],
-            comments
-        )
-    ) if forum["id_comments"] else []
-
-    # get user
-    forum["user"] = list(filter(lambda u: u["id_user"] == forum["id_user"], users))[0]
-
-
-    # get answers and users
-    for c in forum["comments"]:
-        # get user for each forum's comment
-        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
-
-        # get answers for each forum's comment
-        if "id_answers" in c and c["id_answers"]:
-            c["answers"] = list(
-                filter(
-                    lambda a: a["id_contribution"] in c["id_answers"],
-                    comments
-                )
-            )
-        
-            ## get users for answers
-            c["answers"] = list(
-                map(
-                    lambda a: {**a, **{"user": list(
-                        filter(
-                            lambda u: u["id_user"] == a["id_user"],
-                            users
-                        )
-                    )[0]}},
-                    c["answers"]
-                )
-            )
+    forum = get_contribution('forums', id_forum)
     
     return forum
 
@@ -128,20 +77,7 @@ def get_forum_basic(id_forum):
     
     Returns a forum with with a ContributionTitleBasic structure:
     """
-    forums = get_filename_json('data/forums.json')
-    
-    id_forums = list(map(lambda c: c["id_contribution"], forums))
-
-    # id_forum must be valid
-    if id_forum not in id_forums:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id forum '{id_forum}'"
-        )
-    del id_forums
-
-    # get forum
-    forum = list(filter(lambda c: c["id_contribution"]==id_forum, forums))[0]
+    forum = get_contribution_basic('forums', id_forum)
 
     return forum
 
@@ -161,53 +97,7 @@ def post_forum(forum: ContributionTitleBasic = Body(...)):
 
     Return the new forum in a json with a ContributionTitleBasic structure
     """
-    forum = forum.dict()
-    forums = get_filename_json('data/forums.json')
-
-    # Parsing
-    forum["id_contribution"] = str(forum["id_contribution"])
-    forum["id_user"] = str(forum["id_user"])
-    forum["date_publication"] = str(forum["date_publication"])
-    forum['kind'] = forum['kind'].value
-
-    # id_contribution must be unique
-    id_forums = list(map(lambda f: f['id_contribution'], forums))
-    if forum["id_contribution"] in id_forums:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{forum['id_contribution']}'"
-        )
-    del id_forums
-    
-    users = get_filename_json('data/users.json')
-
-    # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
-    del users
-    if forum["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{forum['id_user']}'"
-        )
-    del id_users
-
-    # kind must be valid
-    if forum['kind'] != "forum":
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid forum kind '{forum['kind']}'"
-        )
-
-    # id_answers must be empty
-    if 'id_comments' in forum and forum['id_comments']:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comments, must be empty"
-        )
-
-    # Save forums
-    forums.append(forum)
-    write_filename_json('data/forums.json', forums)
+    forum = post_contribution('forums', forum)
     
     return forum
 
@@ -228,69 +118,7 @@ def put_forum(id_forum, forum: ContributionTitleBasic = Body(...)):
 
     Return the updated forum in a json with a ContributionTitleBasic structure
     """
-    forums = get_filename_json('data/forums.json')
-    
-    # id_contribution must be valid
-    id_forums = list(map(lambda c: c['id_contribution'], forums))
-    if id_forum not in id_forums:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_forum}'"
-        )
-    del id_forums
-
-    forums = list(filter(lambda c: c["id_contribution"] != id_forum, forums))
-    forum = forum.dict()
-    # Parsing
-    forum["id_contribution"] = str(forum["id_contribution"])
-    forum["id_user"] = str(forum["id_user"])
-    forum["date_publication"] = str(forum["date_publication"])
-    forum['kind'] = forum['kind'].value
-
-    # id_contribution must be unique
-    id_forums = list(map(lambda c: c['id_contribution'], forums))
-    if forum["id_contribution"] in id_forums:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{forum['id_contribution']}'"
-        )
-    del id_forums
-
-    comments = get_filename_json('data/comments.json')
-    
-    # id_comments must be valid
-    id_comments = list(map(lambda c: c['id_contribution'], comments))
-    del comments
-    for c in forum['id_comments']:
-        if c not in id_comments:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{c}'"
-            )
-    del id_comments
-    
-    users = get_filename_json('data/users.json')
-
-    # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
-    del users
-    if forum["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{forum['id_user']}'"
-        )
-    del id_users
-
-    # kind must be valid
-    if forum['kind'] != "forum":
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid forum kind '{forum['kind']}'"
-        )
-
-    # Save forums
-    forums.append(forum)
-    write_filename_json('data/forums.json', forums)
+    forum = put_contribution('forums', id_forum, forum)
     
     return forum
 
@@ -310,20 +138,6 @@ def delete_forum(id_forum):
     
     Return the deleted forum in a json with a ContributionTitleBasic structure
     """
-    forums = get_filename_json('data/forums.json')
-
-    # id_forum must be valid
-    id_forums = list(map(lambda c: c['id_forum'], forums))
-    if id_forum not in id_forums:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id forum '{id_forum}'"
-        )
-    del id_forums
-
-    # Save the forum
-    forum = list(filter(lambda  c: c["id_forum"] == id_forum, forums))[0]
-    forums = list(filter(lambda  c: c["id_forum"] != id_forum, forums))
-    write_filename_json('data/forums.json', forums)
+    forum = delete_contribution('forums', id_forum)
     
     return forum

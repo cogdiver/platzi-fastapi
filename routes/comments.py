@@ -13,6 +13,8 @@ from models import *
 # Utils
 from utils.functions import get_filename_json
 from utils.functions import write_filename_json
+from utils.functions import validate_valid_key
+from utils.functions import validate_unique_key
 
 comments_routes = APIRouter()
 
@@ -82,23 +84,18 @@ def get_comment(id_comment):
     Returns a comment with with a ContributionAnswer structure:
     """
     comments = get_filename_json('data/comments.json')
-    
-    id_comments = list(map(lambda c: c["id_contribution"], comments))
 
     # id_comment must be valid
-    if id_comment not in id_comments:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id comment '{id_comment}'"
-        )
-    del id_comments
-
+    validate_valid_key(
+        id_comment, comments, 'id_contribution',
+        f"Invalid id comment '{id_comment}'"
+    )
+    
     # get comment
     comment = list(filter(lambda c: c["id_contribution"]==id_comment, comments))[0]
 
     # get user for comment
     users = get_filename_json('data/users.json')
-
     comment["user"] = list(filter(lambda u: u["id_user"] == comment["id_user"], users))[0]
     
     # get answers
@@ -143,16 +140,12 @@ def get_comment_basic(id_comment):
     Returns a comment with with a ContributionAnswer structure:
     """
     comments = get_filename_json('data/comments.json')
-    
-    id_comments = list(map(lambda c: c["id_contribution"], comments))
 
     # id_comment must be valid
-    if id_comment not in id_comments:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id comment '{id_comment}'"
-        )
-    del id_comments
+    validate_valid_key(
+        id_comment, comments, 'id_contribution',
+        f"Invalid id comment '{id_comment}'"
+    )
 
     # get comment
     comment = list(filter(lambda c: c["id_contribution"]==id_comment, comments))[0]
@@ -185,25 +178,18 @@ def post_comment(comment: ContributionBasic = Body(...)):
     comment['kind'] = comment['kind'].value
 
     # id_contribution must be unique
-    id_comments = list(map(lambda c: c['id_contribution'], comments))
-    if comment["id_contribution"] in id_comments:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{comment['id_contribution']}'"
-        )
-    del id_comments
+    validate_unique_key(
+        comment["id_contribution"], comments, 'id_contribution',
+        f"Invalid id contribution '{comment['id_contribution']}'"
+    )
     
-    users = get_filename_json('data/users.json')
-
     # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
+    users = get_filename_json('data/users.json')
+    validate_valid_key(
+        comment["id_user"], users, 'id_user',
+        f"Invalid id user '{comment['id_user']}'"
+    )
     del users
-    if comment["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{comment['id_user']}'"
-        )
-    del id_users
 
     # kind must be valid
     if comment['kind'] not in ["comment", "question"]:
@@ -245,13 +231,10 @@ def put_comment(id_comment, comment: ContributionBasic = Body(...)):
     comments = get_filename_json('data/comments.json')
     
     # id_contribution must be valid
-    id_comments = list(map(lambda c: c['id_contribution'], comments))
-    if id_comment not in id_comments:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_comment}'"
-        )
-    del id_comments
+    validate_valid_key(
+        id_comment, comments , 'id_contribution',
+        f"Invalid id contribution '{id_comment}'"
+    )
 
     comments = list(filter(lambda c: c["id_contribution"] != id_comment, comments))
     comment = comment.dict()
@@ -262,33 +245,25 @@ def put_comment(id_comment, comment: ContributionBasic = Body(...)):
     comment['kind'] = comment['kind'].value
 
     # id_contribution must be unique
-    id_comments = list(map(lambda c: c['id_contribution'], comments))
-    if comment["id_contribution"] in id_comments:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{comment['id_contribution']}'"
-        )
+    validate_unique_key(
+        comment["id_contribution"], comments, 'id_contribution',
+        f"Invalid id contribution '{comment['id_contribution']}'"
+    )
 
     # id_answers must be valid
     for a in comment['id_answers']:
-        if a not in id_comments:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{a}'"
-            )
-    del id_comments
-    
-    users = get_filename_json('data/users.json')
+        validate_valid_key(
+            a, comments, 'id_contribution',
+            f"Invalid id answers '{a}'"
+        )
 
     # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
+    users = get_filename_json('data/users.json')
+    validate_valid_key(
+        comment["id_user"], users, 'id_user',
+        f"Invalid id user '{comment['id_user']}'"
+    )
     del users
-    if comment["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{comment['id_user']}'"
-        )
-    del id_users
 
     # kind must be valid
     if comment['kind'] not in ["comment", "question"]:
@@ -322,13 +297,10 @@ def delete_comment(id_comment, kind: Optional[TypeContribution] = Query(default=
     comments = get_filename_json('data/comments.json')
 
     # id_comment must be valid
-    id_comments = list(map(lambda c: c['id_contribution'], comments))
-    if id_comment not in id_comments:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comment '{id_comment}'"
-        )
-    del id_comments
+    validate_valid_key(
+        id_comment, comments, 'id_contribution',
+        f"Invalid id comment '{id_comment}'"
+    )
 
     comment = list(filter(lambda  c: c["id_contribution"] == id_comment, comments))[0]
     comments = list(filter(lambda  c: c["id_contribution"] != id_comment, comments))

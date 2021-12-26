@@ -1,0 +1,84 @@
+[
+    {
+        "id_route": "vue",
+        "name": "Vue",
+        "image_url": "https://imagenes.com/vue.jpg",
+        "courses_number": 5,
+        "short_description": "short_description",
+        "long_description": "long_description",
+        "glossary": [
+            "e3cdd158-493d-11ec-81d3-0242ac130003",
+            "ea225d6c-493d-11ec-81d3-0242ac130003",
+            "ef5087d2-493d-11ec-81d3-0242ac130003"
+        ],
+        "teachers": [
+            "teacher1",
+            "teacher2"
+        ],
+        "sections": [
+            {
+                "title": "section1",
+                "level": "basic",
+                "courses": [
+                    "programacion_basica"
+                ]
+            },
+            {
+                "title": "section2",
+                "level": "intermediate",
+                "courses": [
+                    "git"
+                ]
+            },
+            {
+                "title": "section3",
+                "level": "advanced",
+                "courses": [
+                    "python",
+                    "scrapy"
+                ]
+            }
+        ]
+    },
+    {
+        "id_route": "react",
+        "name": "React",
+        "image_url": "https://imagenes.com/react.jpg",
+        "courses_number": 6,
+        "short_description": "short_description",
+        "long_description": "long_description",
+        "glossary": [
+            "e3cdd158-493d-11ec-81d3-0242ac130003",
+            "ea225d6c-493d-11ec-81d3-0242ac130003",
+            "ef5087d2-493d-11ec-81d3-0242ac130003"
+        ],
+        "teachers": [
+            "teacher1",
+            "teacher2"
+        ],
+        "sections": [
+            {
+                "title": "section1",
+                "level": "basic",
+                "courses": [
+                    "programacion_basica"
+                ]
+            },
+            {
+                "title": "section2",
+                "level": "intermediate",
+                "courses": [
+                    "git"
+                ]
+            },
+            {
+                "title": "section3",
+                "level": "advanced",
+                "courses": [
+                    "python",
+                    "scrapy"
+                ]
+            }
+        ]
+    }
+]

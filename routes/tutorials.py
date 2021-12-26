@@ -13,6 +13,11 @@ from models import *
 from utils.functions import get_filename_json
 from utils.functions import write_filename_json
 from utils.functions import get_all_contributions
+from utils.functions import get_contribution
+from utils.functions import get_contribution_basic
+from utils.functions import post_contribution
+from utils.functions import put_contribution
+from utils.functions import delete_contribution
 
 tutorials_routes = APIRouter()
 
@@ -34,7 +39,7 @@ def all_tutorials():
     Returns a list of tutorials with a ContributionTitle structure:
     """
     tutorials = get_all_contributions('tutorials')
-    
+
     return tutorials
 
 @tutorials_routes.get(
@@ -52,63 +57,7 @@ def get_tutorial(id_tutorial):
 
     Returns a tutorial with a ContributionTitle structure:
     """
-    tutorials = get_filename_json('data/tutorials.json')
-    
-    # id_tutorial must be valid
-    id_tutorials = list(map(lambda t: t["id_contribution"], tutorials))
-    if id_tutorial not in id_tutorials:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id tutorial '{id_tutorial}'"
-        )
-    del id_tutorials
-
-    # get tutorial
-    tutorial = list(filter(lambda t: t["id_contribution"] == id_tutorial, tutorials))[0]
-    del tutorials
-
-    comments = get_filename_json('data/comments.json')
-
-    users = get_filename_json('data/users.json')
-
-    # get comments
-    tutorial["comments"] = list(
-        filter(
-            lambda c: c["id_contribution"] in tutorial["id_comments"],
-            comments
-        )
-    ) if tutorial["id_comments"] else []
-
-    # get user
-    tutorial["user"] = list(filter(lambda u: u["id_user"] == tutorial["id_user"], users))[0]
-
-
-    # get answers and users
-    for c in tutorial["comments"]:
-        # get user for each tutorial's comment
-        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
-
-        # get answers for each tutorial's comment
-        if "id_answers" in c and c["id_answers"]:
-            c["answers"] = list(
-                filter(
-                    lambda a: a["id_contribution"] in c["id_answers"],
-                    comments
-                )
-            )
-        
-            ## get users for answers
-            c["answers"] = list(
-                map(
-                    lambda a: {**a, **{"user": list(
-                        filter(
-                            lambda u: u["id_user"] == a["id_user"],
-                            users
-                        )
-                    )[0]}},
-                    c["answers"]
-                )
-            )
+    tutorial = get_contribution('tutorials', id_tutorial)
     
     return tutorial
 
@@ -128,21 +77,7 @@ def get_tutorial_basic(id_tutorial):
     
     Returns a tutorial with with a ContributionTitleBasic structure:
     """
-    tutorials = get_filename_json('data/tutorials.json')
-    
-    id_tutorials = list(map(lambda c: c["id_contribution"], tutorials))
-
-    # id_tutorial must be valid
-    if id_tutorial not in id_tutorials:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id tutorial '{id_tutorial}'"
-        )
-    del id_tutorials
-
-    # get tutorial
-    tutorial = list(filter(lambda c: c["id_contribution"]==id_tutorial, tutorials))[0]
-    del tutorials
+    tutorial = get_contribution_basic('tutorials', id_tutorial)
 
     return tutorial
 
@@ -162,53 +97,7 @@ def post_tutorial(tutorial: ContributionTitleBasic = Body(...)):
 
     Return the new tutorial in a json with a ContributionTitleBasic structure
     """
-    tutorial = tutorial.dict()
-    tutorials = get_filename_json('data/tutorials.json')
-
-    # Parsing
-    tutorial["id_contribution"] = str(tutorial["id_contribution"])
-    tutorial["id_user"] = str(tutorial["id_user"])
-    tutorial["date_publication"] = str(tutorial["date_publication"])
-    tutorial['kind'] = tutorial['kind'].value
-
-    # id_contribution must be unique
-    id_tutorials = list(map(lambda t: t['id_contribution'], tutorials))
-    if tutorial["id_contribution"] in id_tutorials:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{tutorial['id_contribution']}'"
-        )
-    del id_tutorials
-    
-    users = get_filename_json('data/users.json')
-
-    # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
-    del users
-    if tutorial["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{tutorial['id_user']}'"
-        )
-    del id_users
-
-    # kind must be valid
-    if tutorial['kind'] != "tutorial":
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid tutorial kind '{tutorial['kind']}'"
-        )
-
-    # id_answers must be empty
-    if 'id_comments' in tutorial and tutorial['id_comments']:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comments, must be empty"
-        )
-
-    # Save tutorials
-    tutorials.append(tutorial)
-    write_filename_json('data/tutorials.json', tutorials)
+    tutorial = post_contribution('tutorials', tutorial)
     
     return tutorial
 
@@ -229,69 +118,7 @@ def put_tutorial(id_tutorial, tutorial: ContributionTitleBasic = Body(...)):
 
     Return the updated tutorial in a json with a ContributionTitleBasic structure
     """
-    tutorials = get_filename_json('data/tutorials.json')
-    
-    # id_contribution must be valid
-    id_tutorials = list(map(lambda c: c['id_contribution'], tutorials))
-    if id_tutorial not in id_tutorials:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_tutorial}'"
-        )
-    del id_tutorials
-
-    tutorials = list(filter(lambda c: c["id_contribution"] != id_tutorial, tutorials))
-    tutorial = tutorial.dict()
-    # Parsing
-    tutorial["id_contribution"] = str(tutorial["id_contribution"])
-    tutorial["id_user"] = str(tutorial["id_user"])
-    tutorial["date_publication"] = str(tutorial["date_publication"])
-    tutorial['kind'] = tutorial['kind'].value
-
-    # id_contribution must be unique
-    id_tutorials = list(map(lambda c: c['id_contribution'], tutorials))
-    if tutorial["id_contribution"] in id_tutorials:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{tutorial['id_contribution']}'"
-        )
-    del id_tutorials
-
-    comments = get_filename_json('data/comments.json')
-    
-    # id_comments must be valid
-    id_comments = list(map(lambda c: c['id_contribution'], comments))
-    del comments
-    for c in tutorial['id_comments']:
-        if c not in id_comments:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{c}'"
-            )
-    del id_comments
-    
-    users = get_filename_json('data/users.json')
-
-    # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
-    del users
-    if tutorial["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{tutorial['id_user']}'"
-        )
-    del id_users
-
-    # kind must be valid
-    if tutorial['kind'] != "tutorial":
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid tutorial kind '{tutorial['kind']}'"
-        )
-
-    # Save tutorials
-    tutorials.append(tutorial)
-    write_filename_json('data/tutorials.json', tutorials)
+    tutorial = put_contribution('tutorials', id_tutorial, tutorial)
     
     return tutorial
 
@@ -311,20 +138,6 @@ def delete_tutorial(id_tutorial):
     
     Return the deleted tutorial in a json with a ContributionTitleBasic structure
     """
-    tutorials = get_filename_json('data/tutorials.json')
-
-    # id_tutorial must be valid
-    id_tutorials = list(map(lambda c: c['id_tutorial'], tutorials))
-    if id_tutorial not in id_tutorials:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id tutorial '{id_tutorial}'"
-        )
-    del id_tutorials
-
-    # Save the tutorial
-    tutorial = list(filter(lambda  c: c["id_tutorial"] == id_tutorial, tutorials))[0]
-    tutorials = list(filter(lambda  c: c["id_tutorial"] != id_tutorial, tutorials))
-    write_filename_json('data/tutorials.json', tutorials)
+    tutorial = delete_contribution('tutorials', id_tutorial)
     
     return tutorial

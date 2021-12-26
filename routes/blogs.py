@@ -13,6 +13,11 @@ from models import *
 from utils.functions import get_filename_json
 from utils.functions import write_filename_json
 from utils.functions import get_all_contributions
+from utils.functions import get_contribution
+from utils.functions import get_contribution_basic
+from utils.functions import post_contribution
+from utils.functions import put_contribution
+from utils.functions import delete_contribution
 
 blogs_routes = APIRouter()
 
@@ -52,63 +57,7 @@ def get_blog(id_blog):
 
     Returns a blog with a ContributionTitle structure:
     """
-    blogs = get_filename_json('data/blogs.json')
-    
-    # id_blog must be valid
-    id_blogs = list(map(lambda b: b["id_contribution"], blogs))
-    if id_blog not in id_blogs:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id blog '{id_blog}'"
-        )
-    del id_blogs
-
-    # get blog
-    blog = list(filter(lambda b: b["id_contribution"] == id_blog, blogs))[0]
-    del blogs
-
-    comments = get_filename_json('data/comments.json')
-
-    users = get_filename_json('data/users.json')
-
-    # get comments
-    blog["comments"] = list(
-        filter(
-            lambda c: c["id_contribution"] in blog["id_comments"],
-            comments
-        )
-    ) if blog["id_comments"] else []
-
-    # get user
-    blog["user"] = list(filter(lambda u: u["id_user"] == blog["id_user"], users))[0]
-
-
-    # get answers and users
-    for c in blog["comments"]:
-        # get user for each blog's comment
-        c["user"] = list(filter(lambda u: u["id_user"] == c["id_user"], users))[0]
-
-        # get answers for each blog's comment
-        if "id_answers" in c and c["id_answers"]:
-            c["answers"] = list(
-                filter(
-                    lambda a: a["id_contribution"] in c["id_answers"],
-                    comments
-                )
-            )
-        
-            ## get users for answers
-            c["answers"] = list(
-                map(
-                    lambda a: {**a, **{"user": list(
-                        filter(
-                            lambda u: u["id_user"] == a["id_user"],
-                            users
-                        )
-                    )[0]}},
-                    c["answers"]
-                )
-            )
+    blog = get_contribution('blogs', id_blog)
     
     return blog
 
@@ -127,20 +76,7 @@ def get_blog_basic(id_blog):
 
     Returns a blog with a ContributionTitleBasic structure:
     """
-    blogs = get_filename_json('data/blogs.json')
-    
-    id_blogs = list(map(lambda c: c["id_contribution"], blogs))
-
-    # id_blog must be valid
-    if id_blog not in id_blogs:
-        raise HTTPException(
-            status_code = 404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id blog '{id_blog}'"
-        )
-    del id_blogs
-
-    # get blog
-    blog = list(filter(lambda c: c["id_contribution"]==id_blog, blogs))[0]
+    blog = get_contribution_basic('blogs', id_blog)
 
     return blog
 
@@ -160,54 +96,8 @@ def post_blog(blog: ContributionTitleBasic = Body(...)):
 
     Return the new blog in a json with a ContributionTitleBasic structure
     """
-    blog = blog.dict()
-    blogs = get_filename_json('data/blogs.json')
+    blog = post_contribution('blogs', blog)
 
-    # Parsing
-    blog["id_contribution"] = str(blog["id_contribution"])
-    blog["id_user"] = str(blog["id_user"])
-    blog["date_publication"] = str(blog["date_publication"])
-    blog['kind'] = blog['kind'].value
-
-    # id_contribution must be unique
-    id_blogs = list(map(lambda b: b['id_contribution'], blogs))
-    if blog["id_contribution"] in id_blogs:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{blog['id_contribution']}'"
-        )
-    del id_blogs
-    
-    users = get_filename_json('data/users.json')
-
-    # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
-    del users
-    if blog["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{blog['id_user']}'"
-        )
-    del id_users
-
-    # kind must be valid
-    if blog['kind'] != "blog":
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid blog kind '{blog['kind']}'"
-        )
-
-    # id_answers must be empty
-    if 'id_comments' in blog and blog['id_comments']:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id comments, must be empty"
-        )
-
-    # Save blogs
-    blogs.append(blog)
-    write_filename_json('data/blogs.json', blogs)
-    
     return blog
 
 @blogs_routes.put(
@@ -227,69 +117,7 @@ def put_blog(id_blog, blog: ContributionTitleBasic = Body(...)):
 
     Return the updated blog in a json with a ContributionTitleBasic structure
     """
-    blogs = get_filename_json('data/blogs.json')
-    
-    # id_contribution must be valid
-    id_blogs = list(map(lambda c: c['id_contribution'], blogs))
-    if id_blog not in id_blogs:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{id_blog}'"
-        )
-    del id_blogs
-
-    blogs = list(filter(lambda c: c["id_contribution"] != id_blog, blogs))
-    blog = blog.dict()
-    # Parsing
-    blog["id_contribution"] = str(blog["id_contribution"])
-    blog["id_user"] = str(blog["id_user"])
-    blog["date_publication"] = str(blog["date_publication"])
-    blog['kind'] = blog['kind'].value
-
-    # id_contribution must be unique
-    id_blogs = list(map(lambda c: c['id_contribution'], blogs))
-    if blog["id_contribution"] in id_blogs:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id contribution '{blog['id_contribution']}'"
-        )
-    del id_blogs
-
-    comments = get_filename_json('data/comments.json')
-    
-    # id_comments must be valid
-    id_comments = list(map(lambda c: c['id_contribution'], comments))
-    del comments
-    for c in blog['id_comments']:
-        if c not in id_comments:
-            raise HTTPException(
-                status_code=404,
-                detail=f"HTTP_404_NOT_FOUND: Invalid id answers '{c}'"
-            )
-    del id_comments
-    
-    users = get_filename_json('data/users.json')
-
-    # id_user must be valid
-    id_users = list(map(lambda u: u['id_user'], users))
-    del users
-    if blog["id_user"] not in id_users:
-        raise HTTPException(
-            status_code=404,
-            detail=f"HTTP_404_NOT_FOUND: Invalid id user '{blog['id_user']}'"
-        )
-    del id_users
-
-    # kind must be valid
-    if blog['kind'] != "blog":
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid blog kind '{blog['kind']}'"
-        )
-
-    # Save blogs
-    blogs.append(blog)
-    write_filename_json('data/blogs.json', blogs)
+    blog = put_contribution('blogs', id_blog, blog)
     
     return blog
 
@@ -309,20 +137,6 @@ def delete_blog(id_blog):
     
     Return the deleted blog in a json with a ContributionTitleBasic structure
     """
-    blogs = get_filename_json('data/blogs.json')
-
-    # id_blog must be valid
-    id_blogs = list(map(lambda c: c['id_blog'], blogs))
-    if id_blog not in id_blogs:
-        raise HTTPException(
-            status_code=406,
-            detail=f"HTTP_406_NOT_ACCEPTABLE: Invalid id blog '{id_blog}'"
-        )
-    del id_blogs
-
-    # Save the blog
-    blog = list(filter(lambda  c: c["id_blog"] == id_blog, blogs))[0]
-    blogs = list(filter(lambda  c: c["id_blog"] != id_blog, blogs))
-    write_filename_json('data/blogs.json', blogs)
+    blog = delete_contribution('blogs', id_blog)
     
     return blog
