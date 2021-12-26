@@ -1,4 +1,3 @@
-Create functions for DRY
 Users path operations
 Users autentication
 Update data folder
