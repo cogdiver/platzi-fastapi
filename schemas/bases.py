@@ -8,7 +8,7 @@ from pydantic import HttpUrl
 from pydantic import Field
 
 # Models
-from enums import Status, TypeUser
+from schemas.enums import Status, TypeUser
 
 
 

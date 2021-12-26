@@ -9,7 +9,9 @@ from fastapi import Body
 from fastapi import status
 
 # Models
-from models import *
+from schemas.bases import BaseClass
+from schemas.classes import ClassContent
+from schemas.classes import ClassContentBasic
 
 # Utils
 from utils.functions import get_filename_json

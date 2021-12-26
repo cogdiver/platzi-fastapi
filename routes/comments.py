@@ -1,4 +1,5 @@
 # Python
+from typing import Optional
 from typing import List
 
 # FastAPI
@@ -9,7 +10,9 @@ from fastapi import Query
 from fastapi import status
 
 # Models
-from models import *
+from schemas.contributions import ContributionAnswer
+from schemas.contributions import ContributionBasic
+from schemas.enums import TypeContribution
 
 # Utils
 from utils.functions import get_filename_json

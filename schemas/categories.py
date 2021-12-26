@@ -5,7 +5,7 @@ from typing import List
 from pydantic import Field
 
 # Models
-from bases import BaseCategory, BaseRoute
+from schemas.bases import BaseCategory, BaseRoute
 
 
 

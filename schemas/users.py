@@ -11,8 +11,8 @@ from pydantic import EmailStr
 from pydantic import Field
 
 # Models
-from enums import Social
-from bases import BaseUser
+from schemas.enums import Social
+from schemas.bases import BaseUser
 
 
 

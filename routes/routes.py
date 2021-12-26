@@ -8,7 +8,9 @@ from fastapi import Body
 from fastapi import status
 
 # Models
-from models import *
+from schemas.bases import BaseRoute
+from schemas.routes import RouteDescription
+from schemas.routes import RouteDescriptionCreate
 
 # Utils
 from utils.functions import get_filename_json

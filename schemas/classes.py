@@ -9,8 +9,8 @@ from pydantic import HttpUrl
 from pydantic import Field
 
 # Models
-from bases import BaseClass, BaseCourse
-from contributions import ContributionAnswer, Resourse
+from schemas.bases import BaseClass, BaseCourse
+from schemas.contributions import ContributionAnswer, Resourse
 
 
 

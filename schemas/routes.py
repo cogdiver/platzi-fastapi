@@ -8,9 +8,9 @@ from pydantic import BaseModel
 from pydantic import Field
 
 # Models
-from bases import BaseCourse, BaseRoute
-from teachers import TeacherBasic
-from enums import Levels
+from schemas.bases import BaseCourse, BaseRoute
+from schemas.teachers import TeacherBasic
+from schemas.enums import Levels
 
 
 

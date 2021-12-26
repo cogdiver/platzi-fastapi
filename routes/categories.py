@@ -7,7 +7,9 @@ from fastapi import Body
 from fastapi import status
 
 # Models
-from models import *
+from schemas.bases import BaseCategory
+from schemas.categories import BaseCategoryRoute
+from schemas.categories import CategoryRoutes
 
 # Utils
 from utils.functions import get_filename_json

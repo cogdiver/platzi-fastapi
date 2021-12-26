@@ -8,7 +8,10 @@ from fastapi import Body
 from fastapi import status
 
 # Models
-from models import *
+from schemas.bases import BaseCourse
+from schemas.courses import CourseInfo
+from schemas.courses import CourseInfoBasic
+from schemas.courses import CourseInfoComplete
 
 # Utils
 from utils.functions import get_filename_json

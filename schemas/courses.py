@@ -8,10 +8,10 @@ from pydantic import BaseModel
 from pydantic import Field
 
 # Models
-from bases import BaseCourse, BaseRoute, BaseTeacher
-from contributions import BaseContributionTitle, Contribution, Project
-from classes import Module, ModuleBasic
-from teachers import TeacherBasic
+from schemas.bases import BaseCourse, BaseRoute, BaseTeacher
+from schemas.contributions import BaseContributionTitle, Contribution, Project
+from schemas.classes import Module, ModuleBasic
+from schemas.teachers import TeacherBasic
 
 
 

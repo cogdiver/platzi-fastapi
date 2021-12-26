@@ -10,8 +10,8 @@ from pydantic import HttpUrl
 from pydantic import Field
 
 # Models
-from bases import BaseUser
-from enums import TypeContribution
+from schemas.bases import BaseUser
+from schemas.enums import TypeContribution
 
 
 

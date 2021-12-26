@@ -6,8 +6,8 @@ from typing import List
 from pydantic import Field
 
 # Models
-from bases import BaseCourse, BaseTeacher
-from users import SocialNetwork
+from schemas.bases import BaseCourse, BaseTeacher
+from schemas.users import SocialNetwork
 
 
 

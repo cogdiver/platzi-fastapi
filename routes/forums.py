@@ -7,11 +7,11 @@ from fastapi import Body
 from fastapi import status
 
 # Models
-from models import *
+from schemas.contributions import ContributionAnswer
+from schemas.contributions import ContributionTitle
+from schemas.contributions import ContributionTitleBasic
 
 # Utils
-from utils.functions import get_filename_json
-from utils.functions import write_filename_json
 from utils.functions import get_all_contributions
 from utils.functions import get_contribution
 from utils.functions import get_contribution_basic
